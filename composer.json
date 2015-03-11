@@ -1,0 +1,19 @@
+{
+    "name": "steverobbins/magento-guest-audit",
+    "description": "Detect vulnerabilies of a Magento application",
+    "license": "CC-BY-4.0",
+    "authors": [
+        {
+            "name": "Steve Robbins",
+            "email": "steven.j.robbins@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "~2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src"
+        }
+    }
+}
