@@ -6,7 +6,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ScanCommand extends Command
@@ -81,12 +80,12 @@ class ScanCommand extends Command
     /**
      * Run scan command
      * 
-     * @param  Symfony\Component\Console\Input\InputInterface   $input
-     * @param  Symfony\Component\Console\Output\OutputInterface $output
+     * @param  InputInterface   $input
+     * @param  OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->url    = $this->cleanUrl($input->getArgument('url'));
+        $this->url = $this->cleanUrl($input->getArgument('url'));
         $response = $this->makeRequest($this->url, array(
             CURLOPT_NOBODY => true
         ));
@@ -116,7 +115,7 @@ class ScanCommand extends Command
                 CURLOPT_NOBODY => true,
                 CURLOPT_FOLLOWLOCATION => true
             ));
-            $rows[]   = array(
+            $rows[] = array(
                 $path,
                 $response['code'],
                 $response['code'] == 200
@@ -188,7 +187,7 @@ class ScanCommand extends Command
      * Create a curl request for a given url
      * 
      * @param  string $url
-     * @param  array  $params
+     * @param  boolean[]  $params
      * @return array
      */
     protected function makeRequest($url, array $params = array())
