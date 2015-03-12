@@ -57,7 +57,7 @@ class ScanCommand extends Command
      * @var array
      */
     protected $techHeader = array(
-        'Server'       => 'Server technology',
+        'Server'       => 'Web server',
         'X-Powered-By' => 'Software'
     );
 
@@ -103,7 +103,7 @@ class ScanCommand extends Command
         $this->writeHeader('Unreachable Path Check');
         $rows = array();
         foreach ($this->unreachablePath as $path) {
-            $response = $this->makeRequest($this->url . $path);
+            $response = $this->makeRequest($this->url . $path, true);
             $rows[]   = array(
                 $path,
                 $response['code'],
@@ -124,7 +124,7 @@ class ScanCommand extends Command
     protected function serverTech()
     {
         $this->writeHeader('Server Technology');
-        $response = $this->makeRequest($this->url);
+        $response = $this->makeRequest($this->url, true);
         foreach ($this->techHeader as $key => $value) {
             $rows[] = array(
                 $value,
@@ -142,16 +142,18 @@ class ScanCommand extends Command
     /**
      * Create a curl request for a given url
      * 
-     * @param  string $url
+     * @param  string  $url
+     * @param  boolean $noBody
      * @return array
      */
-    protected function makeRequest($url)
+    protected function makeRequest($url, $noBody = false)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_NOBODY, $noBody);
         $response   = curl_exec($ch);
         $code       = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
