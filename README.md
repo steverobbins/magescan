@@ -1,7 +1,9 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/?branch=master)
+
 Magento Guest Audit
 ===
 
-The idea behind this is to evaluate the quality and security of a Magento site you don't have access to.  The scenario being when you're interviewing a potential developer or vetting a new client and want to have an idea of what you're getting into.
+The idea behind this is to evaluate the quality and security of a Magento site you don't have access to.  The scenario when you're interviewing a potential developer or vetting a new client and want to have an idea of what you're getting into.
 
 ## Installation
 
