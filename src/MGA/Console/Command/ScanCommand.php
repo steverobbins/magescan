@@ -185,14 +185,14 @@ class ScanCommand extends Command
     protected function sitemapExists()
     {
         $this->writeHeader('Sitemap');
-        $file = $this->getSitemapFile();
-        $response = $this->makeRequest($this->url . $file, array(
+        $url = $this->getSitemapUrl();
+        $response = $this->makeRequest($url, array(
             CURLOPT_NOBODY => true
         ));
         if ($response['code'] == 200) {
-            $this->output->writeln('<info>Sitemap is accessible:</info> ' . $this->url . $file);
+            $this->output->writeln('<info>Sitemap is accessible:</info> ' . $url);
         } else {
-            $this->output->writeln('<error>Sitemap is not accessible:</error> ' . $this->url . $file);
+            $this->output->writeln('<error>Sitemap is not accessible:</error> ' . $url);
         }
     }
 
@@ -201,16 +201,16 @@ class ScanCommand extends Command
      * 
      * @return string
      */
-    protected function getSitemapFile()
+    protected function getSitemapUrl()
     {
         $response = $this->makeRequest($this->url . 'robots.txt');
         $found = preg_match('/^(?!#+)\s*Sitemap: (.*)$/mi', $response['body'], $match);
         if ($response['code'] != 200 || !$found || !isset($match[1])) {
             $this->output->writeln('<error>Sitemap is not declared in robots.txt</error>');
-            return 'sitemap.xml';
+            return $this->url . 'sitemap.xml';
         } else {
             $this->output->writeln('<info>Sitemap is declared in robots.txt</info>');
-            return trim(str_replace($this->url, '', $match[1]));
+            return trim($match[1]);
         }
     }
 
