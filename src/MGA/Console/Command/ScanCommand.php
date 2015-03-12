@@ -127,15 +127,26 @@ class ScanCommand extends Command
         $rows = array();
         foreach ($this->unreachablePath as $path) {
             $response = $this->makeRequest($this->url . $path, array(
-                CURLOPT_NOBODY => true,
-                CURLOPT_FOLLOWLOCATION => true
+                CURLOPT_NOBODY => true
             ));
+            switch ($response['code']) {
+                case 200:
+                    $status = '<error>Fail</error>';
+                    break;
+                case 301:
+                case 302:
+                    $redirect = $response['header']['Location'];
+                    if ($redirect != $this->url) {
+                        $status = $response['header']['Location'];
+                        break;
+                    }
+                default:
+                    $status = '<bg=green>Pass</bg=green>';
+            }
             $rows[] = array(
                 $path,
                 $response['code'],
-                $response['code'] == 200
-                    ? '<error>Fail</error>'
-                    : '<bg=green>Pass</bg=green>'
+                $status
             );
         }
         $this->getHelper('table')
@@ -193,7 +204,7 @@ class ScanCommand extends Command
     protected function getSitemapFile()
     {
         $response = $this->makeRequest($this->url . 'robots.txt');
-        $found = preg_match('/Sitemap: (.*)/mi', $response['body'], $match);
+        $found = preg_match('/^(?!#+)\s*Sitemap: (.*)$/mi', $response['body'], $match);
         if ($response['code'] != 200 || !$found || !isset($match[1])) {
             $this->output->writeln('<error>Sitemap is not declared in robots.txt</error>');
             return 'sitemap.xml';
