@@ -1,4 +1,13 @@
 <?php
+/**
+ * Magento Guest Audit
+ *
+ * PHP version 5
+ * 
+ * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @license   http://creativecommons.org/licenses/by/4.0/
+ * @link      https://github.com/steverobbins/magento-guest-audit
+ */
 
 namespace MGA\Console\Command;
 
@@ -8,6 +17,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Add scan command and run tests
+ */
 class ScanCommand extends Command
 {
     /**
