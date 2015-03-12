@@ -34,6 +34,7 @@ class ScanCommand extends Command
     protected $unreachablePath = array(
         'admin',
         'app/etc/local.xml',
+        'phpinfo.php',
         'var/log/exception.log',
         'var/log/payment_authnetcim.log',
         'var/log/payment_authorizenet.log',
@@ -97,6 +98,8 @@ class ScanCommand extends Command
         $style = new OutputFormatterStyle('white', 'blue', array('bold'));
         $this->output->getFormatter()->setStyle('header', $style);
         $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
+
+        $this->sitemapExists();
         $this->serverTech();
         $this->unreachablePath();
     }
@@ -151,6 +154,31 @@ class ScanCommand extends Command
     }
 
     /**
+     * Check that the store is correctly using a sitemap
+     */
+    protected function sitemapExists()
+    {
+        $this->writeHeader('Sitemap');
+        $response = $this->makeRequest($this->url . 'robots.txt');
+        $found = preg_match('/Sitemap: (.*)/mi', $response['body'], $match);
+        if ($response['code'] != 200 || !$found || !isset($match[1])) {
+            $this->output->writeln('<error>Sitemap is not declared in robots.txt</error>');
+            $sitemap = $this->url . 'sitemap.xml';
+        } else {
+            $this->output->writeln('<info>Sitemap is declared in robots.txt</info>');
+            $sitemap = $match[1];
+        }
+        $response = $this->makeRequest($sitemap, array(
+            CURLOPT_NOBODY => true
+        ));
+        if ($response['code'] == 200) {
+            $this->output->writeln('<info>Sitemap is accessible</info>');
+        } else {
+            $this->output->writeln('<error>Sitemap is not accessible</error>');
+        }
+    }
+
+    /**
      * Create a curl request for a given url
      * 
      * @param  string $url
@@ -173,7 +201,7 @@ class ScanCommand extends Command
         $header = substr($response, 0, $headerSize);
         $body   = substr($response, $headerSize);
         if ($code == 0) {
-            throw new \Exception('Couldn\'t connect to URL');
+            throw new \Exception('Couldn\'t connect to URL: ' . $url);
         }
         return array(
             'code'   => $code,
