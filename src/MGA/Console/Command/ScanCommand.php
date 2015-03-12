@@ -166,11 +166,16 @@ class ScanCommand extends Command
             $sitemap = $this->url . 'sitemap.xml';
         } else {
             $this->output->writeln('<info>Sitemap is declared in robots.txt</info>');
-            $sitemap = $match[1];
+            $sitemap = trim($match[1]);
         }
-        $response = $this->makeRequest($sitemap, array(
-            CURLOPT_NOBODY => true
-        ));
+        // Sitemap might be bogus
+        try {
+            $response = $this->makeRequest($sitemap, array(
+                CURLOPT_NOBODY => true
+            ));
+        } catch (Exception $e) {
+            // intentionally left blank
+        }
         if ($response['code'] == 200) {
             $this->output->writeln('<info>Sitemap is accessible</info>');
         } else {
@@ -200,9 +205,6 @@ class ScanCommand extends Command
         curl_close($ch);
         $header = substr($response, 0, $headerSize);
         $body   = substr($response, $headerSize);
-        if ($code == 0) {
-            throw new \Exception('Couldn\'t connect to URL: ' . $url);
-        }
         return array(
             'code'   => $code,
             'header' => $this->parseHeader($header),
