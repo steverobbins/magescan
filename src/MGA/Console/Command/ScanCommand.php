@@ -139,6 +139,7 @@ class ScanCommand extends Command
         $response = $this->makeRequest($this->url, array(
             CURLOPT_NOBODY => true
         ));
+        $rows = array();
         foreach ($this->techHeader as $key => $value) {
             $rows[] = array(
                 $value,
@@ -173,7 +174,7 @@ class ScanCommand extends Command
             $response = $this->makeRequest($sitemap, array(
                 CURLOPT_NOBODY => true
             ));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // intentionally left blank
         }
         if ($response['code'] == 200) {
@@ -234,7 +235,7 @@ class ScanCommand extends Command
      * Get the full, valid url from input
      * This could probably written better
      * 
-     * @param  string $url
+     * @param  string $input
      * @return string
      */
     protected function cleanUrl($input)
