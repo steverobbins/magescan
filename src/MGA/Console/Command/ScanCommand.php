@@ -97,6 +97,7 @@ class ScanCommand extends Command
      * 
      * @param  InputInterface   $input
      * @param  OutputInterface $output
+     * @throws InvalidArgumentException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -104,6 +105,9 @@ class ScanCommand extends Command
         $response = $this->makeRequest($this->url, array(
             CURLOPT_NOBODY => true
         ));
+        if ($response['code'] == 0) {
+            throw new \InvalidArgumentException('Could not connect to supplied URL');
+        }
         if (isset($response['header']['Location'])) {
             $this->url = $response['header']['Location'];
         }
@@ -129,30 +133,37 @@ class ScanCommand extends Command
             $response = $this->makeRequest($this->url . $path, array(
                 CURLOPT_NOBODY => true
             ));
-            switch ($response['code']) {
-                case 200:
-                    $status = '<error>Fail</error>';
-                    break;
-                case 301:
-                case 302:
-                    $redirect = $response['header']['Location'];
-                    if ($redirect != $this->url) {
-                        $status = $response['header']['Location'];
-                        break;
-                    }
-                default:
-                    $status = '<bg=green>Pass</bg=green>';
-            }
             $rows[] = array(
                 $path,
                 $response['code'],
-                $status
+                $this->getUnreachableStatus($response)
             );
         }
         $this->getHelper('table')
             ->setHeaders(array('Path', 'Response Code', 'Status'))
             ->setRows($rows)
             ->render($this->output);
+    }
+
+    /**
+     * Get the status string for the given response
+     * 
+     * @param  array  $response
+     * @return string
+     */
+    protected function getUnreachableStatus(array $response)
+    {
+        switch ($response['code']) {
+            case 200:
+                return '<error>Fail</error>';
+            case 301:
+            case 302:
+                $redirect = $response['header']['Location'];
+                if ($redirect != $this->url) {
+                    return $redirect;
+                }
+        }
+        return '<bg=green>Pass</bg=green>';
     }
 
     /**
