@@ -86,6 +86,12 @@ class ScanCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->url    = $this->cleanUrl($input->getArgument('url'));
+        $response = $this->makeRequest($this->url, array(
+            CURLOPT_NOBODY => true
+        ));
+        if (isset($response['header']['Location'])) {
+            $this->url = $response['header']['Location'];
+        }
         $this->input  = $input;
         $this->output = $output;
         $style = new OutputFormatterStyle('white', 'blue', array('bold'));
@@ -103,7 +109,10 @@ class ScanCommand extends Command
         $this->writeHeader('Unreachable Path Check');
         $rows = array();
         foreach ($this->unreachablePath as $path) {
-            $response = $this->makeRequest($this->url . $path, true);
+            $response = $this->makeRequest($this->url . $path, array(
+                CURLOPT_NOBODY => true,
+                CURLOPT_FOLLOWLOCATION => true
+            ));
             $rows[]   = array(
                 $path,
                 $response['code'],
@@ -124,7 +133,9 @@ class ScanCommand extends Command
     protected function serverTech()
     {
         $this->writeHeader('Server Technology');
-        $response = $this->makeRequest($this->url, true);
+        $response = $this->makeRequest($this->url, array(
+            CURLOPT_NOBODY => true
+        ));
         foreach ($this->techHeader as $key => $value) {
             $rows[] = array(
                 $value,
@@ -142,18 +153,19 @@ class ScanCommand extends Command
     /**
      * Create a curl request for a given url
      * 
-     * @param  string  $url
-     * @param  boolean $noBody
+     * @param  string $url
+     * @param  array  $params
      * @return array
      */
-    protected function makeRequest($url, $noBody = false)
+    protected function makeRequest($url, array $params = array())
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_NOBODY, $noBody);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        foreach ($params as $key => $value) {
+            curl_setopt($ch, $key, $value);
+        }
         $response   = curl_exec($ch);
         $code       = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
