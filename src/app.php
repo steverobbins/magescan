@@ -3,7 +3,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use MVD\Console\Command\ScanCommand;
+use MGA\Console\Command\ScanCommand;
 use Symfony\Component\Console\Application;
 
 $app = new Application();

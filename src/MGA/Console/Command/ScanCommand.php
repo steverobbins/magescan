@@ -11,15 +11,54 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ScanCommand extends Command
 {
+    /**
+     * URL of Magento site
+     * @var string
+     */
     private $url;
+
+    /**
+     * @var Symfony\Component\Console\Input\InputInterface
+     */
     private $input;
+
+    /**
+     * @var Symfony\Component\Console\Output\OutputInterface
+     */
     private $output;
 
+    /**
+     * List of paths that we shouldn't be able to access
+     * @var array
+     */
     protected $unreachablePath = array(
         'admin',
         'app/etc/local.xml',
+        'var/log/exception.log',
+        'var/log/payment_authnetcim.log',
+        'var/log/payment_authorizenet.log',
+        'var/log/payment_authorizenet_directpost.log',
+        'var/log/payment_cybersource_soap.log',
+        'var/log/payment_ogone.log',
+        'var/log/payment_payflow_advanced.log',
+        'var/log/payment_payflow_link.log',
+        'var/log/payment_paypal_billing_agreement.log',
+        'var/log/payment_paypal_direct.log',
+        'var/log/payment_paypal_express.log',
+        'var/log/payment_paypal_standard.log',
+        'var/log/payment_paypaluk_express.log',
+        'var/log/payment_pbridge.log',
+        'var/log/payment_verisign.log',
         'var/log/system.log',
-        'var/log/exception.log'
+    );
+
+    /**
+     * Headers that provide information about the technology used
+     * @var array
+     */
+    protected $techHeader = array(
+        'Server'       => 'Server technology',
+        'X-Powered-By' => 'Software'
     );
 
     /**
@@ -41,8 +80,8 @@ class ScanCommand extends Command
     /**
      * Run scan command
      * 
-     * @param  InputInterface  $input
-     * @param  OutputInterface $output
+     * @param  Symfony\Component\Console\Input\InputInterface   $input
+     * @param  Symfony\Component\Console\Output\OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -52,13 +91,14 @@ class ScanCommand extends Command
         $style = new OutputFormatterStyle('white', 'blue', array('bold'));
         $this->output->getFormatter()->setStyle('header', $style);
         $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
-        $this->checkUnreachablePath();
+        $this->serverTech();
+        $this->unreachablePath();
     }
 
     /**
      * Check HTTP status codes for files/paths that shouldn't be reachable
      */
-    protected function checkUnreachablePath()
+    protected function unreachablePath()
     {
         $this->writeHeader('Unreachable Path Check');
         $rows = array();
@@ -79,6 +119,27 @@ class ScanCommand extends Command
     }
 
     /**
+     * Analize the server technology being used
+     */
+    protected function serverTech()
+    {
+        $this->writeHeader('Server Technology');
+        $response = $this->makeRequest($this->url);
+        foreach ($this->techHeader as $key => $value) {
+            $rows[] = array(
+                $value,
+                isset($response['header'][$key])
+                    ? $response['header'][$key]
+                    : 'Unknown'
+            );
+        }
+        $this->getHelper('table')
+            ->setHeaders(array('Key', 'Value'))
+            ->setRows($rows)
+            ->render($this->output);
+    }
+
+    /**
      * Create a curl request for a given url
      * 
      * @param  string $url
@@ -90,15 +151,39 @@ class ScanCommand extends Command
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        $response = curl_exec($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+        $response   = curl_exec($ch);
+        $code       = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        curl_close($ch);
+        $header = substr($response, 0, $headerSize);
+        $body   = substr($response, $headerSize);
         if ($code == 0) {
-            throw new \Exception('Couldn\'t resolve given URL');
+            throw new \Exception('Couldn\'t connect to URL');
         }
         return array(
-            'code' => $code,
-            'body' => $response
+            'code'   => $code,
+            'header' => $this->parseHeader($header),
+            'body'   => $body
         );
+    }
+
+    /**
+     * Manipulate header data into a parsable format
+     * 
+     * @param  string $rawData
+     * @return array
+     */
+    protected function parseHeader($rawData)
+    {
+        $data = array();
+        foreach (explode("\r\n", $rawData) as $line) {
+            $bits = explode(': ', $line);
+            if (count($bits) == 2) {
+                $data[$bits[0]] = $bits[1];
+            }
+        }
+        return $data;
     }
 
     /**
@@ -108,12 +193,20 @@ class ScanCommand extends Command
      * @param  string $url
      * @return string
      */
-    protected function cleanUrl($url)
+    protected function cleanUrl($input)
     {
+        $bits = explode('://', $input);
+        if (count($bits) == 2) {
+            $protocol = $bits[0];
+            unset($bits[0]);
+        } else {
+            $protocol = 'http';
+        }
+        $url = implode($bits);
         if (substr($url, -1) != '/') {
             $url .= '/';
         }
-        return $url;
+        return $protocol . '://' . $url;
     }
 
     /**
