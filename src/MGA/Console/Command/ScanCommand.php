@@ -72,8 +72,10 @@ class ScanCommand extends Command
      * @var array
      */
     protected $techHeader = array(
-        'Server'       => 'Web server',
-        'X-Powered-By' => 'Software'
+        'X-Mod-Pagespeed' => 'Google Pagespeed',
+        'X-Powered-By'    => 'PHP version',
+        'Via'             => 'Varnish',
+        'Server'          => 'Web server',
     );
 
     /**
@@ -106,7 +108,7 @@ class ScanCommand extends Command
             CURLOPT_NOBODY => true
         ));
         if ($response['code'] == 0) {
-            throw new \InvalidArgumentException('Could not connect to supplied URL');
+            throw new \InvalidArgumentException('Could not connect to URL: ' . $this->url);
         }
         if (isset($response['header']['Location'])) {
             $this->url = $response['header']['Location'];
@@ -198,7 +200,8 @@ class ScanCommand extends Command
         $this->writeHeader('Sitemap');
         $url = $this->getSitemapUrl();
         $response = $this->makeRequest($url, array(
-            CURLOPT_NOBODY => true
+            CURLOPT_NOBODY         => true,
+            CURLOPT_FOLLOWLOCATION => true
         ));
         if ($response['code'] == 200) {
             $this->output->writeln('<info>Sitemap is accessible:</info> ' . $url);
