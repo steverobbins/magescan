@@ -1,0 +1,10 @@
+filter:
+    excluded_paths:
+        - 'bin/*'
+checks:
+    php: true
+coding_style:
+    php: {  }
+build_failure_conditions:
+    - 'elements.rating(<= C).new.exists'
+    - 'issues.new.exists'
