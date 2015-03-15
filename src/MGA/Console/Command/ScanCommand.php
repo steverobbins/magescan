@@ -22,6 +22,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ScanCommand extends Command
 {
+    const EDITION_ENTERPRISE = 'Enterprise';
+    const EDITION_COMMUNITY  = 'Community';
+
     /**
      * URL of Magento site
      * @var string
@@ -72,10 +75,10 @@ class ScanCommand extends Command
      * @var array
      */
     protected $techHeader = array(
-        'X-Mod-Pagespeed' => 'Google Pagespeed',
-        'X-Powered-By'    => 'PHP version',
-        'Via'             => 'Varnish',
-        'Server'          => 'Web server',
+        'Server',
+        'Via',
+        'X-Mod-Pagespeed',
+        'X-Powered-By',
     );
 
     /**
@@ -119,15 +122,40 @@ class ScanCommand extends Command
         $this->output->getFormatter()->setStyle('header', $style);
         $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
 
-        $this->sitemapExists();
-        $this->serverTech();
-        $this->unreachablePath();
+        $this->checkMagentoInfo();
+        $this->checkSitemapExists();
+        $this->checkServerTech();
+        $this->checkUnreachablePath();
+    }
+
+    /**
+     * Get information about the Magento application
+     */
+    protected function checkMagentoInfo()
+    {
+        $this->writeHeader('Magento Information');
+        $response = $this->makeRequest(
+            $this->url . 'js/varien/product.js', 
+            array(
+                CURLOPT_FOLLOWLOCATION => true
+            )
+        );
+        $edition = $this->getMagentoEdition($response);
+        $version = $this->getMagentoVersion($response, $edition);
+        $rows = array(
+            array('Edition', $edition),
+            array('Version', $version)
+        );
+        $this->getHelper('table')
+            ->setHeaders(array('Parameter', 'Value'))
+            ->setRows($rows)
+            ->render($this->output);
     }
 
     /**
      * Check HTTP status codes for files/paths that shouldn't be reachable
      */
-    protected function unreachablePath()
+    protected function checkUnreachablePath()
     {
         $this->writeHeader('Unreachable Path Check');
         $rows = array();
@@ -171,19 +199,19 @@ class ScanCommand extends Command
     /**
      * Analize the server technology being used
      */
-    protected function serverTech()
+    protected function checkServerTech()
     {
         $this->writeHeader('Server Technology');
         $response = $this->makeRequest($this->url, array(
             CURLOPT_NOBODY => true
         ));
         $rows = array();
-        foreach ($this->techHeader as $key => $value) {
+        foreach ($this->techHeader as $value) {
             $rows[] = array(
                 $value,
-                isset($response['header'][$key])
-                    ? $response['header'][$key]
-                    : 'Unknown'
+                isset($response['header'][$value])
+                    ? $response['header'][$value]
+                    : ''
             );
         }
         $this->getHelper('table')
@@ -195,7 +223,7 @@ class ScanCommand extends Command
     /**
      * Check that the store is correctly using a sitemap
      */
-    protected function sitemapExists()
+    protected function checkSitemapExists()
     {
         $this->writeHeader('Sitemap');
         $url = $this->getSitemapUrl();
@@ -207,6 +235,70 @@ class ScanCommand extends Command
             $this->output->writeln('<info>Sitemap is accessible:</info> ' . $url);
         } else {
             $this->output->writeln('<error>Sitemap is not accessible:</error> ' . $url);
+        }
+    }
+
+    /**
+     * Guess Magento edition from license in public file
+     *
+     * @param  array  $response
+     * @return string
+     */
+    protected function getMagentoEdition(array $response)
+    {
+        if ($response['code'] == 200) {
+            preg_match('/@license.*/', $response['body'], $match);
+            if (isset($match[0])) {
+                return strpos($match[0], 'enterprise') !== false
+                    ? self::EDITION_ENTERPRISE : self::EDITION_COMMUNITY;
+            }
+        }
+        return 'Unknown';
+    }
+
+    /**
+     * Guess Magento version from copyright in public file
+     *
+     * @param  array  $response
+     * @param  string $edition
+     * @return string
+     */
+    protected function getMagentoVersion(array $response, $edition)
+    {
+        if ($response['code'] == 200 && $edition != 'Unknown') {
+            preg_match('/@copyright.*/', $response['body'], $match);
+            if (isset($match[0]) && preg_match('/[0-9-]{4,}/', $match[0], $match) && isset($match[0])) {
+                return $this->getMagentoVersionByYear($match[0], $edition);
+            }
+        }
+        return 'Unknown';
+    }
+
+    /**
+     * Guess Magento version from copyright year and edition
+     * 
+     * @param  string $year
+     * @param  string $edition
+     * @return string
+     */
+    protected function getMagentoVersionByYear($year, $edition)
+    {
+        switch ($year) {
+            case '2006-2014':
+                return $edition == self::EDITION_ENTERPRISE ? 
+                    '1.14' : '1.9';
+            case 2013:
+                return $edition == self::EDITION_ENTERPRISE ? 
+                    '1.13' : '1.8';
+            case 2012:
+                return $edition == self::EDITION_ENTERPRISE ? 
+                    '1.12' : '1.7';
+            case 2011:
+                return $edition == self::EDITION_ENTERPRISE ? 
+                    '1.11' : '1.6';
+            case 2010:
+                return $edition == self::EDITION_ENTERPRISE ? 
+                    '1.9 - 1.10' : '1.4 - 1.5';
         }
     }
 
