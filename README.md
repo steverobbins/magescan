@@ -1,4 +1,4 @@
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/?branch=master) [![Build Status](https://travis-ci.org/steverobbins/magento-guest-audit.svg?branch=master)](https://travis-ci.org/steverobbins/magento-guest-audit)
 
 Magento Guest Audit
 ===

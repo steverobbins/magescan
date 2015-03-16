@@ -12,6 +12,7 @@
 namespace MGA\Console\Command;
 
 use MGA\Request;
+use MGA\Magento\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,9 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ScanCommand extends Command
 {
-    const EDITION_ENTERPRISE = 'Enterprise';
-    const EDITION_COMMUNITY  = 'Community';
-
     /**
      * @var \Symfony\Component\Console\Input\InputInterface
      */
@@ -35,11 +33,6 @@ class ScanCommand extends Command
      * @var \Symfony\Component\Console\Output\OutputInterface
      */
     private $output;
-
-    /**
-     * @var \MGA\Request
-     */
-    private $request;
 
     /**
      * URL of Magento site
@@ -111,7 +104,6 @@ class ScanCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->request = new Request;
         $this->input   = $input;
         $this->output  = $output;
         $style = new OutputFormatterStyle('white', 'blue', array('bold'));
@@ -132,14 +124,14 @@ class ScanCommand extends Command
     protected function checkMagentoInfo()
     {
         $this->writeHeader('Magento Information');
-        $response = $this->makeRequest(
+        $response = Request::fetch(
             $this->url . 'js/varien/product.js', 
             array(
                 CURLOPT_FOLLOWLOCATION => true
             )
         );
-        $edition = $this->getMagentoEdition($response);
-        $version = $this->getMagentoVersion($response, $edition);
+        $edition = Version::getMagentoEdition($response);
+        $version = Version::getMagentoVersion($response, $edition);
         $rows = array(
             array('Edition', $edition),
             array('Version', $version)
@@ -158,7 +150,7 @@ class ScanCommand extends Command
         $this->writeHeader('Unreachable Path Check');
         $rows = array();
         foreach ($this->unreachablePath as $path) {
-            $response = $this->makeRequest($this->url . $path, array(
+            $response = Request::fetch($this->url . $path, array(
                 CURLOPT_NOBODY => true
             ));
             $rows[] = array(
@@ -200,7 +192,7 @@ class ScanCommand extends Command
     protected function checkServerTech()
     {
         $this->writeHeader('Server Technology');
-        $response = $this->makeRequest($this->url, array(
+        $response = Request::fetch($this->url, array(
             CURLOPT_NOBODY => true
         ));
         $rows = array();
@@ -225,7 +217,7 @@ class ScanCommand extends Command
     {
         $this->writeHeader('Sitemap');
         $url = $this->getSitemapUrl();
-        $response = $this->makeRequest($url, array(
+        $response = Request::fetch($url, array(
             CURLOPT_NOBODY         => true,
             CURLOPT_FOLLOWLOCATION => true
         ));
@@ -239,81 +231,13 @@ class ScanCommand extends Command
     }
 
     /**
-     * Guess Magento edition from license in public file
-     *
-     * @param  \stdClass $response
-     * @return string
-     */
-    protected function getMagentoEdition(\stdClass $response)
-    {
-        if ($response->code == 200) {
-            preg_match('/@license.*/', $response->body, $match);
-            if (isset($match[0])) {
-                return strpos($match[0], 'enterprise') !== false
-                    ? self::EDITION_ENTERPRISE : self::EDITION_COMMUNITY;
-            }
-        }
-        return 'Unknown';
-    }
-
-    /**
-     * Guess Magento version from copyright in public file
-     *
-     * @param  array  $response
-     * @param  string $edition
-     * @return string
-     */
-    protected function getMagentoVersion(\stdClass $response, $edition)
-    {
-        if ($response->code == 200 && $edition != 'Unknown') {
-            preg_match('/@copyright.*/', $response->body, $match);
-            if (
-                isset($match[0])
-                && preg_match('/[0-9-]{4,}/', $match[0], $match)
-                && isset($match[0])
-            ) {
-                return $this->getMagentoVersionByYear($match[0], $edition);
-            }
-        }
-        return 'Unknown';
-    }
-
-    /**
-     * Guess Magento version from copyright year and edition
-     * 
-     * @param  string $year
-     * @param  string $edition
-     * @return string
-     */
-    protected function getMagentoVersionByYear($year, $edition)
-    {
-        switch ($year) {
-            case '2006-2014':
-                return $edition == self::EDITION_ENTERPRISE ? 
-                    '1.14' : '1.9';
-            case 2013:
-                return $edition == self::EDITION_ENTERPRISE ? 
-                    '1.13' : '1.8';
-            case 2012:
-                return $edition == self::EDITION_ENTERPRISE ? 
-                    '1.12' : '1.7';
-            case 2011:
-                return $edition == self::EDITION_ENTERPRISE ? 
-                    '1.11' : '1.6';
-            case 2010:
-                return $edition == self::EDITION_ENTERPRISE ? 
-                    '1.9 - 1.10' : '1.4 - 1.5';
-        }
-    }
-
-    /**
      * Parse the robots.txt text file to find the sitemap
      * 
      * @return string
      */
     protected function getSitemapUrl()
     {
-        $response = $this->makeRequest($this->url . 'robots.txt');
+        $response = Request::fetch($this->url . 'robots.txt');
         preg_match('/^(?!#+)\s*Sitemap: (.*)$/mi', $response->body, $match);
         if ($response->code != 200 || !isset($match[1])) {
             $this->output->writeln(
@@ -328,18 +252,6 @@ class ScanCommand extends Command
     }
 
     /**
-     * Create a curl request for a given url
-     * 
-     * @param  string   $url
-     * @param  array    $params
-     * @return stdClass
-     */
-    protected function makeRequest($url, array $params = array())
-    {
-        return $this->request->make($url, $params);
-    }
-
-    /**
      * Validate and set url
      * 
      * @param  string                   $input
@@ -348,7 +260,7 @@ class ScanCommand extends Command
     protected function setUrl($input)
     {   
         $this->url = $this->cleanUrl($input);
-        $response = $this->makeRequest($this->url, array(
+        $response = Request::fetch($this->url, array(
             CURLOPT_NOBODY => true
         ));
         if ($response->code == 0) {
