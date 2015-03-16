@@ -11,6 +11,7 @@
 
 namespace MGA\Console\Command;
 
+use MGA\Request;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,12 +27,6 @@ class ScanCommand extends Command
     const EDITION_COMMUNITY  = 'Community';
 
     /**
-     * URL of Magento site
-     * @var string
-     */
-    private $url;
-
-    /**
      * @var Symfony\Component\Console\Input\InputInterface
      */
     private $input;
@@ -40,6 +35,17 @@ class ScanCommand extends Command
      * @var Symfony\Component\Console\Output\OutputInterface
      */
     private $output;
+
+    /**
+     * @var MGA\Request
+     */
+    private $request;
+
+    /**
+     * URL of Magento site
+     * @var string
+     */
+    private $url;
 
     /**
      * List of paths that we shouldn't be able to access
@@ -105,11 +111,13 @@ class ScanCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setUrl($input->getArgument('url'));
-        $this->input  = $input;
-        $this->output = $output;
+        $this->request = new Request;
+        $this->input   = $input;
+        $this->output  = $output;
         $style = new OutputFormatterStyle('white', 'blue', array('bold'));
         $this->output->getFormatter()->setStyle('header', $style);
+
+        $this->setUrl($input->getArgument('url'));
         $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
 
         $this->checkMagentoInfo();
@@ -155,7 +163,7 @@ class ScanCommand extends Command
             ));
             $rows[] = array(
                 $path,
-                $response['code'],
+                $response->code,
                 $this->getUnreachableStatus($response)
             );
         }
@@ -168,17 +176,17 @@ class ScanCommand extends Command
     /**
      * Get the status string for the given response
      * 
-     * @param  array  $response
+     * @param  stdClass $response
      * @return string
      */
-    protected function getUnreachableStatus(array $response)
+    protected function getUnreachableStatus(\stdClass $response)
     {
-        switch ($response['code']) {
+        switch ($response->code) {
             case 200:
                 return '<error>Fail</error>';
             case 301:
             case 302:
-                $redirect = $response['header']['Location'];
+                $redirect = $response->header['Location'];
                 if ($redirect != $this->url) {
                     return $redirect;
                 }
@@ -199,8 +207,8 @@ class ScanCommand extends Command
         foreach ($this->techHeader as $value) {
             $rows[] = array(
                 $value,
-                isset($response['header'][$value])
-                    ? $response['header'][$value]
+                isset($response->header[$value])
+                    ? $response->header[$value]
                     : ''
             );
         }
@@ -221,7 +229,7 @@ class ScanCommand extends Command
             CURLOPT_NOBODY         => true,
             CURLOPT_FOLLOWLOCATION => true
         ));
-        if ($response['code'] == 200) {
+        if ($response->code == 200) {
             $this->output
                 ->writeln('<info>Sitemap is accessible:</info> ' . $url);
         } else {
@@ -233,13 +241,13 @@ class ScanCommand extends Command
     /**
      * Guess Magento edition from license in public file
      *
-     * @param  array  $response
+     * @param  stdClass $response
      * @return string
      */
-    protected function getMagentoEdition(array $response)
+    protected function getMagentoEdition(\stdClass $response)
     {
-        if ($response['code'] == 200) {
-            preg_match('/@license.*/', $response['body'], $match);
+        if ($response->code == 200) {
+            preg_match('/@license.*/', $response->body, $match);
             if (isset($match[0])) {
                 return strpos($match[0], 'enterprise') !== false
                     ? self::EDITION_ENTERPRISE : self::EDITION_COMMUNITY;
@@ -255,10 +263,10 @@ class ScanCommand extends Command
      * @param  string $edition
      * @return string
      */
-    protected function getMagentoVersion(array $response, $edition)
+    protected function getMagentoVersion(\stdClass $response, $edition)
     {
-        if ($response['code'] == 200 && $edition != 'Unknown') {
-            preg_match('/@copyright.*/', $response['body'], $match);
+        if ($response->code == 200 && $edition != 'Unknown') {
+            preg_match('/@copyright.*/', $response->body, $match);
             if (
                 isset($match[0])
                 && preg_match('/[0-9-]{4,}/', $match[0], $match)
@@ -306,8 +314,8 @@ class ScanCommand extends Command
     protected function getSitemapUrl()
     {
         $response = $this->makeRequest($this->url . 'robots.txt');
-        preg_match('/^(?!#+)\s*Sitemap: (.*)$/mi', $response['body'], $match);
-        if ($response['code'] != 200 || !isset($match[1])) {
+        preg_match('/^(?!#+)\s*Sitemap: (.*)$/mi', $response->body, $match);
+        if ($response->code != 200 || !isset($match[1])) {
             $this->output->writeln(
                 '<error>Sitemap is not declared in robots.txt</error>'
             );
@@ -322,48 +330,13 @@ class ScanCommand extends Command
     /**
      * Create a curl request for a given url
      * 
-     * @param  string $url
-     * @param  boolean[]  $params
-     * @return array
+     * @param  string   $url
+     * @param  array    $params
+     * @return stdClass
      */
     protected function makeRequest($url, array $params = array())
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        foreach ($params as $key => $value) {
-            curl_setopt($ch, $key, $value);
-        }
-        $response   = curl_exec($ch);
-        $code       = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        curl_close($ch);
-        $header = substr($response, 0, $headerSize);
-        $body   = substr($response, $headerSize);
-        return array(
-            'code'   => $code,
-            'header' => $this->parseHeader($header),
-            'body'   => $body
-        );
-    }
-
-    /**
-     * Manipulate header data into a parsable format
-     * 
-     * @param  string $rawData
-     * @return array
-     */
-    protected function parseHeader($rawData)
-    {
-        $data = array();
-        foreach (explode("\r\n", $rawData) as $line) {
-            $bits = explode(': ', $line);
-            if (count($bits) == 2) {
-                $data[$bits[0]] = $bits[1];
-            }
-        }
-        return $data;
+        return $this->request->make($url, $params);
     }
 
     /**
@@ -378,13 +351,13 @@ class ScanCommand extends Command
         $response = $this->makeRequest($this->url, array(
             CURLOPT_NOBODY => true
         ));
-        if ($response['code'] == 0) {
+        if ($response->code == 0) {
             throw new \InvalidArgumentException(
                 'Could not connect to URL: ' . $this->url
             );
         }
-        if (isset($response['header']['Location'])) {
-            $this->url = $response['header']['Location'];
+        if (isset($response->header['Location'])) {
+            $this->url = $response->header['Location'];
         }
     }
 
