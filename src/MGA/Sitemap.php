@@ -19,7 +19,7 @@ class Sitemap
     /**
      * Parse the sitemap url out of a robots.txt contents
      * 
-     * @param  \stdClass      $robots
+     * @param  \stdClass      $response
      * @return string|boolean
      */
     public static function getSitemapFromRobotsTxt($response)
