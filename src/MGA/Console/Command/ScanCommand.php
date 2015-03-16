@@ -27,17 +27,17 @@ class ScanCommand extends Command
     const EDITION_COMMUNITY  = 'Community';
 
     /**
-     * @var Symfony\Component\Console\Input\InputInterface
+     * @var \Symfony\Component\Console\Input\InputInterface
      */
     private $input;
 
     /**
-     * @var Symfony\Component\Console\Output\OutputInterface
+     * @var \Symfony\Component\Console\Output\OutputInterface
      */
     private $output;
 
     /**
-     * @var MGA\Request
+     * @var \MGA\Request
      */
     private $request;
 
@@ -176,7 +176,7 @@ class ScanCommand extends Command
     /**
      * Get the status string for the given response
      * 
-     * @param  stdClass $response
+     * @param  \stdClass $response
      * @return string
      */
     protected function getUnreachableStatus(\stdClass $response)
@@ -241,7 +241,7 @@ class ScanCommand extends Command
     /**
      * Guess Magento edition from license in public file
      *
-     * @param  stdClass $response
+     * @param  \stdClass $response
      * @return string
      */
     protected function getMagentoEdition(\stdClass $response)

@@ -21,10 +21,10 @@ class Request
      * 
      * @param  string   $url
      * @param  array    $params
-     * @return stdClass
+     * @return \stdClass
      */
-	public function make($url, array $params = array())
-	{
+    public function make($url, array $params = array())
+    {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
