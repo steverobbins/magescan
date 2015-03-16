@@ -23,7 +23,7 @@ class Request
      * @param  array    $params
      * @return \stdClass
      */
-    public function make($url, array $params = array())
+    public static function fetch($url, array $params = array())
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -37,7 +37,7 @@ class Request
         $result->code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $headerSize   = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         curl_close($ch);
-        $result->header = $this->parseHeader(substr($response, 0, $headerSize));
+        $result->header = self::parseHeader(substr($response, 0, $headerSize));
         $result->body   = substr($response, $headerSize);
         return $result;
     }

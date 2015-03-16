@@ -1,0 +1,12 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+
+install:
+  - composer install --prefer-source
+
+script:
+  - vendor/bin/phpunit --debug --stop-on-error --stop-on-failure

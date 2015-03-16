@@ -1,6 +1,7 @@
 filter:
     excluded_paths:
         - 'bin/*'
+        - 'tests/*'
 checks:
     php: true
 coding_style:
