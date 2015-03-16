@@ -100,24 +100,12 @@ class ScanCommand extends Command
     /**
      * Run scan command
      * 
-     * @param  InputInterface           $input
-     * @param  OutputInterface          $output
-     * @throws InvalidArgumentException
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->url = $this->cleanUrl($input->getArgument('url'));
-        $response = $this->makeRequest($this->url, array(
-            CURLOPT_NOBODY => true
-        ));
-        if ($response['code'] == 0) {
-            throw new \InvalidArgumentException(
-                'Could not connect to URL: ' . $this->url
-            );
-        }
-        if (isset($response['header']['Location'])) {
-            $this->url = $response['header']['Location'];
-        }
+        $this->setUrl($input->getArgument('url'));
         $this->input  = $input;
         $this->output = $output;
         $style = new OutputFormatterStyle('white', 'blue', array('bold'));
@@ -376,6 +364,28 @@ class ScanCommand extends Command
             }
         }
         return $data;
+    }
+
+    /**
+     * Validate and set url
+     * 
+     * @param  string                   $input
+     * @throws InvalidArgumentException
+     */
+    protected function setUrl($input)
+    {   
+        $this->url = $this->cleanUrl($input);
+        $response = $this->makeRequest($this->url, array(
+            CURLOPT_NOBODY => true
+        ));
+        if ($response['code'] == 0) {
+            throw new \InvalidArgumentException(
+                'Could not connect to URL: ' . $this->url
+            );
+        }
+        if (isset($response['header']['Location'])) {
+            $this->url = $response['header']['Location'];
+        }
     }
 
     /**
