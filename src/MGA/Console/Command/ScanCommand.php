@@ -11,8 +11,9 @@
 
 namespace MGA\Console\Command;
 
-use MGA\Request;
 use MGA\Magento\Version;
+use MGA\Request;
+use MGA\Sitemap;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -238,17 +239,16 @@ class ScanCommand extends Command
     protected function getSitemapUrl()
     {
         $response = Request::fetch($this->url . 'robots.txt');
-        preg_match('/^(?!#+)\s*Sitemap: (.*)$/mi', $response->body, $match);
-        if ($response->code != 200 || !isset($match[1])) {
+        $sitemap  = Sitemap::getSitemapFromRobotsTxt($response);
+        if ($sitemap === false) {
             $this->output->writeln(
                 '<error>Sitemap is not declared in robots.txt</error>'
             );
             return $this->url . 'sitemap.xml';
-        } else {
-            $this->output
-                ->writeln('<info>Sitemap is declared in robots.txt</info>');
-            return trim($match[1]);
         }
+        $this->output
+            ->writeln('<info>Sitemap is declared in robots.txt</info>');
+        return $sitemap;
     }
 
     /**

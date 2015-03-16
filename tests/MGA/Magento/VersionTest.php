@@ -29,9 +29,9 @@ class VersionTest extends PHPUnit_Framework_TestCase
         $response->body = '';
 
         $edition = Version::getMagentoEdition($response);
-        $this->assertSame($edition, 'Unknown');
+        $this->assertSame('Unknown', $edition);
         $version = Version::getMagentoVersion($response, $edition);
-        $this->assertSame($version, 'Unknown');
+        $this->assertSame('Unknown', $version);
     }
 
     /**
@@ -44,9 +44,9 @@ class VersionTest extends PHPUnit_Framework_TestCase
         $response->body = '';
 
         $edition = Version::getMagentoEdition($response);
-        $this->assertSame($edition, 'Unknown');
+        $this->assertSame('Unknown', $edition);
         $version = Version::getMagentoVersion($response, $edition);
-        $this->assertSame($version, 'Unknown');
+        $this->assertSame('Unknown', $version);
     }
 
     /**
@@ -69,9 +69,9 @@ if(typeof Product=='undefined') {
     var Product = {};
 FILE;
         $edition = Version::getMagentoEdition($response);
-        $this->assertSame($edition, 'Enterprise');
+        $this->assertSame('Enterprise', $edition);
         $version = Version::getMagentoVersion($response, $edition);
-        $this->assertSame($version, '1.14');
+        $this->assertSame('1.14', $version);
     }
 
     /**
@@ -94,9 +94,9 @@ if(typeof Product=='undefined') {
     var Product = {};
 FILE;
         $edition = Version::getMagentoEdition($response);
-        $this->assertSame($edition, 'Enterprise');
+        $this->assertSame('Enterprise', $edition);
         $version = Version::getMagentoVersion($response, $edition);
-        $this->assertSame($version, '1.13');
+        $this->assertSame('1.13', $version);
     }
 
     /**
@@ -119,9 +119,9 @@ if(typeof Product=='undefined') {
     var Product = {};
 FILE;
         $edition = Version::getMagentoEdition($response);
-        $this->assertSame($edition, 'Enterprise');
+        $this->assertSame('Enterprise', $edition);
         $version = Version::getMagentoVersion($response, $edition);
-        $this->assertSame($version, '1.12');
+        $this->assertSame('1.12', $version);
     }
 
     /**
@@ -144,9 +144,9 @@ if(typeof Product=='undefined') {
     var Product = {};
 FILE;
         $edition = Version::getMagentoEdition($response);
-        $this->assertSame($edition, 'Community');
+        $this->assertSame('Community', $edition);
         $version = Version::getMagentoVersion($response, $edition);
-        $this->assertSame($version, '1.9');
+        $this->assertSame('1.9', $version);
     }
 
     /**
@@ -169,9 +169,9 @@ if(typeof Product=='undefined') {
     var Product = {};
 FILE;
         $edition = Version::getMagentoEdition($response);
-        $this->assertSame($edition, 'Community');
+        $this->assertSame('Community', $edition);
         $version = Version::getMagentoVersion($response, $edition);
-        $this->assertSame($version, '1.8');
+        $this->assertSame('1.8', $version);
     }
 
     /**
@@ -194,8 +194,8 @@ if(typeof Product=='undefined') {
     var Product = {};
 FILE;
         $edition = Version::getMagentoEdition($response);
-        $this->assertSame($edition, 'Community');
+        $this->assertSame('Community', $edition);
         $version = Version::getMagentoVersion($response, $edition);
-        $this->assertSame($version, '1.7');
+        $this->assertSame('1.7', $version);
     }
 }
