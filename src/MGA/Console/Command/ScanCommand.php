@@ -100,8 +100,8 @@ class ScanCommand extends Command
     /**
      * Run scan command
      * 
-     * @param  InputInterface   $input
-     * @param  OutputInterface $output
+     * @param  InputInterface           $input
+     * @param  OutputInterface          $output
      * @throws InvalidArgumentException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -111,7 +111,9 @@ class ScanCommand extends Command
             CURLOPT_NOBODY => true
         ));
         if ($response['code'] == 0) {
-            throw new \InvalidArgumentException('Could not connect to URL: ' . $this->url);
+            throw new \InvalidArgumentException(
+                'Could not connect to URL: ' . $this->url
+            );
         }
         if (isset($response['header']['Location'])) {
             $this->url = $response['header']['Location'];
@@ -232,9 +234,11 @@ class ScanCommand extends Command
             CURLOPT_FOLLOWLOCATION => true
         ));
         if ($response['code'] == 200) {
-            $this->output->writeln('<info>Sitemap is accessible:</info> ' . $url);
+            $this->output
+                ->writeln('<info>Sitemap is accessible:</info> ' . $url);
         } else {
-            $this->output->writeln('<error>Sitemap is not accessible:</error> ' . $url);
+            $this->output
+                ->writeln('<error>Sitemap is not accessible:</error> ' . $url);
         }
     }
 
@@ -267,7 +271,11 @@ class ScanCommand extends Command
     {
         if ($response['code'] == 200 && $edition != 'Unknown') {
             preg_match('/@copyright.*/', $response['body'], $match);
-            if (isset($match[0]) && preg_match('/[0-9-]{4,}/', $match[0], $match) && isset($match[0])) {
+            if (
+                isset($match[0])
+                && preg_match('/[0-9-]{4,}/', $match[0], $match)
+                && isset($match[0])
+            ) {
                 return $this->getMagentoVersionByYear($match[0], $edition);
             }
         }
@@ -310,12 +318,15 @@ class ScanCommand extends Command
     protected function getSitemapUrl()
     {
         $response = $this->makeRequest($this->url . 'robots.txt');
-        $found = preg_match('/^(?!#+)\s*Sitemap: (.*)$/mi', $response['body'], $match);
-        if ($response['code'] != 200 || !$found || !isset($match[1])) {
-            $this->output->writeln('<error>Sitemap is not declared in robots.txt</error>');
+        preg_match('/^(?!#+)\s*Sitemap: (.*)$/mi', $response['body'], $match);
+        if ($response['code'] != 200 || !isset($match[1])) {
+            $this->output->writeln(
+                '<error>Sitemap is not declared in robots.txt</error>'
+            );
             return $this->url . 'sitemap.xml';
         } else {
-            $this->output->writeln('<info>Sitemap is declared in robots.txt</info>');
+            $this->output
+                ->writeln('<info>Sitemap is declared in robots.txt</info>');
             return trim($match[1]);
         }
     }
