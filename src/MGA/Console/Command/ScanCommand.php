@@ -50,6 +50,12 @@ class ScanCommand extends Command
         'admin',
         'app/etc/local.xml',
         'phpinfo.php',
+        'info.php',
+        '.git',
+        '.svn',
+        '.hg',
+        '.bzr',
+        '.cvs',
         'var/export/export_all_products.csv',
         'var/export/export_product_stocks.csv',
         'var/export/export_customers.csv',
@@ -69,6 +75,8 @@ class ScanCommand extends Command
         'var/log/payment_pbridge.log',
         'var/log/payment_verisign.log',
         'var/log/system.log',
+        'var/log/TIG_B3E_Exception.log', #buckaroo payment method logs
+        
     );
 
     /**
