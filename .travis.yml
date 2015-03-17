@@ -14,4 +14,8 @@ install:
   - composer install --prefer-source
 
 script:
-  - vendor/bin/phpunit --debug --stop-on-error --stop-on-failure
+  - mkdir -p build/logs
+  - vendor/bin/phpunit --debug --coverage-clover build/logs/clover.xml
+
+after_script:
+  - php vendor/bin/coveralls -v
