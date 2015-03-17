@@ -1,0 +1,16 @@
+{
+    "directories": [
+        "src"
+    ],
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": ["Tests"],
+            "in": "vendor"
+        }
+    ],
+    "git-version": "package_version",
+    "main": "bin/mga",
+    "output": "mga.phar",
+    "stub": true
+}
