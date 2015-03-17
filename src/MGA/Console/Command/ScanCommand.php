@@ -47,15 +47,18 @@ class ScanCommand extends Command
      * @var array
      */
     protected $unreachablePath = array(
+    	'.bzr',
+    	'.cvs',
+        '.git',
+        '.git/config',
+        '.git/info/refs',
+        '.gitignore', #do not give away any useful paths
+        '.hg',
+        '.svn',  
         'admin',
         'app/etc/local.xml',
-        'phpinfo.php',
         'info.php',
-        '.git',
-        '.svn',
-        '.hg',
-        '.bzr',
-        '.cvs',
+        'phpinfo.php',        
         'var/export/export_all_products.csv',
         'var/export/export_product_stocks.csv',
         'var/export/export_customers.csv',
