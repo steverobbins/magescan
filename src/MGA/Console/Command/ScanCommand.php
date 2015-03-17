@@ -19,6 +19,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -46,24 +47,34 @@ class ScanCommand extends Command
      * List of paths that we shouldn't be able to access
      * @var array
      */
-    protected $unreachablePath = array(
-        '.bzr',
-        '.cvs',
-        '.git',
+    protected $unreachablePathDefault = array(
         '.git/config',
-        '.git/info/refs',
-        '.gitignore', #do not give away any useful paths
-        '.hg',
-        '.svn',  
+        '.svn/entries',  
         'admin',
         'app/etc/local.xml',
+        'phpinfo.php',
+        'var/log/exception.log',
+        'var/log/system.log',
+    );
+
+    /**
+     * More paths that we shouldn't be able to access
+     * @var array
+     */
+    protected $unreachablePathMore = array(
+        '.bzr/',
+        '.cvs/',
+        '.git/',
+        '.git/refs/',
+        '.gitignore',
+        '.hg/',
+        '.svn/',  
         'app/etc/enterprise.xml',
+        'p.php',
         'info.php',
-        'phpinfo.php',        
         'var/export/export_all_products.csv',
         'var/export/export_product_stocks.csv',
         'var/export/export_customers.csv',
-        'var/log/exception.log',
         'var/log/payment_authnetcim.log',
         'var/log/payment_authorizenet.log',
         'var/log/payment_authorizenet_directpost.log',
@@ -78,9 +89,6 @@ class ScanCommand extends Command
         'var/log/payment_paypaluk_express.log',
         'var/log/payment_pbridge.log',
         'var/log/payment_verisign.log',
-        'var/log/system.log',
-        'var/log/TIG_B3E_Exception.log', #buckaroo payment method logs
-        
     );
 
     /**
@@ -107,6 +115,12 @@ class ScanCommand extends Command
                 InputArgument::REQUIRED,
                 'The URL of the Magento application'
             )
+            ->addOption(
+                'all-paths',
+                null,
+                InputOption::VALUE_NONE,
+                'Crawl all urls that should not be reachable'
+            )
         ;
     }
 
@@ -129,7 +143,7 @@ class ScanCommand extends Command
         $this->checkMagentoInfo();
         $this->checkSitemapExists();
         $this->checkServerTech();
-        $this->checkUnreachablePath();
+        $this->checkUnreachablePath($input->getOption('all-paths'));
     }
 
     /**
@@ -159,11 +173,16 @@ class ScanCommand extends Command
     /**
      * Check HTTP status codes for files/paths that shouldn't be reachable
      */
-    protected function checkUnreachablePath()
+    protected function checkUnreachablePath($all = false)
     {
         $this->writeHeader('Unreachable Path Check');
+        $paths = $this->unreachablePathDefault;
+        if ($all) {
+            $paths += $this->unreachablePathMore;
+            sort($paths);
+        }
         $rows = array();
-        foreach ($this->unreachablePath as $path) {
+        foreach ($paths as $path) {
             $response = Request::fetch($this->url . $path, array(
                 CURLOPT_NOBODY => true
             ));

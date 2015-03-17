@@ -52,6 +52,20 @@ composer require steverobbins/magento-guest-audit --dev
 
     $ ./bin/mga scan store.example.com
 
+## Commands
+
+### `scan`
+
+    scan [--all-paths] <url>
+
+Scans the given `<url>`.
+
+#### Options
+
+##### `--all-paths`
+
+Checks additional paths that should not be accesible (this will make the scan take longer)
+
 # Support
 
 Please [create an issue](https://github.com/steverobbins/magento-guest-audit/issues/new) for all bugs and feature requests
