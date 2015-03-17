@@ -47,9 +47,19 @@ class ScanCommand extends Command
      * @var array
      */
     protected $unreachablePath = array(
+    	'.bzr',
+    	'.cvs',
+        '.git',
+        '.git/config',
+        '.git/info/refs',
+        '.gitignore', #do not give away any useful paths
+        '.hg',
+        '.svn',  
         'admin',
         'app/etc/local.xml',
-        'phpinfo.php',
+        'app/etc/enterprise.xml',
+        'info.php',
+        'phpinfo.php',        
         'var/export/export_all_products.csv',
         'var/export/export_product_stocks.csv',
         'var/export/export_customers.csv',
@@ -69,6 +79,8 @@ class ScanCommand extends Command
         'var/log/payment_pbridge.log',
         'var/log/payment_verisign.log',
         'var/log/system.log',
+        'var/log/TIG_B3E_Exception.log', #buckaroo payment method logs
+        
     );
 
     /**
