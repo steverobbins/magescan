@@ -14,6 +14,7 @@ namespace MGA\Console\Command;
 use MGA\Magento\Version;
 use MGA\Request;
 use MGA\Sitemap;
+use MGA\Url;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -259,7 +260,7 @@ class ScanCommand extends Command
      */
     protected function setUrl($input)
     {   
-        $this->url = $this->cleanUrl($input);
+        $this->url = Url::clean($input);
         $response = Request::fetch($this->url, array(
             CURLOPT_NOBODY => true
         ));
@@ -271,30 +272,6 @@ class ScanCommand extends Command
         if (isset($response->header['Location'])) {
             $this->url = $response->header['Location'];
         }
-    }
-
-    /**
-     * Get the full, valid url from input
-     * This could probably written better
-     * 
-     * @param  string $input
-     * @return string
-     */
-    public function cleanUrl($input)
-    {
-        $bits = explode('://', $input);
-        if (count($bits) > 1) {
-            $protocol = $bits[0];
-            unset($bits[0]);
-        } else {
-            $protocol = 'http';
-        }
-        $url  = implode($bits);
-        $bits = explode('?', $url);
-        if (substr($bits[0], -1) != '/') {
-            $bits[0] .= '/';
-        }
-        return $protocol . '://' . implode('?', $bits);
     }
 
     /**
