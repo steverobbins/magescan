@@ -9,25 +9,24 @@
  * @link      https://github.com/steverobbins/magento-guest-audit
  */
 
-namespace MGA\Tests\MGA\Console\Command;
+namespace MGA\Tests\MGA;
 
-use MGA\Console\Command\ScanCommand;
+use MGA\Url;
 use PHPUnit_Framework_TestCase;
 
 /**
  * Run tests on the scan command
  */
-class ScanCommandTest extends PHPUnit_Framework_TestCase
+class UrlTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test a fully valid url
      */
     public function testHttpUrl()
     {
-        $command  = new ScanCommand;
         $url      = 'http://www.example.com/';
 
-        $cleanUrl = $command->cleanUrl($url);
+        $cleanUrl = Url::clean($url);
         $this->assertSame($url, $cleanUrl);
     }
 
@@ -36,10 +35,9 @@ class ScanCommandTest extends PHPUnit_Framework_TestCase
      */
     public function testHttpUrlNoBackslash()
     {
-        $command  = new ScanCommand;
         $url      = 'http://www.example.com';
 
-        $cleanUrl = $command->cleanUrl($url);
+        $cleanUrl = Url::clean($url);
         $this->assertSame('http://www.example.com/', $cleanUrl);
     }
 
@@ -48,10 +46,9 @@ class ScanCommandTest extends PHPUnit_Framework_TestCase
      */
     public function testUrlNoHttp()
     {
-        $command  = new ScanCommand;
         $url      = 'www.example.com';
 
-        $cleanUrl = $command->cleanUrl($url);
+        $cleanUrl = Url::clean($url);
         $this->assertSame('http://www.example.com/', $cleanUrl);
     }
 
@@ -60,10 +57,9 @@ class ScanCommandTest extends PHPUnit_Framework_TestCase
      */
     public function testUrlHttps()
     {
-        $command  = new ScanCommand;
         $url      = 'https://www.example.com';
 
-        $cleanUrl = $command->cleanUrl($url);
+        $cleanUrl = Url::clean($url);
         $this->assertSame('https://www.example.com/', $cleanUrl);
     }
 
@@ -72,10 +68,9 @@ class ScanCommandTest extends PHPUnit_Framework_TestCase
      */
     public function testUrlSubDirectory()
     {
-        $command  = new ScanCommand;
         $url      = 'www.example.com/store/';
 
-        $cleanUrl = $command->cleanUrl($url);
+        $cleanUrl = Url::clean($url);
         $this->assertSame('http://www.example.com/store/', $cleanUrl);
     }
 
@@ -84,10 +79,9 @@ class ScanCommandTest extends PHPUnit_Framework_TestCase
      */
     public function testUrlQueryParams()
     {
-        $command  = new ScanCommand;
         $url      = 'www.example.com?foo=bar';
 
-        $cleanUrl = $command->cleanUrl($url);
+        $cleanUrl = Url::clean($url);
         $this->assertSame('http://www.example.com/?foo=bar', $cleanUrl);
     }
 }
