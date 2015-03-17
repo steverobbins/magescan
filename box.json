@@ -13,7 +13,7 @@
     "finder": [
         {
             "name": "*.php",
-            "exclude": ["Tests"],
+            "exclude": ["test", "Test", "Tests", "tests"],
             "in": [
                 "vendor/composer",
                 "vendor/symfony"
