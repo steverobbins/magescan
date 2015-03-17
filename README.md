@@ -7,6 +7,10 @@ The idea behind this is to evaluate the quality and security of a Magento site y
 
 # Build Status
 
+[![Latest Stable Version](https://poser.pugx.org/steverobbins/magento-guest-audit/v/stable.svg)](https://packagist.org/packages/steverobbins/magento-guest-audit)
+[![Total Downloads](https://poser.pugx.org/steverobbins/magento-guest-audit/downloads.svg)](https://packagist.org/packages/steverobbins/magento-guest-audit)
+[![License](https://poser.pugx.org/steverobbins/magento-guest-audit/license.svg)](https://packagist.org/packages/steverobbins/magento-guest-audit)
+
 #### Latest Release
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/?branch=master)
@@ -14,9 +18,6 @@ The idea behind this is to evaluate the quality and security of a Magento site y
 [![Coverage Status](https://coveralls.io/repos/steverobbins/magento-guest-audit/badge.svg?branch=master)](https://coveralls.io/r/steverobbins/magento-guest-audit?branch=master)
 
 [![Dependency Status](https://www.versioneye.com/user/projects/5507a68b66e561507b0001ff/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5507a68b66e561507b0001ff)
-[![Latest Stable Version](https://poser.pugx.org/steverobbins/magento-guest-audit/v/stable.svg)](https://packagist.org/packages/steverobbins/magento-guest-audit)
-[![Total Downloads](https://poser.pugx.org/steverobbins/magento-guest-audit/downloads.svg)](https://packagist.org/packages/steverobbins/magento-guest-audit)
-[![License](https://poser.pugx.org/steverobbins/magento-guest-audit/license.svg)](https://packagist.org/packages/steverobbins/magento-guest-audit)
 
 #### Development Branch
 
@@ -42,6 +43,14 @@ php composer.phar install
 # Usage
 
     $ ./bin/mga scan store.example.com
+
+# Support
+
+Please [create an issue](https://github.com/steverobbins/magento-guest-audit/issues/new) for all bugs and feature requests
+
+# Contributing
+
+For this repository and send a pull request to the `dev` branch
 
 # License
 
