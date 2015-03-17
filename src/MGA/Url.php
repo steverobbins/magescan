@@ -16,6 +16,7 @@ namespace MGA;
  */
 class Url
 {
+    const DEFAULT_PROTOCOL = 'http';
 
     /**
      * Get the full, valid url from input
@@ -31,7 +32,7 @@ class Url
             $protocol = $bits[0];
             unset($bits[0]);
         } else {
-            $protocol = 'http';
+            $protocol = self::DEFAULT_PROTOCOL;
         }
         $url  = implode($bits);
         $bits = explode('?', $url);
