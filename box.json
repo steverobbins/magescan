@@ -1,0 +1,24 @@
+{
+    "main": "bin/mga",
+    "output": "mga.phar",
+    "chmod": "0755",
+    "compression": "GZ",
+    "extract": false,
+    "files": [
+        "vendor/autoload.php"
+    ],
+    "directories": [
+        "src"
+    ],
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": ["test", "Test", "Tests", "tests"],
+            "in": [
+                "vendor/composer",
+                "vendor/symfony"
+            ]
+        }
+    ],
+    "stub": true
+}

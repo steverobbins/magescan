@@ -7,7 +7,7 @@ The idea behind this is to evaluate the quality and security of a Magento site y
 
 # Build Status
 
-[![Latest Stable Version](https://poser.pugx.org/steverobbins/magento-guest-audit/v/stable.svg)](https://packagist.org/packages/steverobbins/magento-guest-audit)
+[![Latest Stable Version](https://img.shields.io/packagist/v/steverobbins/magento-guest-audit.svg)](https://packagist.org/packages/steverobbins/magento-guest-audit)
 [![Total Downloads](https://poser.pugx.org/steverobbins/magento-guest-audit/downloads.svg)](https://packagist.org/packages/steverobbins/magento-guest-audit)
 [![License](https://poser.pugx.org/steverobbins/magento-guest-audit/license.svg)](https://packagist.org/packages/steverobbins/magento-guest-audit)
 
@@ -30,7 +30,9 @@ The idea behind this is to evaluate the quality and security of a Magento site y
 
 # Installation
 
-* Clone the repository
+### From Source with Composer
+
+* Clone this repository
 * Install with composer
 
 ```
@@ -38,6 +40,12 @@ git clone https://github.com/steverobbins/magento-guest-audit mga
 cd mga
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install
+```
+
+### As a Composer Dependancy
+
+```
+composer require steverobbins/magento-guest-audit --dev
 ```
 
 # Usage
@@ -50,7 +58,7 @@ Please [create an issue](https://github.com/steverobbins/magento-guest-audit/iss
 
 # Contributing
 
-For this repository and send a pull request to the `dev` branch
+Fork this repository and send a pull request to the `dev` branch
 
 # License
 
