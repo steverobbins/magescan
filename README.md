@@ -30,7 +30,7 @@ The idea behind this is to evaluate the quality and security of a Magento site y
 
 # Installation
 
-* Clone the repository
+* Clone this repository
 * Install with composer
 
 ```
@@ -50,7 +50,7 @@ Please [create an issue](https://github.com/steverobbins/magento-guest-audit/iss
 
 # Contributing
 
-For this repository and send a pull request to the `dev` branch
+Fork this repository and send a pull request to the `dev` branch
 
 # License
 
