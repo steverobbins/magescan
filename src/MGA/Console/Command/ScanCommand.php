@@ -57,6 +57,7 @@ class ScanCommand extends Command
         '.svn',  
         'admin',
         'app/etc/local.xml',
+        'app/etc/enterprise.xml',
         'info.php',
         'phpinfo.php',        
         'var/export/export_all_products.csv',
