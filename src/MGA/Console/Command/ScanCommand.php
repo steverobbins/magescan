@@ -280,20 +280,21 @@ class ScanCommand extends Command
      * @param  string $input
      * @return string
      */
-    protected function cleanUrl($input)
+    public function cleanUrl($input)
     {
         $bits = explode('://', $input);
-        if (count($bits) == 2) {
+        if (count($bits) > 1) {
             $protocol = $bits[0];
             unset($bits[0]);
         } else {
             $protocol = 'http';
         }
-        $url = implode($bits);
-        if (substr($url, -1) != '/') {
-            $url .= '/';
+        $url  = implode($bits);
+        $bits = explode('?', $url);
+        if (substr($bits[0], -1) != '/') {
+            $bits[0] .= '/';
         }
-        return $protocol . '://' . $url;
+        return $protocol . '://' . implode('?', $bits);
     }
 
     /**
