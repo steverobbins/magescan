@@ -47,8 +47,8 @@ class ScanCommand extends Command
      * @var array
      */
     protected $unreachablePath = array(
-    	'.bzr',
-    	'.cvs',
+        '.bzr',
+        '.cvs',
         '.git',
         '.git/config',
         '.git/info/refs',
