@@ -1,4 +1,12 @@
 {
+    "main": "bin/mga",
+    "output": "mga.phar",
+    "chmod": "0755",
+    "compression": "GZ",
+    "extract": false,
+    "files": [
+        "vendor/autoload.php"
+    ],
     "directories": [
         "src"
     ],
@@ -6,11 +14,11 @@
         {
             "name": "*.php",
             "exclude": ["Tests"],
-            "in": "vendor"
+            "in": [
+                "vendor/composer",
+                "vendor/symfony"
+            ]
         }
     ],
-    "git-version": "package_version",
-    "main": "bin/mga",
-    "output": "mga.phar",
     "stub": true
 }
