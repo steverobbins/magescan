@@ -14,7 +14,11 @@ php:
 install:
   - composer install --prefer-source
 
+before_script:
+  - curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+
 script:
+  - php phpcs.phar --standard=./phpcs.xml --encoding=utf-8 ./src
   - mkdir -p build/logs
   - vendor/bin/phpunit --debug --coverage-clover build/logs/clover.xml
 
