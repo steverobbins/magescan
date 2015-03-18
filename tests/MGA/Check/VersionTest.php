@@ -11,7 +11,7 @@
 
 namespace MGA\Tests\MGA\Magento;
 
-use MGA\Magento\Version;
+use MGA\Check\Version;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -28,9 +28,10 @@ class VersionTest extends PHPUnit_Framework_TestCase
         $response->code = 200;
         $response->body = '';
 
-        $edition = Version::getMagentoEdition($response);
+        $version = new Version;
+        $edition = $version->getMagentoEdition($response);
         $this->assertSame('Unknown', $edition);
-        $version = Version::getMagentoVersion($response, $edition);
+        $version = $version->getMagentoVersion($response, $edition);
         $this->assertSame('Unknown', $version);
     }
 
@@ -43,9 +44,10 @@ class VersionTest extends PHPUnit_Framework_TestCase
         $response->code = 404;
         $response->body = '';
 
-        $edition = Version::getMagentoEdition($response);
+        $version = new Version;
+        $edition = $version->getMagentoEdition($response);
         $this->assertSame('Unknown', $edition);
-        $version = Version::getMagentoVersion($response, $edition);
+        $version = $version->getMagentoVersion($response, $edition);
         $this->assertSame('Unknown', $version);
     }
 
@@ -68,9 +70,10 @@ class VersionTest extends PHPUnit_Framework_TestCase
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $edition = Version::getMagentoEdition($response);
+        $version = new Version;
+        $edition = $version->getMagentoEdition($response);
         $this->assertSame('Enterprise', $edition);
-        $version = Version::getMagentoVersion($response, $edition);
+        $version = $version->getMagentoVersion($response, $edition);
         $this->assertSame('1.14', $version);
     }
 
@@ -93,9 +96,10 @@ FILE;
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $edition = Version::getMagentoEdition($response);
+        $version = new Version;
+        $edition = $version->getMagentoEdition($response);
         $this->assertSame('Enterprise', $edition);
-        $version = Version::getMagentoVersion($response, $edition);
+        $version = $version->getMagentoVersion($response, $edition);
         $this->assertSame('1.13', $version);
     }
 
@@ -118,9 +122,10 @@ FILE;
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $edition = Version::getMagentoEdition($response);
+        $version = new Version;
+        $edition = $version->getMagentoEdition($response);
         $this->assertSame('Enterprise', $edition);
-        $version = Version::getMagentoVersion($response, $edition);
+        $version = $version->getMagentoVersion($response, $edition);
         $this->assertSame('1.12', $version);
     }
 
@@ -143,9 +148,10 @@ FILE;
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $edition = Version::getMagentoEdition($response);
+        $version = new Version;
+        $edition = $version->getMagentoEdition($response);
         $this->assertSame('Community', $edition);
-        $version = Version::getMagentoVersion($response, $edition);
+        $version = $version->getMagentoVersion($response, $edition);
         $this->assertSame('1.9', $version);
     }
 
@@ -168,9 +174,10 @@ FILE;
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $edition = Version::getMagentoEdition($response);
+        $version = new Version;
+        $edition = $version->getMagentoEdition($response);
         $this->assertSame('Community', $edition);
-        $version = Version::getMagentoVersion($response, $edition);
+        $version = $version->getMagentoVersion($response, $edition);
         $this->assertSame('1.8', $version);
     }
 
@@ -193,9 +200,10 @@ FILE;
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $edition = Version::getMagentoEdition($response);
+        $version = new Version;
+        $edition = $version->getMagentoEdition($response);
         $this->assertSame('Community', $edition);
-        $version = Version::getMagentoVersion($response, $edition);
+        $version = $version->getMagentoVersion($response, $edition);
         $this->assertSame('1.7', $version);
     }
 }

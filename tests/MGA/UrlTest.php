@@ -24,10 +24,11 @@ class UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testHttpUrl()
     {
-        $url      = 'http://www.example.com/';
+        $sampleUrl      = 'http://www.example.com/';
 
-        $cleanUrl = Url::clean($url);
-        $this->assertSame($url, $cleanUrl);
+        $url = new Url;
+        $cleanUrl = $url->clean($sampleUrl);
+        $this->assertSame($sampleUrl, $cleanUrl);
     }
 
     /**
@@ -35,9 +36,10 @@ class UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testHttpUrlNoBackslash()
     {
-        $url      = 'http://www.example.com';
+        $sampleUrl      = 'http://www.example.com';
 
-        $cleanUrl = Url::clean($url);
+        $url = new Url;
+        $cleanUrl = $url->clean($sampleUrl);
         $this->assertSame('http://www.example.com/', $cleanUrl);
     }
 
@@ -46,42 +48,46 @@ class UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testUrlNoHttp()
     {
-        $url      = 'www.example.com';
+        $sampleUrl      = 'www.example.com';
 
-        $cleanUrl = Url::clean($url);
+        $url = new Url;
+        $cleanUrl = $url->clean($sampleUrl);
         $this->assertSame('http://www.example.com/', $cleanUrl);
     }
 
     /**
-     * Test a url missing the http
+     * Test a url using https
      */
     public function testUrlHttps()
     {
-        $url      = 'https://www.example.com';
+        $sampleUrl      = 'https://www.example.com';
 
-        $cleanUrl = Url::clean($url);
+        $url = new Url;
+        $cleanUrl = $url->clean($sampleUrl);
         $this->assertSame('https://www.example.com/', $cleanUrl);
     }
 
     /**
-     * Test a url missing the http
+     * Test a url using a sub directory
      */
     public function testUrlSubDirectory()
     {
-        $url      = 'www.example.com/store/';
+        $sampleUrl      = 'www.example.com/store/';
 
-        $cleanUrl = Url::clean($url);
+        $url = new Url;
+        $cleanUrl = $url->clean($sampleUrl);
         $this->assertSame('http://www.example.com/store/', $cleanUrl);
     }
 
     /**
-     * Test a url with query params
+     * Test a url that has query params
      */
     public function testUrlQueryParams()
     {
-        $url      = 'www.example.com?foo=bar';
+        $sampleUrl      = 'www.example.com?foo=bar';
 
-        $cleanUrl = Url::clean($url);
+        $url = new Url;
+        $cleanUrl = $url->clean($sampleUrl);
         $this->assertSame('http://www.example.com/?foo=bar', $cleanUrl);
     }
 }

@@ -25,7 +25,7 @@ class Url
      * @param  string $input
      * @return string
      */
-    public static function clean($input)
+    public function clean($input)
     {
         $bits = explode('://', $input);
         if (count($bits) > 1) {

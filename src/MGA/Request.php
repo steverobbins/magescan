@@ -23,7 +23,7 @@ class Request
      * @param  array    $params
      * @return \stdClass
      */
-    public static function fetch($url, array $params = array())
+    public function fetch($url, array $params = array())
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -37,7 +37,7 @@ class Request
         $result->code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $headerSize   = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         curl_close($ch);
-        $result->header = self::parseHeader(substr($response, 0, $headerSize));
+        $result->header = $this->parseHeader(substr($response, 0, $headerSize));
         $result->body   = substr($response, $headerSize);
         return $result;
     }
@@ -48,13 +48,15 @@ class Request
      * @param  string $rawData
      * @return array
      */
-    protected function parseHeader($rawData)
+    public function parseHeader($rawData)
     {
         $data = array();
-        foreach (explode("\r\n", $rawData) as $line) {
+        foreach (explode("\n", trim($rawData)) as $line) {
             $bits = explode(': ', $line);
-            if (count($bits) == 2) {
-                $data[$bits[0]] = $bits[1];
+            if (count($bits) > 1) {
+                $key = $bits[0];
+                unset($bits[0]);
+                $data[$key] = trim(implode(': ', $bits));
             }
         }
         return $data;
