@@ -9,7 +9,7 @@
  * @link      https://github.com/steverobbins/magento-guest-audit
  */
 
-namespace MGA;
+namespace MGA\Check;
 
 /**
  * Parse a sitemap
@@ -22,7 +22,7 @@ class Sitemap
      * @param  \stdClass      $response
      * @return string|boolean
      */
-    public static function getSitemapFromRobotsTxt($response)
+    public function getSitemapFromRobotsTxt($response)
     {
         if ($response->code != 200) {
             return false;

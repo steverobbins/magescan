@@ -9,26 +9,38 @@
  * @link      https://github.com/steverobbins/magento-guest-audit
  */
 
-namespace MGA\Magento;
+namespace MGA\Check;
 
 use MGA\Request;
 
 /**
- * Make a cURL request to a url
+ * Check for installed modules
  */
 class Module
 {
+    /**
+     * Files and the modules they belong to
+     *
+     * @var array
+     */
     public $files = array(
         'skin/frontend/base/default/aw_islider/representations/default/style.css' => 'AW_Islider',
-        'skin/frontend/base/default/css/magestore/sociallogin.css' => 'Magestore_Sociallogin',
+        'skin/frontend/base/default/css/magestore/sociallogin.css'                => 'Magestore_Sociallogin',
     );
 
+    /**
+     * Check for module files that exist in a url
+     *
+     * @param  string $url
+     * @return array
+     */
     public function checkForModules($url)
     {
         $modules = array();
+        $request = new Request;
         foreach ($this->files as $file => $name)
         {
-            $response = Request::fetch($url . $file, array(
+            $response = $request->fetch($url . $file, array(
                 CURLOPT_NOBODY         => true,
                 CURLOPT_FOLLOWLOCATION => true
             ));

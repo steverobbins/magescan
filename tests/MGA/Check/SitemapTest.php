@@ -11,7 +11,7 @@
 
 namespace MGA\Tests;
 
-use MGA\Sitemap;
+use MGA\Check\Sitemap;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -28,7 +28,8 @@ class SitemapTest extends PHPUnit_Framework_TestCase
         $response->code = 200;
         $response->body = '';
 
-        $sitemap = Sitemap::getSitemapFromRobotsTxt($response);
+        $sitemap = new Sitemap;
+        $sitemap = $sitemap->getSitemapFromRobotsTxt($response);
         $this->assertSame(false, $sitemap);
     }
 
@@ -41,7 +42,8 @@ class SitemapTest extends PHPUnit_Framework_TestCase
         $response->code = 404;
         $response->body = '';
 
-        $sitemap = Sitemap::getSitemapFromRobotsTxt($response);
+        $sitemap = new Sitemap;
+        $sitemap = $sitemap->getSitemapFromRobotsTxt($response);
         $this->assertSame(false, $sitemap);
     }
 
@@ -58,7 +60,8 @@ Allow: /
 Sitemap: http://www.example.com/sitemap.xml
 FILE;
 
-        $sitemap = Sitemap::getSitemapFromRobotsTxt($response);
+        $sitemap = new Sitemap;
+        $sitemap = $sitemap->getSitemapFromRobotsTxt($response);
         $this->assertSame('http://www.example.com/sitemap.xml', $sitemap);
     }
 
@@ -75,7 +78,8 @@ Allow: /
 #Sitemap: http://www.example.com/sitemap.xml
 FILE;
 
-        $sitemap = Sitemap::getSitemapFromRobotsTxt($response);
+        $sitemap = new Sitemap;
+        $sitemap = $sitemap->getSitemapFromRobotsTxt($response);
         $this->assertSame(false, $sitemap);
     }
 }

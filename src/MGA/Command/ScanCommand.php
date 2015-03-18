@@ -9,12 +9,12 @@
  * @link      https://github.com/steverobbins/magento-guest-audit
  */
 
-namespace MGA\Console\Command;
+namespace MGA\Command;
 
-use MGA\Magento\Module;
-use MGA\Magento\Version;
+use MGA\Check\Module;
+use MGA\Check\Version;
+use MGA\Check\Sitemap;
 use MGA\Request;
-use MGA\Sitemap;
 use MGA\Url;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -154,14 +154,16 @@ class ScanCommand extends Command
     protected function checkMagentoInfo()
     {
         $this->writeHeader('Magento Information');
-        $response = Request::fetch(
+        $request = new Request;
+        $response = $request->fetch(
             $this->url . 'js/varien/product.js', 
             array(
                 CURLOPT_FOLLOWLOCATION => true
             )
         );
-        $edition = Version::getMagentoEdition($response);
-        $version = Version::getMagentoVersion($response, $edition);
+        $version = new Version;
+        $edition = $version->getMagentoEdition($response);
+        $version = $version->getMagentoVersion($response, $edition);
         $rows = array(
             array('Edition', $edition),
             array('Version', $version)
@@ -204,8 +206,9 @@ class ScanCommand extends Command
             sort($paths);
         }
         $rows = array();
+        $request = new Request;
         foreach ($paths as $path) {
-            $response = Request::fetch($this->url . $path, array(
+            $response = $request->fetch($this->url . $path, array(
                 CURLOPT_NOBODY => true
             ));
             $rows[] = array(
@@ -247,7 +250,8 @@ class ScanCommand extends Command
     protected function checkServerTech()
     {
         $this->writeHeader('Server Technology');
-        $response = Request::fetch($this->url, array(
+        $request = new Request;
+        $response = $request->fetch($this->url, array(
             CURLOPT_NOBODY => true
         ));
         $rows = array();
@@ -272,7 +276,8 @@ class ScanCommand extends Command
     {
         $this->writeHeader('Sitemap');
         $url = $this->getSitemapUrl();
-        $response = Request::fetch($url, array(
+        $request = new Request;
+        $response = $request->fetch($url, array(
             CURLOPT_NOBODY         => true,
             CURLOPT_FOLLOWLOCATION => true
         ));
@@ -292,7 +297,9 @@ class ScanCommand extends Command
      */
     protected function getSitemapUrl()
     {
-        $response = Request::fetch($this->url . 'robots.txt');
+        $request = new Request;
+        $response = $request->fetch($this->url . 'robots.txt');
+        $sitemap = new Sitemap;
         $sitemap  = Sitemap::getSitemapFromRobotsTxt($response);
         if ($sitemap === false) {
             $this->output->writeln(
@@ -313,8 +320,10 @@ class ScanCommand extends Command
      */
     protected function setUrl($input)
     {   
-        $this->url = Url::clean($input);
-        $response = Request::fetch($this->url, array(
+        $url = new Url;
+        $this->url = $url->clean($input);
+        $request = new Request;
+        $response = $request->fetch($this->url, array(
             CURLOPT_NOBODY => true
         ));
         if ($response->code == 0) {

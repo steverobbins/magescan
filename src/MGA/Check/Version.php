@@ -9,7 +9,7 @@
  * @link      https://github.com/steverobbins/magento-guest-audit
  */
 
-namespace MGA\Magento;
+namespace MGA\Check;
 
 /**
  * Make a cURL request to a url
@@ -25,7 +25,7 @@ class Version
      * @param  \stdClass $response
      * @return string
      */
-    public static function getMagentoEdition(\stdClass $response)
+    public function getMagentoEdition(\stdClass $response)
     {
         if ($response->code == 200) {
             preg_match('/@license.*/', $response->body, $match);
@@ -44,7 +44,7 @@ class Version
      * @param  string $edition
      * @return string
      */
-    public static function getMagentoVersion(\stdClass $response, $edition)
+    public function getMagentoVersion(\stdClass $response, $edition)
     {
         if ($response->code == 200 && $edition != 'Unknown') {
             preg_match('/@copyright.*/', $response->body, $match);
@@ -53,7 +53,7 @@ class Version
                 && preg_match('/[0-9-]{4,}/', $match[0], $match)
                 && isset($match[0])
             ) {
-                return self::getMagentoVersionByYear($match[0], $edition);
+                return $this->getMagentoVersionByYear($match[0], $edition);
             }
         }
         return 'Unknown';
@@ -66,7 +66,7 @@ class Version
      * @param  string $edition
      * @return string
      */
-    protected static function getMagentoVersionByYear($year, $edition)
+    protected function getMagentoVersionByYear($year, $edition)
     {
         switch ($year) {
             case '2006-2014':
