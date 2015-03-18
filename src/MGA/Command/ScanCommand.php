@@ -57,6 +57,7 @@ class ScanCommand extends Command
         'admin',
         'app/etc/local.xml',
         'phpinfo.php',
+        'phpmyadmin',
         'var/log/exception.log',
         'var/log/system.log',
     );
@@ -75,8 +76,9 @@ class ScanCommand extends Command
         '.hg/',
         '.svn/',
         'app/etc/enterprise.xml',
-        'p.php',
+        'chive',
         'info.php',
+        'p.php',
         'var/export/export_all_products.csv',
         'var/export/export_product_stocks.csv',
         'var/export/export_customers.csv',
