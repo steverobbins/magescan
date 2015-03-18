@@ -11,6 +11,7 @@
 
 namespace MGA\Console\Command;
 
+use MGA\Magento\Module;
 use MGA\Magento\Version;
 use MGA\Request;
 use MGA\Sitemap;
@@ -114,6 +115,7 @@ class ScanCommand extends Command
         $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
 
         $this->checkMagentoInfo();
+        $this->checkModules();
         $this->checkSitemapExists();
         $this->checkServerTech();
         $this->checkUnreachablePath();
@@ -139,6 +141,26 @@ class ScanCommand extends Command
         );
         $this->getHelper('table')
             ->setHeaders(array('Parameter', 'Value'))
+            ->setRows($rows)
+            ->render($this->output);
+    }
+
+    /**
+     * Check for files known to be associated with a module
+     */
+    protected function checkModules()
+    {
+        $this->writeHeader('Installed Modules');
+        $module = new Module;
+        $rows = array();
+        foreach ($module->checkForModules($this->url) as $name => $exists) {
+            $rows[] = array(
+                $name,
+                $exists ? '<bg=green>Yes</bg=green>' : 'No'
+            );
+        }
+        $this->getHelper('table')
+            ->setHeaders(array('Module', 'Installed'))
             ->setRows($rows)
             ->render($this->output);
     }
