@@ -3,7 +3,7 @@
  * Magento Guest Audit
  *
  * PHP version 5
- * 
+ *
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
  * @license   http://creativecommons.org/licenses/by/4.0/
  * @link      https://github.com/steverobbins/magento-guest-audit
@@ -48,8 +48,7 @@ class Version
     {
         if ($response->code == 200 && $edition != 'Unknown') {
             preg_match('/@copyright.*/', $response->body, $match);
-            if (
-                isset($match[0])
+            if (isset($match[0])
                 && preg_match('/[0-9-]{4,}/', $match[0], $match)
                 && isset($match[0])
             ) {
@@ -61,7 +60,7 @@ class Version
 
     /**
      * Guess Magento version from copyright year and edition
-     * 
+     *
      * @param  string $year
      * @param  string $edition
      * @return string
@@ -70,19 +69,19 @@ class Version
     {
         switch ($year) {
             case '2006-2014':
-                return $edition == self::EDITION_ENTERPRISE ? 
+                return $edition == self::EDITION_ENTERPRISE ?
                     '1.14' : '1.9';
             case 2013:
-                return $edition == self::EDITION_ENTERPRISE ? 
+                return $edition == self::EDITION_ENTERPRISE ?
                     '1.13' : '1.8';
             case 2012:
-                return $edition == self::EDITION_ENTERPRISE ? 
+                return $edition == self::EDITION_ENTERPRISE ?
                     '1.12' : '1.7';
             case 2011:
-                return $edition == self::EDITION_ENTERPRISE ? 
+                return $edition == self::EDITION_ENTERPRISE ?
                     '1.11' : '1.6';
             case 2010:
-                return $edition == self::EDITION_ENTERPRISE ? 
+                return $edition == self::EDITION_ENTERPRISE ?
                     '1.9 - 1.10' : '1.4 - 1.5';
         }
     }
