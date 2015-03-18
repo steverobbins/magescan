@@ -3,7 +3,7 @@
  * Magento Guest Audit
  *
  * PHP version 5
- * 
+ *
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
  * @license   http://creativecommons.org/licenses/by/4.0/
  * @link      https://github.com/steverobbins/magento-guest-audit
@@ -40,17 +40,19 @@ class ScanCommand extends Command
 
     /**
      * URL of Magento site
+     *
      * @var string
      */
     private $url;
 
     /**
      * List of paths that we shouldn't be able to access
+     *
      * @var array
      */
     protected $unreachablePathDefault = array(
         '.git/config',
-        '.svn/entries',  
+        '.svn/entries',
         'admin',
         'app/etc/local.xml',
         'phpinfo.php',
@@ -60,6 +62,7 @@ class ScanCommand extends Command
 
     /**
      * More paths that we shouldn't be able to access
+     *
      * @var array
      */
     protected $unreachablePathMore = array(
@@ -69,7 +72,7 @@ class ScanCommand extends Command
         '.git/refs/',
         '.gitignore',
         '.hg/',
-        '.svn/',  
+        '.svn/',
         'app/etc/enterprise.xml',
         'p.php',
         'info.php',
@@ -94,6 +97,7 @@ class ScanCommand extends Command
 
     /**
      * Headers that provide information about the technology used
+     *
      * @var array
      */
     protected $techHeader = array(
@@ -127,7 +131,7 @@ class ScanCommand extends Command
 
     /**
      * Run scan command
-     * 
+     *
      * @param  InputInterface  $input
      * @param  OutputInterface $output
      */
@@ -156,7 +160,7 @@ class ScanCommand extends Command
         $this->writeHeader('Magento Information');
         $request = new Request;
         $response = $request->fetch(
-            $this->url . 'js/varien/product.js', 
+            $this->url . 'js/varien/product.js',
             array(
                 CURLOPT_FOLLOWLOCATION => true
             )
@@ -225,7 +229,7 @@ class ScanCommand extends Command
 
     /**
      * Get the status string for the given response
-     * 
+     *
      * @param  \stdClass $response
      * @return string
      */
@@ -292,7 +296,7 @@ class ScanCommand extends Command
 
     /**
      * Parse the robots.txt text file to find the sitemap
-     * 
+     *
      * @return string
      */
     protected function getSitemapUrl()
@@ -314,12 +318,12 @@ class ScanCommand extends Command
 
     /**
      * Validate and set url
-     * 
+     *
      * @param  string                   $input
      * @throws InvalidArgumentException
      */
     protected function setUrl($input)
-    {   
+    {
         $url = new Url;
         $this->url = $url->clean($input);
         $request = new Request;
@@ -338,7 +342,7 @@ class ScanCommand extends Command
 
     /**
      * Write a header block
-     * 
+     *
      * @param  string $text
      * @param  string $style
      */

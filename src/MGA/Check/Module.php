@@ -3,7 +3,7 @@
  * Magento Guest Audit
  *
  * PHP version 5
- * 
+ *
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
  * @license   http://creativecommons.org/licenses/by/4.0/
  * @link      https://github.com/steverobbins/magento-guest-audit
@@ -38,8 +38,7 @@ class Module
     {
         $modules = array();
         $request = new Request;
-        foreach ($this->files as $file => $name)
-        {
+        foreach ($this->files as $file => $name) {
             $response = $request->fetch($url . $file, array(
                 CURLOPT_NOBODY         => true,
                 CURLOPT_FOLLOWLOCATION => true
