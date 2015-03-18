@@ -300,7 +300,7 @@ class ScanCommand extends Command
         $request = new Request;
         $response = $request->fetch($this->url . 'robots.txt');
         $sitemap = new Sitemap;
-        $sitemap  = Sitemap::getSitemapFromRobotsTxt($response);
+        $sitemap  = $sitemap->getSitemapFromRobotsTxt($response);
         if ($sitemap === false) {
             $this->output->writeln(
                 '<error>Sitemap is not declared in robots.txt</error>'

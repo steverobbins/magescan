@@ -52,7 +52,6 @@ class Request
     {
         $data = array();
         foreach (explode("\n", trim($rawData)) as $line) {
-            var_dump($line);
             $bits = explode(': ', $line);
             if (count($bits) > 1) {
                 $key = $bits[0];
