@@ -32,7 +32,6 @@ HEADERS;
 
         $request = new Request;
         $parsed = $request->parseHeader($headers);
-        var_dump($parsed);
         $this->assertSame('nginx/1.6.2', $parsed['Server']);
     }
 }
