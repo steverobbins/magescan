@@ -18,50 +18,42 @@ use MGA\Request;
  */
 class Catalog
 {
+    const COUNT_PATTERN = '/Items? -?[0-9]+[a-z0-9- ]+ of ([0-9]+)/';
+
     /**
      * Try to figure out how many categories there are in the store
      *
      * @param  string $url
-     * @return integer|boolean
+     * @return string|boolean
      */
     public function categoryCount($url)
     {
-        $request = new Request;
-        $response = $request->fetch($url . 'catalog/seo_sitemap/category', array(
-            CURLOPT_FOLLOWLOCATION => true
-        ));
-        return $this->getCountFromResponse($response);
+        return $this->countEntity($url, 'category');
     }
     /**
      * Try to figure out how many products there are in the store
      *
      * @param  string $url
-     * @return integer|boolean
+     * @return string|boolean
      */
     public function productCount($url)
     {
-        $request = new Request;
-        $response = $request->fetch($url . 'catalog/seo_sitemap/product', array(
-            CURLOPT_FOLLOWLOCATION => true
-        ));
-        return $this->getCountFromResponse($response);
+        return $this->countEntity($url, 'product');
     }
 
     /**
-     * Parse out the count from the response
-     * 
-     * @param  \stdClass $response
-     * @return integer|boolean
+     * Count different entity types
+     *
+     * @param  string $url
+     * @param  string $entity
+     * @return string|boolean
      */
-    public function getCountFromResponse(\stdClass $response)
+    protected function countEntity($url, $entity)
     {
-        if ($response->code == 200) {
-            if (preg_match('/Items? -?[0-9]+[a-z0-9- ]+ of ([0-9]+)/', $response->body, $match)
-                && isset($match[1])
-            ) {
-                return $match[1];
-            }
-        }
-        return false;
+        $request = new Request;
+        $response = $request->fetch($url . 'catalog/seo_sitemap/' . $entity, array(
+            CURLOPT_FOLLOWLOCATION => true
+        ));
+        return $request->findMatchInResponse($response, self::COUNT_PATTERN);
     }
 }
