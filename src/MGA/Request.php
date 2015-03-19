@@ -64,7 +64,7 @@ class Request
 
     /**
      * Parse out the count from the response
-     * 
+     *
      * @param  \stdClass $response
      * @return string|boolean
      */
