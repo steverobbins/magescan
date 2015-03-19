@@ -63,9 +63,9 @@ HEADERS;
     }
 
     /**
-     * Test a bed match
+     * Test a bad match
      */
-    public function testFindMatchInResponseTrue()
+    public function testFindMatchInResponseBad()
     {
         $response = new \stdClass();
         $response->code = 200;
@@ -74,5 +74,19 @@ HEADERS;
         $request = new Request;
         $match   = $request->findMatchInResponse($response, '/Hello (foo)!/');
         $this->assertSame(false, $match);
+    }
+
+    /**
+     * Test a good all match
+     */
+    public function testFindMatchInResponseAllGood()
+    {
+        $response = new \stdClass();
+        $response->code = 200;
+        $response->body = 'Hello world!';
+
+        $request = new Request;
+        $match   = $request->findMatchInResponse($response, '/(Hello) (world)!/', true);
+        $this->assertSame('world', $match[2]);
     }
 }

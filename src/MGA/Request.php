@@ -66,15 +66,17 @@ class Request
      * Parse out the count from the response
      *
      * @param  \stdClass $response
-     * @return string|boolean
+     * @param  string    $pattern
+     * @param  boolean   $returnAll
+     * @return string|array|boolean
      */
-    public function findMatchInResponse(\stdClass $response, $pattern)
+    public function findMatchInResponse(\stdClass $response, $pattern, $returnAll = false)
     {
         if ($response->code == 200) {
             if (preg_match($pattern, $response->body, $match)
-                && isset($match[1])
+                && (isset($match[1]) || $returnAll)
             ) {
-                return $match[1];
+                return $returnAll ? $match : $match[1];
             }
         }
         return false;

@@ -339,7 +339,7 @@ class ScanCommand extends Command
         }
         $this->output
             ->writeln('<info>Sitemap is declared in robots.txt</info>');
-        return $sitemap;
+        return (string) $sitemap;
     }
 
     /**
