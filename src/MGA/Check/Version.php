@@ -69,6 +69,7 @@ class Version
     {
         switch ($year) {
             case '2006-2014':
+            case '2014':
                 return $edition == self::EDITION_ENTERPRISE ?
                     '1.14' : '1.9';
             case 2013:
