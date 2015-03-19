@@ -34,4 +34,45 @@ HEADERS;
         $parsed = $request->parseHeader($headers);
         $this->assertSame('nginx/1.6.2', $parsed['Server']);
     }
+
+    /**
+     * Test a 404ing response
+     */
+    public function testFindMatchInResponseNotFound()
+    {
+        $response = new \stdClass();
+        $response->code = 404;
+
+        $request = new Request;
+        $match   = $request->findMatchInResponse($response, '');
+        $this->assertSame(false, $match);
+    }
+
+    /**
+     * Test a good match
+     */
+    public function testFindMatchInResponseGood()
+    {
+        $response = new \stdClass();
+        $response->code = 200;
+        $response->body = 'Hello world!';
+
+        $request = new Request;
+        $match   = $request->findMatchInResponse($response, '/Hello (world)!/');
+        $this->assertSame('world', $match);
+    }
+
+    /**
+     * Test a bed match
+     */
+    public function testFindMatchInResponseTrue()
+    {
+        $response = new \stdClass();
+        $response->code = 200;
+        $response->body = 'Hello world!';
+
+        $request = new Request;
+        $match   = $request->findMatchInResponse($response, '/Hello (foo)!/');
+        $this->assertSame(false, $match);
+    }
 }

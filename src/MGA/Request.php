@@ -61,4 +61,22 @@ class Request
         }
         return $data;
     }
+
+    /**
+     * Parse out the count from the response
+     *
+     * @param  \stdClass $response
+     * @return string|boolean
+     */
+    public function findMatchInResponse(\stdClass $response, $pattern)
+    {
+        if ($response->code == 200) {
+            if (preg_match($pattern, $response->body, $match)
+                && isset($match[1])
+            ) {
+                return $match[1];
+            }
+        }
+        return false;
+    }
 }

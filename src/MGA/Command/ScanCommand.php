@@ -11,6 +11,7 @@
 
 namespace MGA\Command;
 
+use MGA\Check\Catalog;
 use MGA\Check\Module;
 use MGA\Check\Version;
 use MGA\Check\Sitemap;
@@ -147,6 +148,7 @@ class ScanCommand extends Command
 
         $this->checkMagentoInfo();
         $this->checkModules();
+        $this->checkCatalog();
         $this->checkSitemapExists();
         $this->checkServerTech();
         $this->checkUnreachablePath($input->getOption('all-paths'));
@@ -194,6 +196,30 @@ class ScanCommand extends Command
         }
         $this->getHelper('table')
             ->setHeaders(array('Module', 'Installed'))
+            ->setRows($rows)
+            ->render($this->output);
+    }
+
+    /**
+     * Get catalog data
+     */
+    protected function checkCatalog()
+    {
+        $this->writeHeader('Catalog Information');
+        $rows     = array();
+        $catalog  = new Catalog;
+        $categoryCount = $catalog->categoryCount($this->url);
+        $rows[] = array(
+            'Categories',
+            $categoryCount !== false ? $categoryCount : 'Unknown'
+        );
+        $productCount = $catalog->productCount($this->url);
+        $rows[] = array(
+            'Products',
+            $productCount !== false ? $productCount : 'Unknown'
+        );
+        $this->getHelper('table')
+            ->setHeaders(array('Type', 'Count'))
             ->setRows($rows)
             ->render($this->output);
     }

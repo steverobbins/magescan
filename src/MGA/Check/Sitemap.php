@@ -11,6 +11,8 @@
 
 namespace MGA\Check;
 
+use MGA\Request;
+
 /**
  * Parse a sitemap
  */
@@ -24,13 +26,7 @@ class Sitemap
      */
     public function getSitemapFromRobotsTxt($response)
     {
-        if ($response->code != 200) {
-            return false;
-        }
-        preg_match('/^(?!#+)\s*Sitemap: (.*)$/mi', $response->body, $match);
-        if (!isset($match[1])) {
-            return false;
-        }
-        return trim($match[1]);
+        $request = new Request;
+        return $request->findMatchInResponse($response, '/^(?!#+)\s*Sitemap: (.*)$/mi');
     }
 }
