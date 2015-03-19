@@ -24,8 +24,13 @@ class Module
      * @var array
      */
     public $files = array(
+        'skin/adminhtml/default/default/amasty/ampgrid/grid.css'                  => 'Amasty_Pgrid',
+        'skin/adminhtml/default/default/aoe_scheduler/JavaScript/common.js'       => 'Aoe_Scheduler',
+        'skin/adminhtml/default/default/webforms/stars.css'                       => 'VladimirPopov_WebForms',
+        'skin/adminhtml/default/default/zendesk/zendesk.css'                      => 'Zendesk_Zendesk',
         'skin/frontend/base/default/aw_islider/representations/default/style.css' => 'AW_Islider',
         'skin/frontend/base/default/css/magestore/sociallogin.css'                => 'Magestore_Sociallogin',
+        'skin/frontend/base/default/lengow/js/tracker.js'                         => 'Lengow_Tracker',
     );
 
     /**
