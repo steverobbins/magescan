@@ -1,26 +1,15 @@
 Magento Guest Audit
 ===
 
+[![Master Build Status](https://img.shields.io/travis/steverobbins/magento-guest-audit/master.svg?style=flat-square)](https://travis-ci.org/steverobbins/magento-guest-audit)
+[![Master Code Quality](https://img.shields.io/scrutinizer/g/steverobbins/magento-guest-audit/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/?branch=master)
+[![Master Code Coverage](https://img.shields.io/coveralls/steverobbins/magento-guest-audit/master.svg?style=flat-square)](https://coveralls.io/r/steverobbins/magento-guest-audit?branch=master)
+[![Latest Stable Version](https://img.shields.io/packagist/v/steverobbins/magento-guest-audit.svg?style=flat-square)](https://packagist.org/packages/steverobbins/magento-guest-audit)
+[![Master Dependancies](https://www.versioneye.com/user/projects/5507a68b66e561507b0001ff/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5507a68b66e561507b0001ff)
+
 The idea behind this is to evaluate the quality and security of a Magento site you don't have access to.  The scenario when you're interviewing a potential developer or vetting a new client and want to have an idea of what you're getting into.
 
 ![Screenshot](http://i.imgur.com/uC1ZD8i.png)
-
-# Build Status
-
-[![Latest Stable Version](https://img.shields.io/packagist/v/steverobbins/magento-guest-audit.svg)](https://packagist.org/packages/steverobbins/magento-guest-audit)
-[![Dependency Status](https://www.versioneye.com/user/projects/5507a68b66e561507b0001ff/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5507a68b66e561507b0001ff)
-
-#### Latest Release
-
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/?branch=master)
-[![Build Status](https://travis-ci.org/steverobbins/magento-guest-audit.svg?branch=master)](https://travis-ci.org/steverobbins/magento-guest-audit)
-[![Coverage Status](https://coveralls.io/repos/steverobbins/magento-guest-audit/badge.svg?branch=master)](https://coveralls.io/r/steverobbins/magento-guest-audit?branch=master)
-
-#### Development
-
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/badges/quality-score.png?b=dev)](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/?branch=dev)
-[![Build Status](https://travis-ci.org/steverobbins/magento-guest-audit.svg?branch=dev)](https://travis-ci.org/steverobbins/magento-guest-audit)
-[![Coverage Status](https://coveralls.io/repos/steverobbins/magento-guest-audit/badge.svg?branch=dev)](https://coveralls.io/r/steverobbins/magento-guest-audit?branch=dev)
 
 # Installation
 
