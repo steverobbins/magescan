@@ -127,6 +127,12 @@ class ScanCommand extends Command
                 InputOption::VALUE_NONE,
                 'Crawl all urls that should not be reachable'
             )
+            ->addOption(
+                'show-modules',
+                null,
+                InputOption::VALUE_NONE,
+                'Show all modules that were scanned for, not just matches'
+            )
         ;
     }
 
@@ -147,7 +153,7 @@ class ScanCommand extends Command
         $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
 
         $this->checkMagentoInfo();
-        $this->checkModules();
+        $this->checkModules($input->getOption('show-modules'));
         $this->checkCatalog();
         $this->checkSitemapExists();
         $this->checkServerTech();
@@ -182,21 +188,31 @@ class ScanCommand extends Command
 
     /**
      * Check for files known to be associated with a module
+     *
+     * @param boolean $all
      */
-    protected function checkModules()
+    protected function checkModules($all = false)
     {
         $this->writeHeader('Installed Modules');
         $module = new Module;
-        $rows = array();
+        $found = $notFound = array();
         foreach ($module->checkForModules($this->url) as $name => $exists) {
-            $rows[] = array(
-                $name,
-                $exists ? '<bg=green>Yes</bg=green>' : 'No'
-            );
+            if ($exists) {
+                $found[] = array($name, '<bg=green>Yes</bg=green>');
+            } else {
+                $notFound[] = array($name, 'No');
+            }
+        }
+        if (empty($found) && !$all) {
+            $this->output->writeln('No detectable modules were found');
+            return;
+        }
+        if ($all) {
+            $found = array_merge($found, $notFound);
         }
         $this->getHelper('table')
             ->setHeaders(array('Module', 'Installed'))
-            ->setRows($rows)
+            ->setRows($found)
             ->render($this->output);
     }
 

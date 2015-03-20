@@ -60,6 +60,10 @@ Scans the given `<url>`.
 
 Checks additional paths that should not be accesible (this will make the scan take longer)
 
+##### `--show-modules`
+
+Show all modules that we tried to detect, not just those that were found
+
 # Support
 
 Please [create an issue](https://github.com/steverobbins/magento-guest-audit/issues/new) for all bugs and feature requests
