@@ -24,13 +24,29 @@ class Module
      * @var array
      */
     public $files = array(
+        'js/amasty/ampreorder/product_view_composite.js'                          => 'Amasty_Preorder',
+        'js/fooman/adminhtml/grid.js'                                             => 'Fooman_OrderManager',
+        'js/mw_rewardpoints/js.js'                                                => 'MW_RewardPoints',
+        'skin/adminhtml/base/default/bronto/bronto.css'                           => 'Bronto_Common',
         'skin/adminhtml/default/default/amasty/ampgrid/grid.css'                  => 'Amasty_Pgrid',
         'skin/adminhtml/default/default/aoe_scheduler/JavaScript/common.js'       => 'Aoe_Scheduler',
+        'skin/adminhtml/default/default/aw_blog/css/style.css'                    => 'AW_Blog',
+        'skin/adminhtml/default/default/gomage/feed.css'                          => 'GoMage_Feed',
         'skin/adminhtml/default/default/webforms/stars.css'                       => 'VladimirPopov_WebForms',
         'skin/adminhtml/default/default/zendesk/zendesk.css'                      => 'Zendesk_Zendesk',
         'skin/frontend/base/default/aw_islider/representations/default/style.css' => 'AW_Islider',
+        'skin/frontend/base/default/css/ecommerceteam/echeckout/default.css'      => 'EcommerceTeam_EasyCheckout',
+        'skin/frontend/base/default/css/magestore/onestepcheckout.css'            => 'Magestore_Onestepcheckout',
         'skin/frontend/base/default/css/magestore/sociallogin.css'                => 'Magestore_Sociallogin',
+        'skin/frontend/base/default/css/orange35_colorpicker/configurable.css'    => 'Orange35_Colorpicker',
+        'skin/frontend/base/default/css/vertnav.css'                              => 'RicoNeitzel_VertNav',
+        'skin/frontend/base/default/ig_lightbox2/lightbox/js/jquery.js'           => 'IG_LightBox2',
+        'skin/frontend/base/default/js/ajaxpro.js'                                => 'TM_AjaxPro',
         'skin/frontend/base/default/lengow/js/tracker.js'                         => 'Lengow_Tracker',
+        'skin/frontend/base/default/turnkeye/testimonial/css/testimonial.css'     => 'Turnkeye_Testimonial',
+        'skin/frontend/base/default/wordpress/styles.css'                         => 'FishPig_WordPress',
+        'skin/frontend/default/default/css/magebuzz/youtubevideo.css'             => 'Magebuzz_Youtubevideo',
+        'skin/frontend/rwd/default/relatedproducts/css/styles.css'                => 'AW_Relatedproducts',
     );
 
     /**
