@@ -11,9 +11,22 @@ The idea behind this is to evaluate the quality and security of a Magento site y
 
 ![Screenshot](http://i.imgur.com/uC1ZD8i.png)
 
+# Disclaimer
+
+Since we can't see the code base, this tool makes assumptions and takes guesses.  Information reported isn't guaranteed to be correct.
+
+For in depth analyses, consider:
+
+* [mageaudit](https://github.com/steverobbins/mageaudit)
+* [Magento Project Mess Detector (for n98-magerun)](https://github.com/AOEpeople/mpmd)
+* [magniffer](https://github.com/magento-ecg/magniffer)
+* [Magento Coding Standard](https://github.com/magento-ecg/coding-standard)
+* [magecheck](https://github.com/gknoppe-guidance/magecheck)
+* [magento-check](http://www.magentocommerce.com/knowledge-base/entry/how-do-i-know-if-my-server-is-compatible-with-magento)
+
 # Installation
 
-### From Source with Composer
+### Source
 
 * Clone this repository
 * Install with composer
@@ -25,10 +38,20 @@ curl -sS https://getcomposer.org/installer | php
 php composer.phar install
 ```
 
-### As a Composer Dependancy
+### Composer
 
 ```
 composer require steverobbins/magento-guest-audit --dev
+```
+
+### Include in your project
+
+Add the following to your `composer.json`
+
+```
+"require": {
+    "steverobbins/magento-guest-audit": "*"
+}
 ```
 
 # Usage
