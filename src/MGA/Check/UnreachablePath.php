@@ -74,7 +74,7 @@ class UnreachablePath
 
     /**
      * Get all paths to be tested
-     * 
+     *
      * @param  boolean $all
      * @return string[]
      */
@@ -90,7 +90,7 @@ class UnreachablePath
 
     /**
      * Test that paths are inaccessible
-     * 
+     *
      * @param  string  $url
      * @param  boolean $all
      * @return array
@@ -106,7 +106,7 @@ class UnreachablePath
             $result[] = array(
                 $path,
                 $response->code,
-                $this->getUnreachableStatus($response)
+                $this->getUnreachableStatus($url, $response)
             );
         }
         return $result;
@@ -115,10 +115,11 @@ class UnreachablePath
     /**
      * Get the status string for the given response
      *
+     * @param  string    $url
      * @param  \stdClass $response
      * @return mixed
      */
-    protected function getUnreachableStatus(\stdClass $response)
+    protected function getUnreachableStatus($url, \stdClass $response)
     {
         switch ($response->code) {
             case 200:
@@ -126,7 +127,7 @@ class UnreachablePath
             case 301:
             case 302:
                 $redirect = $response->header['Location'];
-                if ($redirect != $this->url) {
+                if ($redirect != $url) {
                     return $redirect;
                 }
         }

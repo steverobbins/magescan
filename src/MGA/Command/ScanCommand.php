@@ -103,11 +103,11 @@ class ScanCommand extends Command
         $this->setUrl($input->getArgument('url'));
         $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
 
-        // $this->checkMagentoInfo();
-        // $this->checkModules($input->getOption('show-modules'));
-        // $this->checkCatalog();
-        // $this->checkSitemapExists();
-        // $this->checkServerTech();
+        $this->checkMagentoInfo();
+        $this->checkModules($input->getOption('show-modules'));
+        $this->checkCatalog();
+        $this->checkSitemapExists();
+        $this->checkServerTech();
         $this->checkUnreachablePath($input->getOption('all-paths'));
     }
 
