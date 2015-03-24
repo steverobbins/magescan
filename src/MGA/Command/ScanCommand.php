@@ -13,8 +13,9 @@ namespace MGA\Command;
 
 use MGA\Check\Catalog;
 use MGA\Check\Module;
-use MGA\Check\Version;
 use MGA\Check\Sitemap;
+use MGA\Check\UnreachablePath;
+use MGA\Check\Version;
 use MGA\Request;
 use MGA\Url;
 use Symfony\Component\Console\Command\Command;
@@ -45,60 +46,6 @@ class ScanCommand extends Command
      * @var string
      */
     private $url;
-
-    /**
-     * List of paths that we shouldn't be able to access
-     *
-     * @var array
-     */
-    protected $unreachablePathDefault = array(
-        '.git/config',
-        '.svn/entries',
-        'admin',
-        'app/etc/local.xml',
-        'composer.json',
-        'phpinfo.php',
-        'phpmyadmin',
-        'var/log/exception.log',
-        'var/log/system.log',
-    );
-
-    /**
-     * More paths that we shouldn't be able to access
-     *
-     * @var array
-     */
-    protected $unreachablePathMore = array(
-        '.bzr/',
-        '.cvs/',
-        '.git/',
-        '.git/refs/',
-        '.gitignore',
-        '.hg/',
-        '.svn/',
-        'app/etc/enterprise.xml',
-        'chive',
-        'composer.lock',
-        'info.php',
-        'p.php',
-        'var/export/export_all_products.csv',
-        'var/export/export_product_stocks.csv',
-        'var/export/export_customers.csv',
-        'var/log/payment_authnetcim.log',
-        'var/log/payment_authorizenet.log',
-        'var/log/payment_authorizenet_directpost.log',
-        'var/log/payment_cybersource_soap.log',
-        'var/log/payment_ogone.log',
-        'var/log/payment_payflow_advanced.log',
-        'var/log/payment_payflow_link.log',
-        'var/log/payment_paypal_billing_agreement.log',
-        'var/log/payment_paypal_direct.log',
-        'var/log/payment_paypal_express.log',
-        'var/log/payment_paypal_standard.log',
-        'var/log/payment_paypaluk_express.log',
-        'var/log/payment_pbridge.log',
-        'var/log/payment_verisign.log',
-    );
 
     /**
      * Headers that provide information about the technology used
@@ -156,11 +103,11 @@ class ScanCommand extends Command
         $this->setUrl($input->getArgument('url'));
         $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
 
-        $this->checkMagentoInfo();
-        $this->checkModules($input->getOption('show-modules'));
-        $this->checkCatalog();
-        $this->checkSitemapExists();
-        $this->checkServerTech();
+        // $this->checkMagentoInfo();
+        // $this->checkModules($input->getOption('show-modules'));
+        // $this->checkCatalog();
+        // $this->checkSitemapExists();
+        // $this->checkServerTech();
         $this->checkUnreachablePath($input->getOption('all-paths'));
     }
 
@@ -250,48 +197,19 @@ class ScanCommand extends Command
     protected function checkUnreachablePath($all = false)
     {
         $this->writeHeader('Unreachable Path Check');
-        $paths = $this->unreachablePathDefault;
-        if ($all) {
-            $paths += $this->unreachablePathMore;
-            sort($paths);
-        }
-        $rows = array();
-        $request = new Request;
-        foreach ($paths as $path) {
-            $response = $request->fetch($this->url . $path, array(
-                CURLOPT_NOBODY => true
-            ));
-            $rows[] = array(
-                $path,
-                $response->code,
-                $this->getUnreachableStatus($response)
-            );
+        $unreachablePath = new UnreachablePath;
+        $results = $unreachablePath->checkPaths($this->url, $all);
+        foreach ($results as &$result) {
+            if ($result[2] === false) {
+                $result[2] = '<error>Fail</error>';
+            } elseif ($result[2] === true) {
+                $result[2] = '<bg=green>Pass</bg=green>';
+            }
         }
         $this->getHelper('table')
             ->setHeaders(array('Path', 'Response Code', 'Status'))
-            ->setRows($rows)
+            ->setRows($results)
             ->render($this->output);
-    }
-
-    /**
-     * Get the status string for the given response
-     *
-     * @param  \stdClass $response
-     * @return string
-     */
-    protected function getUnreachableStatus(\stdClass $response)
-    {
-        switch ($response->code) {
-            case 200:
-                return '<error>Fail</error>';
-            case 301:
-            case 302:
-                $redirect = $response->header['Location'];
-                if ($redirect != $this->url) {
-                    return $redirect;
-                }
-        }
-        return '<bg=green>Pass</bg=green>';
     }
 
     /**
