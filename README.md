@@ -62,7 +62,7 @@ Add the following to your `composer.json`
 
 ### `scan`
 
-    scan [--all-paths] <url>
+    scan [--all-paths] [--show-modules] <url>
 
 Scans the given `<url>`.
 

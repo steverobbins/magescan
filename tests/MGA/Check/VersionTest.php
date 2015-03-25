@@ -9,7 +9,7 @@
  * @link      https://github.com/steverobbins/magento-guest-audit
  */
 
-namespace MGA\Tests\MGA\Magento;
+namespace MGA\Tests\Mga\Check;
 
 use MGA\Check\Version;
 use PHPUnit_Framework_TestCase;
