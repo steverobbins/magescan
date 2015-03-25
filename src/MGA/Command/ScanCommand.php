@@ -14,6 +14,7 @@ namespace MGA\Command;
 use MGA\Check\Catalog;
 use MGA\Check\Module;
 use MGA\Check\Sitemap;
+use MGA\Check\TechHeader;
 use MGA\Check\UnreachablePath;
 use MGA\Check\Version;
 use MGA\Request;
@@ -46,18 +47,6 @@ class ScanCommand extends Command
      * @var string
      */
     private $url;
-
-    /**
-     * Headers that provide information about the technology used
-     *
-     * @var array
-     */
-    protected $techHeader = array(
-        'Server',
-        'Via',
-        'X-Mod-Pagespeed',
-        'X-Powered-By',
-    );
 
     /**
      * Configure scan command
@@ -218,22 +207,10 @@ class ScanCommand extends Command
     protected function checkServerTech()
     {
         $this->writeHeader('Server Technology');
-        $request = new Request;
-        $response = $request->fetch($this->url, array(
-            CURLOPT_NOBODY => true
-        ));
-        $rows = array();
-        foreach ($this->techHeader as $value) {
-            $rows[] = array(
-                $value,
-                isset($response->header[$value])
-                    ? $response->header[$value]
-                    : ''
-            );
-        }
+        $techHeader = new TechHeader;
         $this->getHelper('table')
             ->setHeaders(array('Key', 'Value'))
-            ->setRows($rows)
+            ->setRows($techHeader->getHeaders($this->url))
             ->render($this->output);
     }
 
