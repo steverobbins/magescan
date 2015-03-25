@@ -32,7 +32,7 @@ class TechHeader
 
     /**
      * Crawl the url's headers
-     * 
+     *
      * @param  string $url
      * @return array
      */
