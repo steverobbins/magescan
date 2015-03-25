@@ -19,7 +19,7 @@ matrix:
 
 install:
   - composer self-update
-  - composer install -n --dev --prefer-source
+  - composer install -n --prefer-source
 
 script:
   - vendor/bin/phpcs --standard=./phpcs.xml --encoding=utf-8 ./src
