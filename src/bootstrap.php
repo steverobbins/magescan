@@ -14,7 +14,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use MGA\Command\ScanCommand;
 use Symfony\Component\Console\Application;
 
-$app = new Application();
+$app = new Application('MGA', '0.7.4');
 
 $app->add(new ScanCommand);
 
