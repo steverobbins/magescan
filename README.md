@@ -26,6 +26,17 @@ For in depth analyses, consider:
 
 # Installation
 
+### .phar
+
+* Download the [`mga.phar`](http://mga.project.steverobbins.name/mga.phar) file
+* Run in command line with the `php` command
+
+```
+curl -o mga.phar http://mga.project.steverobbins.name/mga.phar
+php mga.phar scan www.example.com
+```
+
+
 ### Source
 
 * Clone this repository
@@ -36,6 +47,7 @@ git clone https://github.com/steverobbins/magento-guest-audit mga
 cd mga
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install
+bin/mga scan www.example.com
 ```
 
 ### Composer
@@ -50,13 +62,13 @@ Add the following to your `composer.json`
 
 ```
 "require": {
-    "steverobbins/magento-guest-audit": "*"
+    "steverobbins/magento-guest-audit": "dev-master"
 }
 ```
 
 # Usage
 
-    $ ./bin/mga scan store.example.com
+    $ mga scan store.example.com
 
 ## Commands
 
