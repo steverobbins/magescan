@@ -27,6 +27,7 @@ class TechHeader
         'Server',
         'Via',
         'X-Mod-Pagespeed',
+        'X-Page-Speed',
         'X-Powered-By',
     );
 
@@ -44,12 +45,9 @@ class TechHeader
         ));
         $rows = array();
         foreach ($this->techHeader as $value) {
-            $rows[] = array(
-                $value,
-                isset($response->header[$value])
-                    ? $response->header[$value]
-                    : ''
-            );
+            if (isset($response->header[$value])) {
+                $rows[$value] = $response->header[$value];
+            }
         }
         return $rows;
     }
