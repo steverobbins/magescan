@@ -208,9 +208,18 @@ class ScanCommand extends Command
     {
         $this->writeHeader('Server Technology');
         $techHeader = new TechHeader;
+        $values = $techHeader->getHeaders($this->url);
+        if (empty($values)) {
+            $this->output->writeln('No detectable technology was found');
+            return;
+        }
+        $rows = array();
+        foreach ($values as $key => $value) {
+            $rows[] = array($key, $value);
+        }
         $this->getHelper('table')
             ->setHeaders(array('Key', 'Value'))
-            ->setRows($techHeader->getHeaders($this->url))
+            ->setRows($rows)
             ->render($this->output);
     }
 
