@@ -47,6 +47,14 @@ class Module
         'skin/frontend/base/default/wordpress/styles.css'                         => 'FishPig_WordPress',
         'skin/frontend/default/default/css/magebuzz/youtubevideo.css'             => 'Magebuzz_Youtubevideo',
         'skin/frontend/rwd/default/relatedproducts/css/styles.css'                => 'AW_Relatedproducts',
+        'skin/frontend/base/default/css/mana_filters.css'                         => 'Mana_Filters',
+        'skin/frontend/base/default/css/mana_core.css'                            => 'Mana_Core',
+        'skin/frontend/base/default/css/magesetup/default.css'                    => 'FireGento_MageSetup',
+        'skin/frontend/base/default/css/magebuzz/featuredcategory.css'            => 'Magebuzz_Featuredcategory',
+        'skin/frontend/base/default/css/mageworx/downloads.css'                   => 'MageWorx_Downloads',
+        'skin/frontend/base/default/css/xsitemap.css'                             => 'MageWorx_XSitemap',
+        'skin/frontend/base/default/css/fisheye/faq.css'                          => 'Fisheye_Faq',
+        'skin/frontend/base/default/js/infinitescroll/ias_config.js'              => 'Strategery_Infinitescroll',
     );
 
     /**
