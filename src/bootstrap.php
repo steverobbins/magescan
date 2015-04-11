@@ -14,7 +14,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use MGA\Command\ScanCommand;
 use Symfony\Component\Console\Application;
 
-$app = new Application('Magento Guest Audit', '0.7.6');
+$app = new Application('Magento Guest Audit', '0.7.7');
 
 $app->add(new ScanCommand);
 
