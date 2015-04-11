@@ -7,5 +7,5 @@ checks:
 coding_style:
     php: {  }
 build_failure_conditions:
-    - 'elements.rating(<= C).new.exists'
+    - 'elements.rating(<= D).new.exists'
     - 'issues.new.exists'
