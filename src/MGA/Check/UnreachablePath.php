@@ -29,6 +29,7 @@ class UnreachablePath
         'admin',
         'app/etc/local.xml',
         'composer.json',
+        'downloader/index.php',
         'phpinfo.php',
         'phpmyadmin',
         'var/log/exception.log',
@@ -46,6 +47,7 @@ class UnreachablePath
         '.git/',
         '.git/refs/',
         '.gitignore',
+        '.idea',
         '.hg/',
         '.svn/',
         'app/etc/enterprise.xml',
@@ -53,9 +55,14 @@ class UnreachablePath
         'composer.lock',
         'info.php',
         'p.php',
+        'README.txt',
+        'README.md',
+        'shell/',
+        'var/export/',
         'var/export/export_all_products.csv',
         'var/export/export_product_stocks.csv',
         'var/export/export_customers.csv',
+        'var/log/',
         'var/log/payment_authnetcim.log',
         'var/log/payment_authorizenet.log',
         'var/log/payment_authorizenet_directpost.log',
@@ -70,6 +77,7 @@ class UnreachablePath
         'var/log/payment_paypaluk_express.log',
         'var/log/payment_pbridge.log',
         'var/log/payment_verisign.log',
+        'var/report/',
     );
 
     /**

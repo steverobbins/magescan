@@ -1,5 +1,6 @@
 /composer.lock
 /build
 /mga.phar
+/composer.phar
 /vendor
 .DS*
