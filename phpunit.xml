@@ -1,5 +1,5 @@
 <phpunit backupGlobals="true"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="test/bootstrap.php"
          backupStaticAttributes="false"
          cacheTokens="false"
          colors="true"
@@ -15,7 +15,7 @@
          stopOnSkipped="false">
     <testsuites>
         <testsuite name="MGA Tests">
-            <directory>./tests</directory>
+            <directory>./test</directory>
         </testsuite>
     </testsuites>
     <filter>

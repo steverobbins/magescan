@@ -1,10 +1,8 @@
 language: php
-
 branches:
   only:
     - master
     - dev
-
 php:
   - 5.3
   - 5.4
@@ -12,15 +10,26 @@ php:
   - 5.6
   - 7.0
   - hhvm
-
+env:
+  global:
+    - MAGENTO_DB_ALLOWSAME=1
+    - SKIP_CLEANUP=1
+  matrix:
+    - MAGENTO_VERSION=magento-ce-1.9.1.0
+    - MAGENTO_VERSION=magento-ce-1.9.0.1
+    - MAGENTO_VERSION=magento-ce-1.8.1.0
+    - MAGENTO_VERSION=magento-ce-1.8.0.0
+    - MAGENTO_VERSION=magento-ce-1.7.0.2
 install:
   - composer self-update
   - composer install -n --prefer-source
-
+before_script:
+  - mkdir -p build/logs
+  - mysql -h 127.0.0.1 -e 'create database magento;'
+  - curl -o n98-magerun.phar https://raw.githubusercontent.com/netz98/n98-magerun/master/n98-magerun.phar
+  - php n98-magerun.phar install --dbHost="127.0.0.1" --dbUser="root" --dbPass="" --dbName="magento" --installSampleData=no --useDefaultConfigParams=yes --magentoVersionByName="$MAGENTO_VERSION" --installationFolder="magento" --baseUrl="http://magento.local/"
 script:
   - vendor/bin/phpcs --standard=./phpcs.xml --encoding=utf-8 ./src
-  - mkdir -p build/logs
   - vendor/bin/phpunit --debug --coverage-clover build/logs/clover.xml
-
 after_script:
   - php vendor/bin/coveralls -v
