@@ -1,5 +1,15 @@
 var MGA;
 (function($) {
+    $(document).ready(function() {
+        $('.panel .label-info').each(function() {
+            var info = $(this).closest('.panel').find('.alert-info');
+            $(this).hover(function() {
+                info.show();
+            }, function() {
+                info.hide();
+            });
+        });
+    });
     MGA = {
         scan: function(url) {
             this.url = encodeURIComponent(url);
@@ -14,6 +24,8 @@ var MGA;
             var that = this;
             $.get('ajax.php?code=' + code + '&url=' + this.url, function(response) {
                 $('#' + code ).find('.response').html(that.render(jQuery.parseJSON(response)));
+            }).error(function(a) {
+                $('#' + code ).find('.response').html('<div class="alert alert-danger">' + a.statusText + '</div>');
             });
         },
         render: function(data) {
