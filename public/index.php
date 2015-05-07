@@ -75,7 +75,14 @@ if (isset($_GET['url'])) {
                         <div class="panel-heading">
                             <h3 class="panel-title">Magento</h3>
                         </div>
-                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
+                        <div class="panel-body response">
+                            <div class="loader">
+                                <div class="loader-inner ball-clip-rotate-multiple">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-4" id="sitemap">
@@ -83,15 +90,32 @@ if (isset($_GET['url'])) {
                         <div class="panel-heading">
                             <h3 class="panel-title">Sitemap</h3>
                         </div>
-                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
+                        <div class="panel-body response">
+                            <div class="loader">
+                                <div class="loader-inner ball-clip-rotate-multiple">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-4" id="catalog">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Catalog</h3>
+                            <h3 class="panel-title">Catalog <span class="label label-info">?</span></h3>
                         </div>
-                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
+                        <div class="panel-body">
+                            <div class="alert alert-info">This only includes visible and enabled entities for this store view.</div>
+                            <div class="response">
+                                <div class="loader">
+                                    <div class="loader-inner ball-clip-rotate-multiple">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -101,21 +125,47 @@ if (isset($_GET['url'])) {
                         <div class="panel-heading">
                             <h3 class="panel-title">Technology</h3>
                         </div>
-                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
+                        <div class="panel-body response">
+                            <div class="loader">
+                                <div class="loader-inner ball-clip-rotate-multiple">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="panel panel-default" id="modules">
                         <div class="panel-heading">
                             <h3 class="panel-title">Modules</h3>
                         </div>
-                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
+                        <div class="panel-body response">
+                            <div class="loader">
+                                <div class="loader-message">This may take a while, depending on the server's response speed...</div>
+                                <div class="loader-inner ball-clip-rotate-multiple">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-8" id="unreachablepath">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Sensitive URLs</h3>
+                            <h3 class="panel-title">Sensitive URLs <span class="label label-info">?</span></h3>
                         </div>
-                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
+                        <div class="panel-body">
+                            <div class="alert alert-info">These are URLs that may reveal sensative information about the system.  They shouldn't be visible to the public.</div>
+                            <div class="response">
+                                <div class="loader">
+                                    <div class="loader-message">This may take a while, depending on the server's response speed...</div>
+                                    <div class="loader-inner ball-clip-rotate-multiple">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
