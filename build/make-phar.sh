@@ -2,7 +2,7 @@
 
 ROOT=/var/www/html/mga.project.steverobbins.name
 REQUEST=$ROOT/build/request
-BIN_BOX=$ROOT/build/box2/bin/box
+BIN_BOX=$ROOT/build/box.phar
 BIN_COMPOSER=/usr/local/bin/composer
 REPO_URL=https://github.com/steverobbins/magento-guest-audit.git
 REPO_FOLDER=$ROOT/build/mga

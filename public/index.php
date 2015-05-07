@@ -47,7 +47,7 @@ if (isset($_GET['url'])) {
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="https://github.com/steverobbins/magento-guest-audit">GitHub</a></li>
-                    <li><a href="/build/mga.phar">Download <strong>mga.phar</strong></a></li>
+                    <li><a href="download/mga.phar">Download <strong>mga.phar</strong></a></li>
                 </ul>
             </div>
         </div>

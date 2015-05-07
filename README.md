@@ -28,11 +28,11 @@ For in depth analyses, consider:
 
 ### .phar
 
-* Download the [`mga.phar`](http://mga.project.steverobbins.name/mga.phar) file
+* Download the [`mga.phar`](http://mga.project.steverobbins.name/download/mga.phar) file
 * Run in command line with the `php` command
 
 ```
-curl -o mga.phar http://mga.project.steverobbins.name/mga.phar
+curl -o mga.phar http://mga.project.steverobbins.name/download/mga.phar
 php mga.phar scan www.example.com
 ```
 

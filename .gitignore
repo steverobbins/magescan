@@ -1,11 +1,11 @@
 /composer.lock
 /composer.phar
-/build/box2
+/build/box.phar
 /build/build.log
 /build/mga
 /build/request
 /mga.phar
 /public/download/mga.phar
-/public/download/version
+/build/version
 /vendor
 .DS*
