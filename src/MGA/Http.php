@@ -171,8 +171,13 @@ class Http
                 $result[0] = '<a target="_blank" href="' . $this->url . $result[0] . '">' . $result[0] . '</a>';
                 $result[2] = '<span class="fail">Reachable</span>';
             } elseif (substr($result[1], 0, 1) == 3) {
-                $result[0] = '<a target="_blank" href="' . $result[2] . '">' . $result[0] . '</a>';
-                $result[2] = '<a target="_blank" href="' . $result[2] . '">Redirect</a>';
+                if (strpos($result[2], 0, 4) == 'http') {
+                    $newUrl = $result[2];
+                } else {
+                    $newUrl = $this->url . substr($result[2], 1);
+                }
+                $result[0] = '<a target="_blank" href="' . $newUrl . '">' . $result[0] . '</a>';
+                $result[2] = '<a target="_blank" href="' . $newUrl . '">Redirect</a>';
             }
             $urls[] = $result;
         }
