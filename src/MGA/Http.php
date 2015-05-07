@@ -27,7 +27,7 @@ class Http
 {
     /**
      * The URL we are scanning
-     * 
+     *
      * @var string
      */
     public $url;
@@ -40,7 +40,7 @@ class Http
      */
     public function __construct($code, $url)
     {
-        $mgaUrl = new Url;
+        $mgaUrl    = new Url;
         $this->url = $mgaUrl->clean(urldecode($url));
         call_user_func(array($this, 'check' . ucwords($code)));
     }
@@ -50,7 +50,7 @@ class Http
      */
     public function checkMagentoinfo()
     {
-        $request = new Request;
+        $request  = new Request;
         $response = $request->fetch(
             $this->url . 'js/varien/product.js',
             array(
@@ -60,7 +60,7 @@ class Http
         $version = new Version;
         $edition = $version->getMagentoEdition($response);
         $version = $version->getMagentoVersion($response, $edition);
-        $rows = array(
+        $rows    = array(
             array('Edition', $edition),
             array('Version', $version)
         );
@@ -72,9 +72,8 @@ class Http
      */
     public function checkModules()
     {
-        $rows = array();
+        $rows   = array();
         $module = new Module;
-        $found = $notFound = array();
         foreach ($module->checkForModules($this->url) as $name => $exists) {
             if (!$exists) {
                 continue;
@@ -95,15 +94,15 @@ class Http
      */
     public function checkCatalog()
     {
-        $rows = array();
-        $catalog  = new Catalog;
+        $rows          = array();
+        $catalog       = new Catalog;
         $categoryCount = $catalog->categoryCount($this->url);
-        $rows[] = array(
+        $rows[]        = array(
             'Categories',
             $categoryCount !== false ? $categoryCount : 'Unknown'
         );
         $productCount = $catalog->productCount($this->url);
-        $rows[] = array(
+        $rows[]       = array(
             'Products',
             $productCount !== false ? $productCount : 'Unknown'
         );
@@ -115,11 +114,11 @@ class Http
      */
     public function checkSitemap()
     {
-        $rows = array();
-        $request = new Request;
-        $response = $request->fetch($this->url . 'robots.txt');
-        $sitemap = new Sitemap;
-        $sitemapUrl  = $sitemap->getSitemapFromRobotsTxt($response);
+        $rows       = array();
+        $request    = new Request;
+        $response   = $request->fetch($this->url . 'robots.txt');
+        $sitemap    = new Sitemap;
+        $sitemapUrl = $sitemap->getSitemapFromRobotsTxt($response);
         if ($sitemapUrl === false) {
             $rows[] = array('<span class="fail">Sitemap is not declared in robots.txt</span>');
             $sitemapUrl = $this->url . 'sitemap.xml';
@@ -127,7 +126,7 @@ class Http
             $rows[] = array('<span class="pass">Sitemap is declared in robots.txt</span>');
         }
         $request = new Request;
-        $response = $request->fetch($sitemapUrl, array(
+        $response = $request->fetch((string) $sitemapUrl, array(
             CURLOPT_NOBODY         => true,
             CURLOPT_FOLLOWLOCATION => true
         ));
@@ -144,9 +143,9 @@ class Http
      */
     public function checkServertech()
     {
-        $rows = array();
+        $rows       = array();
         $techHeader = new TechHeader;
-        $values = $techHeader->getHeaders($this->url);
+        $values     = $techHeader->getHeaders($this->url);
         if (empty($values)) {
             $rows[] = array('No detectable technology was found');
         }
@@ -162,7 +161,7 @@ class Http
     public function checkUnreachablepath()
     {
         $unreachablePath = new UnreachablePath;
-        $rows = $unreachablePath->checkPaths($this->url, true);
+        $rows            = $unreachablePath->checkPaths($this->url, true);
         foreach ($rows as &$result) {
             if ($result[2] === false) {
                 $result[0] = '<a target="_blank" href="' . $this->url . $result[0] . '">' . $result[0] . '</a>';
