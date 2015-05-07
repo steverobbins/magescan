@@ -54,7 +54,7 @@ class Catalog
         $response = $request->fetch($url . 'catalog/seo_sitemap/' . $entity, array(
             CURLOPT_FOLLOWLOCATION => true
         ));
-        $match = $request->findMatchInResponse($response, '/Items? -?[0-9]+[a-z0-9- ]+ of ([0-9]+)/');
+        $match = $request->findMatchInResponse($response, '/-?[0-9]+[a-z0-9- ]+ of ([0-9]+)/');
         if (!$match) {
             $match = $request->findMatchInResponse($response, '/([0-9]+) Item\(s\)/');
         }
