@@ -171,7 +171,7 @@ class Http
                 $result[0] = '<a target="_blank" href="' . $this->url . $result[0] . '">' . $result[0] . '</a>';
                 $result[2] = '<span class="fail">Reachable</span>';
             } elseif (substr($result[1], 0, 1) == 3) {
-                if (strpos($result[2], 0, 4) == 'http') {
+                if (substr($result[2], 0, 4) == 'http') {
                     $newUrl = $result[2];
                 } else {
                     $newUrl = $this->url . substr($result[2], 1);
