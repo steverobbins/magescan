@@ -17,7 +17,6 @@ var MGA;
             });
         },
         render: function(data) {
-            console.log(data);
             var html = '<table class="table">',
                 noHead = true;
             if (data.head) {

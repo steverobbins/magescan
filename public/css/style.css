@@ -5,3 +5,14 @@
 .fail {
     color: red;
 }
+
+.loader {
+    width: 1px;
+    margin: 20px auto;
+    height: 1px;
+    text-align: center;
+}
+
+.loader .loader-inner div {
+    border-color: grey transparent;
+}

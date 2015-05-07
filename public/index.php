@@ -26,8 +26,10 @@ if (isset($_GET['url'])) {
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Magento Guest Audit</title>
+    <title><?php echo $url ? $url . ' - ' : '' ?>Magento Guest Audit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/loaders.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -40,18 +42,19 @@ if (isset($_GET['url'])) {
         </button>
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">Magento Guest Audit</a>
+                <a class="navbar-brand" href="/"><?php echo file_get_contents('../build/version') ?></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="https://github.com/steverobbins/magento-guest-audit">GitHub</a></li>
+                    <li><a href="/build/mga.phar">Download <strong>mga.phar</strong></a></li>
                 </ul>
             </div>
         </div>
     </nav>
     <div class="container">
         <div class="page-header">
-            <h1>Start a New Scan</h1>
+            <h1>New Scan</h1>
         </div>
         <form id="mga-form" method="get" action="/">
             <fieldset>
@@ -70,9 +73,9 @@ if (isset($_GET['url'])) {
                 <div class="col-sm-4" id="magentoinfo">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Magento Information</h3>
+                            <h3 class="panel-title">Magento</h3>
                         </div>
-                        <div class="panel-body response">Scanning...</div>
+                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
                     </div>
                 </div>
                 <div class="col-sm-4" id="sitemap">
@@ -80,43 +83,39 @@ if (isset($_GET['url'])) {
                         <div class="panel-heading">
                             <h3 class="panel-title">Sitemap</h3>
                         </div>
-                        <div class="panel-body response">Scanning...</div>
+                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
                     </div>
                 </div>
-                <div class="col-sm-4" id="servertech">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Server Technology</h3>
-                        </div>
-                        <div class="panel-body response">Scanning...</div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-sm-4" id="catalog">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Catalog Information</h3>
+                            <h3 class="panel-title">Catalog</h3>
                         </div>
-                        <div class="panel-body response">Scanning...</div>
+                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6" id="modules">
-                    <div class="panel panel-default">
+                <div class="col-sm-4">
+                    <div class="panel panel-default" id="servertech">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Installed Modules</h3>
+                            <h3 class="panel-title">Technology</h3>
                         </div>
-                        <div class="panel-body response">Scanning...</div>
+                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
+                    </div>
+                    <div class="panel panel-default" id="modules">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Modules</h3>
+                        </div>
+                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
                     </div>
                 </div>
-                <div class="col-sm-6" id="unreachablepath">
+                <div class="col-sm-8" id="unreachablepath">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Unreachable Path Check</h3>
+                            <h3 class="panel-title">Sensitive URLs</h3>
                         </div>
-                        <div class="panel-body response">Scanning...</div>
+                        <div class="panel-body response"><div class="loader"><div class="loader-inner ball-clip-rotate-multiple"><div></div><div></div></div></div></div>
                     </div>
                 </div>
             </div>
@@ -131,5 +130,13 @@ if (isset($_GET['url'])) {
     </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <?php endif ?>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-16126282-21', 'auto');
+        ga('send', 'pageview');
+    </script>
 </body>
 </html>
