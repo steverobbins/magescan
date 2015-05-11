@@ -34,3 +34,24 @@
 .panel-body .alert-info {
     display: none;
 }
+
+.page-header h1,
+.page-header h2,
+form,
+.suggest {
+    text-align: center;
+}
+
+input {
+    margin: 0 auto;
+    padding: 10px;
+}
+
+input[type=text] {
+    min-width: 300px;
+}
+
+.suggest {
+    margin-top: 10px;
+    font-style: italic;
+}

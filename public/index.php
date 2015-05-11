@@ -6,18 +6,21 @@ use MageScan\Url;
 use MageScan\Request;
 
 if (isset($_GET['url'])) {
+    $url = $_GET['url'];
     $magescanUrl = new Url;
     $url = $magescanUrl->clean(urldecode($_GET['url']));
     $request = new Request;
     $response = $request->fetch($url, array(
         CURLOPT_NOBODY => true
     ));
+    $suggestUrl = '';
     if (isset($response->header['Location'])) {
-        $url = $response->header['Location'];
+        $suggestUrl = $response->header['Location'];
     }
     if (isset($response->header['location'])) {
-        $url = $response->header['location'];
+        $suggestUrl = $response->header['location'];
     }
+    $suggestUrl = trim($suggestUrl, '/');
 } else {
     $url = false;
 }
@@ -54,19 +57,24 @@ if (isset($_GET['url'])) {
     </nav>
     <div class="container">
         <div class="page-header">
-            <h1>New Scan</h1>
+            <h1>Start Here</h1>
         </div>
         <form id="magescan-form" method="get" action="/">
             <fieldset>
-                <input type="text" placeholder="Magento URL" name="url"<?php echo $url ? ' value="' . $url . '"' : '' ?> />
+                <input type="text" placeholder="http://store.example.com/" name="url"<?php echo $url ? ' value="' . $url . '"' : '' ?> />
                 <input type="submit" value="Scan" />
             </fieldset>
         </form>
+        <?php if ($url != $suggestUrl): ?>
+        <div class="suggest">
+            Did you mean <a href="?url=<?php echo urlencode($suggestUrl) ?>"><?php echo $suggestUrl ?></a>?
+        </div>
+        <?php endif ?>
     </div>
     <?php if ($url): ?>
     <div class="container">
         <div class="page-header">
-            <h1>Results for <a href="<?php echo $url ?>"><?php echo $url ?></a></h1>
+            <h2>Results for <a href="<?php echo $url ?>"><?php echo $url ?></a></h2>
         </div>
         <div id="results">
             <div class="row">
