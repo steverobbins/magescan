@@ -7,12 +7,30 @@
 }
 
 .loader {
+    text-align: center;
+}
+
+.loader-inner {
     width: 1px;
     margin: 20px auto;
     height: 1px;
-    text-align: center;
+}
+
+.loader-message + .loader-inner {
+    margin-top: 30px;
 }
 
 .loader .loader-inner div {
     border-color: grey transparent;
+}
+
+.serverError {
+    text-align: center;
+    font-style: italic;
+    color: grey;
+    font-size: 12px;
+}
+
+.panel-body .alert-info {
+    display: none;
 }

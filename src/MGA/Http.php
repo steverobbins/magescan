@@ -160,23 +160,37 @@ class Http
      */
     public function checkUnreachablepath()
     {
+        $urls            = array();
         $unreachablePath = new UnreachablePath;
-        $rows            = $unreachablePath->checkPaths($this->url, true);
-        foreach ($rows as &$result) {
+        $results         = $unreachablePath->checkPaths($this->url, true);
+        foreach ($results as $result) {
+            if ($result[2] === true) {
+                continue;
+            }
             if ($result[2] === false) {
                 $result[0] = '<a target="_blank" href="' . $this->url . $result[0] . '">' . $result[0] . '</a>';
                 $result[2] = '<span class="fail">Reachable</span>';
-            } elseif ($result[2] === true) {
-                $result[2] = '<span class="pass">Unreachable</span>';
             } elseif (substr($result[1], 0, 1) == 3) {
-                $result[0] = '<a target="_blank" href="' . $result[2] . '">' . $result[0] . '</a>';
-                $result[2] = '<a target="_blank" href="' . $result[2] . '">Redirect</a>';
+                if (substr($result[2], 0, 4) == 'http') {
+                    $newUrl = $result[2];
+                } else {
+                    $newUrl = $this->url . substr($result[2], 1);
+                }
+                $result[0] = '<a target="_blank" href="' . $newUrl . '">' . $result[0] . '</a>';
+                $result[2] = '<a target="_blank" href="' . $newUrl . '">Redirect</a>';
             }
+            $urls[] = $result;
         }
-        $this->respond(array(
-            'head' => array('Path', 'Response Code', 'Status'),
-            'body' => $rows
-        ));
+        if (count($urls)) {
+            $this->respond(array(
+                'head' => array('Path', 'Response Code', 'Status'),
+                'body' => $urls
+            ));
+        } else {
+            $this->respond(array(
+                'body' => array(array('No sensitive urls were found'))
+            ));
+        }
     }
 
     /**
