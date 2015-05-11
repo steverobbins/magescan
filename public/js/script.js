@@ -1,4 +1,4 @@
-var MGA;
+var MageScan;
 (function($) {
     $(document).ready(function() {
         $('.panel .label-info').each(function() {
@@ -10,7 +10,7 @@ var MGA;
             });
         });
     });
-    MGA = {
+    MageScan = {
         scan: function(url) {
             this.url = encodeURIComponent(url);
             this.get('magentoinfo');

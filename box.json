@@ -1,6 +1,6 @@
 {
-    "main": "bin/mga",
-    "output": "mga.phar",
+    "main": "bin/magescan",
+    "output": "magescan.phar",
     "chmod": "0755",
     "compression": "GZ",
     "extract": false,

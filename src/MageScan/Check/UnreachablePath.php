@@ -1,17 +1,17 @@
 <?php
 /**
- * Magento Guest Audit
+ * Mage Scan
  *
  * PHP version 5
  *
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
  * @license   http://creativecommons.org/licenses/by/4.0/
- * @link      https://github.com/steverobbins/magento-guest-audit
+ * @link      https://github.com/steverobbins/magescan
  */
 
-namespace MGA\Check;
+namespace MageScan\Check;
 
-use MGA\Request;
+use MageScan\Request;
 
 /**
  * Checks that files/folder aren't accessible

@@ -2,10 +2,10 @@
 /composer.phar
 /build/box.phar
 /build/build.log
-/build/mga
+/build/magescan
 /build/request
-/mga.phar
-/public/download/mga.phar
+/magescan.phar
+/public/download/magescan.phar
 /build/version
 /vendor
 .DS*

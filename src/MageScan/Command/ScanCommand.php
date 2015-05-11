@@ -1,24 +1,24 @@
 <?php
 /**
- * Magento Guest Audit
+ * Mage Scan
  *
  * PHP version 5
  *
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
  * @license   http://creativecommons.org/licenses/by/4.0/
- * @link      https://github.com/steverobbins/magento-guest-audit
+ * @link      https://github.com/steverobbins/magescan
  */
 
-namespace MGA\Command;
+namespace MageScan\Command;
 
-use MGA\Check\Catalog;
-use MGA\Check\Module;
-use MGA\Check\Sitemap;
-use MGA\Check\TechHeader;
-use MGA\Check\UnreachablePath;
-use MGA\Check\Version;
-use MGA\Request;
-use MGA\Url;
+use MageScan\Check\Catalog;
+use MageScan\Check\Module;
+use MageScan\Check\Sitemap;
+use MageScan\Check\TechHeader;
+use MageScan\Check\UnreachablePath;
+use MageScan\Check\Version;
+use MageScan\Request;
+use MageScan\Url;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;

@@ -2,12 +2,12 @@
 
 include '../vendor/autoload.php';
 
-use MGA\Url;
-use MGA\Request;
+use MageScan\Url;
+use MageScan\Request;
 
 if (isset($_GET['url'])) {
-    $mgaUrl = new Url;
-    $url = $mgaUrl->clean(urldecode($_GET['url']));
+    $magescanUrl = new Url;
+    $url = $magescanUrl->clean(urldecode($_GET['url']));
     $request = new Request;
     $response = $request->fetch($url, array(
         CURLOPT_NOBODY => true
@@ -26,7 +26,7 @@ if (isset($_GET['url'])) {
 <html>
 <head>
     <meta charset="UTF-8">
-    <title><?php echo $url ? $url . ' - ' : '' ?>Magento Guest Audit</title>
+    <title>Mage Scan<?php echo $url ? ' - ' .$url : '' ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/loaders.min.css">
@@ -46,8 +46,8 @@ if (isset($_GET['url'])) {
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="https://github.com/steverobbins/magento-guest-audit">GitHub</a></li>
-                    <li><a href="download/mga.phar">Download <strong>mga.phar</strong></a></li>
+                    <li><a href="https://github.com/steverobbins/magescan">GitHub</a></li>
+                    <li><a href="download/magescan.phar">Download <strong>magescan.phar</strong></a></li>
                 </ul>
             </div>
         </div>
@@ -56,7 +56,7 @@ if (isset($_GET['url'])) {
         <div class="page-header">
             <h1>New Scan</h1>
         </div>
-        <form id="mga-form" method="get" action="/">
+        <form id="magescan-form" method="get" action="/">
             <fieldset>
                 <input type="text" placeholder="Magento URL" name="url"<?php echo $url ? ' value="' . $url . '"' : '' ?> />
                 <input type="submit" value="Scan" />
@@ -175,11 +175,11 @@ if (isset($_GET['url'])) {
     <script src="js/script.js"></script>
     <script>
         jQuery(document).ready(function() {
-            MGA.scan('<?php echo $url ?>');  
+            MageScan.scan('<?php echo $url ?>');  
         })
     </script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <?php endif ?>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

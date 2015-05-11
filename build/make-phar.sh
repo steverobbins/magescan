@@ -1,12 +1,12 @@
 #!/bin/bash
 
-ROOT=/var/www/html/mga.project.steverobbins.name
+ROOT=/var/www/html/magescan.project.steverobbins.name
 REQUEST=$ROOT/build/request
 BIN_BOX=$ROOT/build/box.phar
 BIN_COMPOSER=/usr/local/bin/composer
-REPO_URL=https://github.com/steverobbins/magento-guest-audit.git
-REPO_FOLDER=$ROOT/build/mga
-PHAR_DEST=$ROOT/public/download/mga.phar
+REPO_URL=https://github.com/steverobbins/magescan.git
+REPO_FOLDER=$ROOT/build/magescan
+PHAR_DEST=$ROOT/public/download/magescan.phar
 VERSION=$ROOT/build/version
 
 if [ ! -f $REQUEST ]; then
@@ -19,6 +19,6 @@ cd $REPO_FOLDER
 $BIN_COMPOSER --no-dev install
 $BIN_BOX build -c box.json
 rm -f $PHAR_DEST
-mv $REPO_FOLDER/mga.phar $PHAR_DEST
+mv $REPO_FOLDER/magescan.phar $PHAR_DEST
 php $PHAR_DEST --version > $VERSION
 echo Done

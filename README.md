@@ -1,15 +1,15 @@
-Magento Guest Audit
+Mage Scan
 ===
 
-[![Master Build Status](https://img.shields.io/travis/steverobbins/magento-guest-audit/master.svg?style=flat-square)](https://travis-ci.org/steverobbins/magento-guest-audit)
-[![Master Code Quality](https://img.shields.io/scrutinizer/g/steverobbins/magento-guest-audit/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/steverobbins/magento-guest-audit/?branch=master)
-[![Master Code Coverage](https://img.shields.io/coveralls/steverobbins/magento-guest-audit/master.svg?style=flat-square)](https://coveralls.io/r/steverobbins/magento-guest-audit?branch=master)
-[![Latest Stable Version](https://img.shields.io/packagist/v/steverobbins/magento-guest-audit.svg?style=flat-square)](https://packagist.org/packages/steverobbins/magento-guest-audit)
+[![Master Build Status](https://img.shields.io/travis/steverobbins/magescan/master.svg?style=flat-square)](https://travis-ci.org/steverobbins/magescan)
+[![Master Code Quality](https://img.shields.io/scrutinizer/g/steverobbins/magescan/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/steverobbins/magescan/?branch=master)
+[![Master Code Coverage](https://img.shields.io/coveralls/steverobbins/magescan/master.svg?style=flat-square)](https://coveralls.io/r/steverobbins/magescan?branch=master)
+[![Latest Stable Version](https://img.shields.io/packagist/v/steverobbins/magescan.svg?style=flat-square)](https://packagist.org/packages/steverobbins/magescan)
 [![Master Dependancies](https://www.versioneye.com/user/projects/5507a68b66e561507b0001ff/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5507a68b66e561507b0001ff)
 
 The idea behind this is to evaluate the quality and security of a Magento site you don't have access to.  The scenario when you're interviewing a potential developer or vetting a new client and want to have an idea of what you're getting into.
 
-![Screenshot](http://i.imgur.com/uC1ZD8i.png)
+![Screenshot](http://i.imgur.com/hL9bE1S.png)
 
 # Disclaimer
 
@@ -28,12 +28,12 @@ For in depth analyses, consider:
 
 ### .phar
 
-* Download the [`mga.phar`](http://mga.project.steverobbins.name/download/mga.phar) file
+* Download the [`magescan.phar`](http://magescan.project.steverobbins.name/download/magescan.phar) file
 * Run in command line with the `php` command
 
 ```
-curl -o mga.phar http://mga.project.steverobbins.name/download/mga.phar
-php mga.phar scan www.example.com
+curl -o magescan.phar http://magescan.project.steverobbins.name/download/magescan.phar
+php magescan.phar scan www.example.com
 ```
 
 
@@ -43,17 +43,17 @@ php mga.phar scan www.example.com
 * Install with composer
 
 ```
-git clone https://github.com/steverobbins/magento-guest-audit mga
-cd mga
+git clone https://github.com/steverobbins/magescan magescan
+cd magescan
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install
-bin/mga scan www.example.com
+bin/magescan scan www.example.com
 ```
 
 ### Composer
 
 ```
-composer require steverobbins/magento-guest-audit --dev
+composer require steverobbins/magescan --dev
 ```
 
 ### Include in your project
@@ -62,13 +62,13 @@ Add the following to your `composer.json`
 
 ```
 "require": {
-    "steverobbins/magento-guest-audit": "dev-master"
+    "steverobbins/magescan": "dev-master"
 }
 ```
 
 # Usage
 
-    $ mga scan store.example.com
+    $ magescan scan store.example.com
 
 ## Commands
 
@@ -90,7 +90,7 @@ Show all modules that we tried to detect, not just those that were found
 
 # Support
 
-Please [create an issue](https://github.com/steverobbins/magento-guest-audit/issues/new) for all bugs and feature requests
+Please [create an issue](https://github.com/steverobbins/magescan/issues/new) for all bugs and feature requests
 
 # Contributing
 

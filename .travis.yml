@@ -18,9 +18,9 @@ install:
   - composer install -n --prefer-source
 
 script:
-  - vendor/bin/phpcs --standard=./phpcs.xml --encoding=utf-8 ./src
+  - vendor/bin/phpcs --standard=./phpcs.xml -v --encoding=utf-8 ./src
   - mkdir -p build/logs
-  - vendor/bin/phpunit --debug --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit -c phpunit.xml --debug --coverage-clover build/logs/clover.xml
 
 after_script:
   - php vendor/bin/coveralls -v
