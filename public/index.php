@@ -65,7 +65,7 @@ if (isset($_GET['url'])) {
                 <input type="submit" value="Scan" />
             </fieldset>
         </form>
-        <?php if ($url != $suggestUrl): ?>
+        <?php if ($suggestUrl && $url != $suggestUrl): ?>
         <div class="suggest">
             Did you mean <a href="?url=<?php echo urlencode($suggestUrl) ?>"><?php echo $suggestUrl ?></a>?
         </div>
