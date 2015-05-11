@@ -8,11 +8,12 @@ use MageScan\Request;
 if (isset($_GET['url'])) {
     $url = $_GET['url'];
     $magescanUrl = new Url;
-    $suggestUrl = $magescanUrl->clean(urldecode($_GET['url']));
+    $url = $magescanUrl->clean(urldecode($_GET['url']));
     $request = new Request;
-    $response = $request->fetch($suggestUrl, array(
+    $response = $request->fetch($url, array(
         CURLOPT_NOBODY => true
     ));
+    $suggestUrl = '';
     if (isset($response->header['Location'])) {
         $suggestUrl = $response->header['Location'];
     }
