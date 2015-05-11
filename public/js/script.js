@@ -4,9 +4,9 @@ var MageScan;
         $('.panel .label-info').each(function() {
             var info = $(this).closest('.panel').find('.alert-info');
             $(this).hover(function() {
-                info.show();
+                info.slideDown(100);
             }, function() {
-                info.hide();
+                info.slideUp(100);
             });
         });
     });
