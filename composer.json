@@ -21,5 +21,8 @@
             "": "src"
         }
     },
-    "bin": ["bin/magescan"]
+    "bin": ["bin/magescan"],
+    "replace": {
+        "steverobbins/magento-guest-audit": "*"
+    }
 }
