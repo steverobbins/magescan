@@ -1,6 +1,6 @@
 {
-    "name": "steverobbins/magento-guest-audit",
-    "description": "Detect vulnerabilies of a Magento application",
+    "name": "steverobbins/magescan",
+    "description": "Scan a Magento application for information",
     "license": "CC-BY-4.0",
     "authors": [
         {
@@ -21,5 +21,5 @@
             "": "src"
         }
     },
-    "bin": ["bin/mga"]
+    "bin": ["bin/magescan"]
 }

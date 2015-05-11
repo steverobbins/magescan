@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="MGA-Mage1">
+<ruleset name="MageScan-Mage1">
     <description>Magento extension ruleset based on PSR-2 but modified for Magento 1</description>
 
     <rule ref="PSR2">
