@@ -86,5 +86,6 @@ class Version
                 return $edition == self::EDITION_ENTERPRISE ?
                     '1.9 - 1.10' : '1.4 - 1.5';
         }
+        return 'Unknown';
     }
 }
