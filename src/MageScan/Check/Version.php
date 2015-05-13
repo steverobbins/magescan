@@ -68,6 +68,7 @@ class Version
     protected function getMagentoVersionByYear($year, $edition)
     {
         switch ($year) {
+            case '2006-2015':
             case '2006-2014':
             case '2014':
                 return $edition == self::EDITION_ENTERPRISE ?
