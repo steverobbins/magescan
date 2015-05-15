@@ -1,0 +1,6 @@
+autoloaders:
+  MageScan: %module%/src
+
+commands:
+  customCommands:
+    - "magescan:scan": MageScan\Command\ScanCommand
