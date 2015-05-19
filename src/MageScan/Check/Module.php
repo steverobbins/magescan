@@ -75,13 +75,9 @@ class Module
     public function checkForModules($url)
     {
         $modules = array();
-        $request = new Request;
         foreach ($this->files as $file => $name) {
-            $response = $request->fetch($url . $file, array(
-                CURLOPT_NOBODY         => true,
-                CURLOPT_FOLLOWLOCATION => true
-            ));
-            if ($response->code == 200 && (!isset($modules[$name]) || $modules[$name] === false)) {
+            $response = $this->checkForModule($url, $file);
+            if ($response && (!isset($modules[$name]) || $modules[$name] === false)) {
                 $modules[$name] = true;
             } else {
                 $modules[$name] = false;
@@ -89,5 +85,22 @@ class Module
         }
         ksort($modules);
         return $modules;
+    }
+
+    /**
+     * Check for a module file that exist in a url
+     *
+     * @param  string $url
+     * @param  string $file
+     * @return boolean
+     */
+    public function checkForModule($url, $file)
+    {
+        $request = new Request;
+        $response = $request->fetch($url . $file, array(
+            CURLOPT_NOBODY         => true,
+            CURLOPT_FOLLOWLOCATION => true
+        ));
+        return $response->code == 200;
     }
 }

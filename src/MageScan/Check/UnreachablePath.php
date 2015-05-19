@@ -106,18 +106,30 @@ class UnreachablePath
     public function checkPaths($url, $all = false)
     {
         $result = array();
-        $request = new Request;
         foreach ($this->getPaths($all) as $path) {
-            $response = $request->fetch($url . $path, array(
-                CURLOPT_NOBODY => true
-            ));
-            $result[] = array(
-                $path,
-                $response->code,
-                $this->getUnreachableStatus($url, $response)
-            );
+            $result[] = $this->checkPath($url, $path);
         }
         return $result;
+    }
+
+    /**
+     * Test that a path is inaccessible
+     *
+     * @param  string  $url
+     * @param  string  $path
+     * @return array
+     */
+    public function checkPath($url, $path)
+    {
+        $request = new Request;
+        $response = $request->fetch($url . $path, array(
+            CURLOPT_NOBODY => true
+        ));
+        return array(
+            $path,
+            $response->code,
+            $this->getUnreachableStatus($url, $response)
+        );
     }
 
     /**

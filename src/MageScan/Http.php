@@ -72,21 +72,23 @@ class Http
      */
     public function checkModules()
     {
-        $rows   = array();
         $module = new Module;
-        foreach ($module->checkForModules($this->url) as $name => $exists) {
-            if (!$exists) {
-                continue;
-            }
-            $rows[] = array($name, 'Yes');
+        $this->respond(array_keys($module->files));
+    }
+
+    /**
+     * Check for an installed module
+     */
+    public function checkModulessingle()
+    {
+        $module = new Module;
+        $file   = $_GET['path'];
+        $result = $module->checkForModule($this->url, $_GET['path']);
+        if ($result) {
+            $this->respond(array(
+                isset($module->files[$file]) ? $module->files[$file] : '<!-- how did this happen -->'
+            ));
         }
-        if (empty($rows)) {
-            return $this->respond(array('body' => array(array('No detectable modules were found'))));
-        }
-        $this->respond(array(
-            'head' => array('Module', 'Installed'),
-            'body' => $rows
-        ));
     }
 
     /**
@@ -162,35 +164,35 @@ class Http
     {
         $urls            = array();
         $unreachablePath = new UnreachablePath;
-        $results         = $unreachablePath->checkPaths($this->url, true);
-        foreach ($results as $result) {
-            if ($result[2] === true) {
-                continue;
-            }
-            if ($result[2] === false) {
-                $result[0] = '<a target="_blank" href="' . $this->url . $result[0] . '">' . $result[0] . '</a>';
-                $result[2] = '<span class="fail">Reachable</span>';
-            } elseif (substr($result[1], 0, 1) == 3) {
-                if (substr($result[2], 0, 4) == 'http') {
-                    $newUrl = $result[2];
-                } else {
-                    $newUrl = $this->url . substr($result[2], 1);
-                }
-                $result[0] = '<a target="_blank" href="' . $newUrl . '">' . $result[0] . '</a>';
-                $result[2] = '<a target="_blank" href="' . $newUrl . '">Redirect</a>';
-            }
-            $urls[] = $result;
+        return $this->respond($unreachablePath->getPaths(true));
+    }
+
+    /**
+     * Check for unreachable paths
+     */
+    public function checkUnreachablepathsingle()
+    {
+        $urls            = array();
+        $unreachablePath = new UnreachablePath;
+        $result         = $unreachablePath->checkPath($this->url, $_GET['path']);
+        if ($result[2] === true) {
+            return false;
+            $result[2] = '<span class="pass">Unreachable</span>';
         }
-        if (count($urls)) {
-            $this->respond(array(
-                'head' => array('Path', 'Response Code', 'Status'),
-                'body' => $urls
-            ));
-        } else {
-            $this->respond(array(
-                'body' => array(array('No sensitive urls were found'))
-            ));
+        if ($result[2] === false) {
+            $result[0] = '<a target="_blank" href="' . $this->url . $result[0] . '">' . $result[0] . '</a>';
+            $result[2] = '<span class="fail">Reachable</span>';
+        } elseif (substr($result[1], 0, 1) == 3) {
+            if (substr($result[2], 0, 4) == 'http') {
+                $newUrl = $result[2];
+            } else {
+                $newUrl = $this->url . substr($result[2], 1);
+            }
+            $result[0] = '<a target="_blank" href="' . $newUrl . '">' . $result[0] . '</a>';
+            $result[2] = '<a target="_blank" href="' . $newUrl . '">Redirect</a>';
         }
+        $urls[] = $result;
+        $this->respond($result);
     }
 
     /**
