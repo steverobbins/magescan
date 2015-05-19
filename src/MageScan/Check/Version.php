@@ -35,9 +35,8 @@ class Version
                     return self::EDITION_ENTERPRISE;
                 } elseif (strpos($match[0], 'commercial') !== false) {
                     return self::EDITION_PROFESSIONAL;
-                } else {
-                    return self::EDITION_COMMUNITY;
                 }
+                return self::EDITION_COMMUNITY;
             }
         }
         return 'Unknown';
