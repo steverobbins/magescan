@@ -13,6 +13,7 @@ namespace MageScan;
 
 use MageScan\Check\Catalog;
 use MageScan\Check\Module;
+use MageScan\Check\Patch;
 use MageScan\Check\Sitemap;
 use MageScan\Check\TechHeader;
 use MageScan\Check\UnreachablePath;
@@ -89,6 +90,41 @@ class Http
                 isset($module->files[$file]) ? $module->files[$file] : '<!-- how did this happen -->'
             ));
         }
+    }
+
+    /**
+     * Check for install patches
+     */
+    public function checkPatch()
+    {
+        $patch   = new Patch;
+        $patches = $patch->checkAll($this->url);
+        $rows    = array();
+        foreach ($patches as $name => $result) {
+            switch ($result) {
+                case PATCH::PATCHED:
+                    $status = '<span class="pass">Patched</span class="pass">';
+                    break;
+                case PATCH::UNPATCHED:
+                    $status = '<span class="fail">Unpatched</span class="fail">';
+                    break;
+                default:
+                    $status = 'Unknown';
+            }
+            switch ($name) {
+                case 'SUPEE-5344':
+                    $name = '<a href="https://shoplift.byte.nl/scan/' . $patch->trimUrl($this->url) . '/admin">' . $name . '</a>';
+                    break;
+            }
+            $rows[] = array(
+                $name,
+                $status
+            );
+        }
+        $this->respond(array(
+            'head' => array('Patch', 'Status'),
+            'body' => $rows
+        ));
     }
 
     /**

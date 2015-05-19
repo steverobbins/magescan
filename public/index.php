@@ -142,6 +142,19 @@ if (isset($_GET['url'])) {
                             </div>
                         </div>
                     </div>
+                    <div class="panel panel-default" id="patch">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Patches</h3>
+                        </div>
+                        <div class="panel-body response">
+                            <div class="loader">
+                                <div class="loader-inner ball-clip-rotate-multiple">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="panel panel-default" id="modules">
                         <div class="panel-heading">
                             <h3 class="panel-title">Modules</h3>
