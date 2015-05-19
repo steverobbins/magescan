@@ -16,8 +16,9 @@ namespace MageScan\Check;
  */
 class Version
 {
-    const EDITION_ENTERPRISE = 'Enterprise';
-    const EDITION_COMMUNITY  = 'Community';
+    const EDITION_ENTERPRISE   = 'Enterprise';
+    const EDITION_PROFESSIONAL = 'Professional';
+    const EDITION_COMMUNITY    = 'Community';
 
     /**
      * Guess Magento edition from license in public file
@@ -30,8 +31,12 @@ class Version
         if ($response->code == 200) {
             preg_match('/@license.*/', $response->body, $match);
             if (isset($match[0])) {
-                return strpos($match[0], 'enterprise') !== false
-                    ? self::EDITION_ENTERPRISE : self::EDITION_COMMUNITY;
+                if (strpos($match[0], 'enterprise') !== false) {
+                    return self::EDITION_ENTERPRISE;
+                } elseif (strpos($match[0], 'commercial') !== false) {
+                    return self::EDITION_PROFESSIONAL;
+                }
+                return self::EDITION_COMMUNITY;
             }
         }
         return 'Unknown';
@@ -77,13 +82,13 @@ class Version
                 return $edition == self::EDITION_ENTERPRISE ?
                     '1.13' : '1.8';
             case 2012:
-                return $edition == self::EDITION_ENTERPRISE ?
+                return ($edition == self::EDITION_ENTERPRISE || $edition == self::EDITION_PROFESSIONAL) ?
                     '1.12' : '1.7';
             case 2011:
-                return $edition == self::EDITION_ENTERPRISE ?
+                return ($edition == self::EDITION_ENTERPRISE || $edition == self::EDITION_PROFESSIONAL) ?
                     '1.11' : '1.6';
             case 2010:
-                return $edition == self::EDITION_ENTERPRISE ?
+                return ($edition == self::EDITION_ENTERPRISE || $edition == self::EDITION_PROFESSIONAL) ?
                     '1.9 - 1.10' : '1.4 - 1.5';
         }
         return 'Unknown';

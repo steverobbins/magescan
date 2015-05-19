@@ -35,9 +35,6 @@ class VersionTest extends PHPUnit_Framework_TestCase
         $this->assertSame('Unknown', $version);
     }
 
-    /**
-     * Test for a missing product.js
-     */
     public function testFileMissing()
     {
         $response = new \stdClass;
@@ -51,9 +48,6 @@ class VersionTest extends PHPUnit_Framework_TestCase
         $this->assertSame('Unknown', $version);
     }
 
-    /**
-     * Test for a missing product.js
-     */
     public function testEnterprise114()
     {
         $response = new \stdClass;
@@ -77,9 +71,6 @@ FILE;
         $this->assertSame('1.14', $version);
     }
 
-    /**
-     * Test for a missing product.js
-     */
     public function testEnterprise113()
     {
         $response = new \stdClass;
@@ -103,9 +94,6 @@ FILE;
         $this->assertSame('1.13', $version);
     }
 
-    /**
-     * Test for a missing product.js
-     */
     public function testEnterprise112()
     {
         $response = new \stdClass;
@@ -129,9 +117,29 @@ FILE;
         $this->assertSame('1.12', $version);
     }
 
-    /**
-     * Test for a missing product.js
-     */
+    public function testProfessional112()
+    {
+        $response = new \stdClass;
+        $response->code = 200;
+        $response->body = <<<FILE
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Varien
+ * @package     js
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/commercial-edition
+ */
+if(typeof Product=='undefined') {
+    var Product = {};
+FILE;
+        $version = new Version;
+        $edition = $version->getMagentoEdition($response);
+        $this->assertSame('Professional', $edition);
+        $version = $version->getMagentoVersion($response, $edition);
+        $this->assertSame('1.12', $version);
+    }
+
     public function testCommunity19()
     {
         $response = new \stdClass;
@@ -155,9 +163,6 @@ FILE;
         $this->assertSame('1.9', $version);
     }
 
-    /**
-     * Test for a missing product.js
-     */
     public function testCommunity18()
     {
         $response = new \stdClass;
@@ -181,9 +186,6 @@ FILE;
         $this->assertSame('1.8', $version);
     }
 
-    /**
-     * Test for a missing product.js
-     */
     public function testCommunity17()
     {
         $response = new \stdClass;
