@@ -13,6 +13,7 @@ namespace MageScan\Command;
 
 use MageScan\Check\Catalog;
 use MageScan\Check\Module;
+use MageScan\Check\Patch;
 use MageScan\Check\Sitemap;
 use MageScan\Check\TechHeader;
 use MageScan\Check\UnreachablePath;
@@ -95,6 +96,7 @@ class ScanCommand extends Command
         $this->checkMagentoInfo();
         $this->checkModules($input->getOption('show-modules'));
         $this->checkCatalog();
+        $this->checkPatch();
         $this->checkSitemapExists();
         $this->checkServerTech();
         $this->checkUnreachablePath($input->getOption('all-paths'));
@@ -176,6 +178,37 @@ class ScanCommand extends Command
         );
         $this->getHelper('table')
             ->setHeaders(array('Type', 'Count'))
+            ->setRows($rows)
+            ->render($this->output);
+    }
+
+    /**
+     * Check for installed patches
+     */
+    protected function checkPatch()
+    {
+        $this->writeHeader('Patches');
+        $rows    = array();
+        $patch   = new Patch;
+        $patches = $patch->checkAll($this->url);
+        foreach ($patches as $name => $result) {
+            switch ($result) {
+                case PATCH::PATCHED:
+                    $status = '<bg=green>Patched</bg=green>';
+                    break;
+                case PATCH::UNPATCHED:
+                    $status = '<error>Unpatched</error>';
+                    break;
+                default:
+                    $status = 'Unknown';
+            }
+            $rows[] = array(
+                $name,
+                $status
+            );
+        }
+        $this->getHelper('table')
+            ->setHeaders(array('Name', 'Status'))
             ->setRows($rows)
             ->render($this->output);
     }

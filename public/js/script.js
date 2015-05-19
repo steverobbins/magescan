@@ -15,6 +15,7 @@ var MageScan;
             this.url = encodeURIComponent(url);
             this.get('magentoinfo');
             this.get('modules', this.processModules);
+            this.get('patch');
             this.get('catalog');
             this.get('sitemap');
             this.get('servertech');
