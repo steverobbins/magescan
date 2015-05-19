@@ -148,7 +148,6 @@ if (isset($_GET['url'])) {
                         </div>
                         <div class="panel-body response">
                             <div class="loader">
-                                <div class="loader-message">This may take a while, depending on the server's response speed...</div>
                                 <div class="loader-inner ball-clip-rotate-multiple">
                                     <div></div>
                                     <div></div>
@@ -166,7 +165,6 @@ if (isset($_GET['url'])) {
                             <div class="alert alert-info">These are URLs that may reveal sensative information about the system.  They shouldn't be visible to the public.</div>
                             <div class="response">
                                 <div class="loader">
-                                    <div class="loader-message">This may take a while, depending on the server's response speed...</div>
                                     <div class="loader-inner ball-clip-rotate-multiple">
                                         <div></div>
                                         <div></div>

@@ -14,16 +14,65 @@ var MageScan;
         scan: function(url) {
             this.url = encodeURIComponent(url);
             this.get('magentoinfo');
-            this.get('modules');
+            this.get('modules', this.processModules);
             this.get('catalog');
             this.get('sitemap');
             this.get('servertech');
-            this.get('unreachablepath');
+            this.get('unreachablepath', this.processUnreachablePath);
         },
-        get: function(code) {
+        processModules: function (that, code, response) {
+            $('#' + code ).find('.response').html($('#' + code ).find('.response').html() + that.render({"head":["Module","Installed"],"body":[]}));
+            var count = response.length,
+                done  = 0,
+                shown = 0;
+            for (var i = 0; i < response.length; ++i) {
+                var url = response[i];
+                $.get('ajax.php?code=modulessingle&path=' + url + '&url=' + that.url, function(response) {
+                    console.log(response);
+                    if (response) {
+                        var response = jQuery.parseJSON(response);
+                        shown++;
+                        $('#' + code ).find('.response tbody').append('<tr><td>' + response[0] + '</td><td class="pass">Yes</td></tr>');
+                    }
+                    if (++done == count) {
+                        $('#' + code ).find('.loader').remove();
+                        if (shown == 0) {
+                            $('#' + code ).find('.response').html('No detectable modules were found');
+                        }
+                    }
+                });
+            }
+        },
+        processUnreachablePath: function (that, code, response) {
+            $('#' + code ).find('.response').html($('#' + code ).find('.response').html() + that.render({"head":["Path","Response Code","Status"],"body":[]}));
+            var count = response.length,
+                done  = 0,
+                shown = 0;
+            for (var i = 0; i < response.length; ++i) {
+                var url = response[i];
+                $.get('ajax.php?code=unreachablepathsingle&path=' + url + '&url=' + that.url, function(response) {
+                    if (response) {
+                        shown++;
+                        var response = jQuery.parseJSON(response);
+                        $('#' + code ).find('.response tbody').append('<tr><td>' + response[0] + '</td><td>' + response[1] + '</td><td>' + response[2] + '</td></tr>');
+                    }
+                    if (++done == count) {
+                        $('#' + code ).find('.loader').remove();
+                        if (shown == 0) {
+                            $('#' + code ).find('.response').html('No sensitive URLs were found');
+                        }
+                    }
+                });
+            }
+        },
+        get: function(code, callback) {
             var that = this;
             $.get('ajax.php?code=' + code + '&url=' + this.url, function(response) {
-                $('#' + code ).find('.response').html(that.render(jQuery.parseJSON(response)));
+                if (typeof(callback) == "function") {
+                    callback(that, code, jQuery.parseJSON(response))
+                } else {
+                    $('#' + code ).find('.response').html(that.render(jQuery.parseJSON(response)));
+                }
             }).error(function(a) {
                 $('#' + code ).find('.response').html('<div class="alert alert-danger">' + a.statusText + '</div>');
             });
