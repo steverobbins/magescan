@@ -120,10 +120,10 @@ class Http
         $sitemap    = new Sitemap;
         $sitemapUrl = $sitemap->getSitemapFromRobotsTxt($response);
         if ($sitemapUrl === false) {
-            $rows[] = array('<span class="fail">Sitemap is not declared in robots.txt</span>');
+            $rows[] = array('<span class="fail">Sitemap is not declared in <a href="' . $this->url . 'robots.txt" target="_blank">robots.txt</a></span>');
             $sitemapUrl = $this->url . 'sitemap.xml';
         } else {
-            $rows[] = array('<span class="pass">Sitemap is declared in robots.txt</span>');
+            $rows[] = array('<span class="pass">Sitemap is declared in <a href="' . $this->url . 'robots.txt" target="_blank">robots.txt</a></span></span>');
         }
         $request = new Request;
         $response = $request->fetch((string) $sitemapUrl, array(
@@ -131,9 +131,9 @@ class Http
             CURLOPT_FOLLOWLOCATION => true
         ));
         if ($response->code == 200) {
-            $rows[] = array('<span class="pass">Sitemap is accessible</span>');
+            $rows[] = array('<span class="pass"><a href="' . $sitemapUrl . '" target="_blank">Sitemap</a> is accessible</span>');
         } else {
-            $rows[] = array('<span class="fail">Sitemap is not accessible</span>');
+            $rows[] = array('<span class="fail"><a href="' . $sitemapUrl . '" target="_blank">Sitemap</a> is not accessible</span>');
         }
         $this->respond(array('body' => $rows));
     }
