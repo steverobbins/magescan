@@ -162,7 +162,6 @@ class Http
      */
     public function checkUnreachablepath()
     {
-        $urls            = array();
         $unreachablePath = new UnreachablePath;
         return $this->respond($unreachablePath->getPaths(true));
     }
@@ -177,7 +176,6 @@ class Http
         $result         = $unreachablePath->checkPath($this->url, $_GET['path']);
         if ($result[2] === true) {
             return false;
-            $result[2] = '<span class="pass">Unreachable</span>';
         }
         if ($result[2] === false) {
             $result[0] = '<a target="_blank" href="' . $this->url . $result[0] . '">' . $result[0] . '</a>';
