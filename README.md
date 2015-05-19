@@ -11,19 +11,6 @@ The idea behind this is to evaluate the quality and security of a Magento site y
 
 ![Screenshot](http://i.imgur.com/dGyZsq4.png)
 
-# Disclaimer
-
-Since we can't see the code base, this tool makes assumptions and takes guesses.  Information reported isn't guaranteed to be correct.
-
-For in depth analyses, consider:
-
-* [mageaudit](https://github.com/steverobbins/mageaudit)
-* [Magento Project Mess Detector (for n98-magerun)](https://github.com/AOEpeople/mpmd)
-* [magniffer](https://github.com/magento-ecg/magniffer)
-* [Magento Coding Standard](https://github.com/magento-ecg/coding-standard)
-* [magecheck](https://github.com/gknoppe-guidance/magecheck)
-* [magento-check](http://www.magentocommerce.com/knowledge-base/entry/how-do-i-know-if-my-server-is-compatible-with-magento)
-
 # Installation
 
 ### .phar
@@ -48,6 +35,16 @@ cd magescan
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install
 bin/magescan scan www.example.com
+```
+
+### n98-magerun
+
+Clone into your `~/.n98-magerun/modules` directory
+
+```
+mkdir -p ~/.n98-magerun/modules
+git clone https://github.com/steverobbins/magescan ~/.n98-magerun/modules/magescan
+magerun magescan:scan store.example.com
 ```
 
 ### Composer
@@ -87,6 +84,19 @@ Checks additional paths that should not be accesible (this will make the scan ta
 ##### `--show-modules`
 
 Show all modules that we tried to detect, not just those that were found
+
+# Disclaimer
+
+Since we can't see the code base, this tool makes assumptions and takes guesses.  Information reported isn't guaranteed to be correct.
+
+For in depth analyses, consider:
+
+* [mageaudit](https://github.com/steverobbins/mageaudit)
+* [Magento Project Mess Detector (for n98-magerun)](https://github.com/AOEpeople/mpmd)
+* [magniffer](https://github.com/magento-ecg/magniffer)
+* [Magento Coding Standard](https://github.com/magento-ecg/coding-standard)
+* [magecheck](https://github.com/gknoppe-guidance/magecheck)
+* [magento-check](http://www.magentocommerce.com/knowledge-base/entry/how-do-i-know-if-my-server-is-compatible-with-magento)
 
 # Support
 
