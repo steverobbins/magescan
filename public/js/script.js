@@ -29,7 +29,6 @@ var MageScan;
             for (var i = 0; i < response.length; ++i) {
                 var url = response[i];
                 $.get('ajax.php?code=modulessingle&path=' + url + '&url=' + that.url, function(response) {
-                    console.log(response);
                     if (response) {
                         var response = jQuery.parseJSON(response);
                         shown++;
