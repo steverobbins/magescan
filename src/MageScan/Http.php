@@ -98,12 +98,12 @@ class Http
         $catalog       = new Catalog;
         $categoryCount = $catalog->categoryCount($this->url);
         $rows[]        = array(
-            'Categories',
+            '<a href="' . $this->url . 'catalog/seo_sitemap/category" target="_blank">Categories</a>',
             $categoryCount !== false ? $categoryCount : 'Unknown'
         );
         $productCount = $catalog->productCount($this->url);
         $rows[]       = array(
-            'Products',
+            '<a href="' . $this->url . 'catalog/seo_sitemap/product" target="_blank">Products</a>',
             $productCount !== false ? $productCount : 'Unknown'
         );
         $this->respond(array('body' => $rows));
