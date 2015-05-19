@@ -1,9 +1,7 @@
 /composer.lock
 /composer.phar
-/build/box.phar
-/build/build.log
-/build/magescan
-/build/request
+/build/*
+!/build/mage-phar.sh
 /magescan.phar
 /public/download/magescan.phar
 /build/version
