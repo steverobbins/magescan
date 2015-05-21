@@ -121,8 +121,7 @@ class UnreachablePath extends AbstractCheck
      */
     public function checkPath($url, $path)
     {
-        $request = $this->getRequest();
-        $response = $request->fetch($url . $path, array(
+        $response = $this->getRequest()->fetch($url . $path, array(
             CURLOPT_NOBODY => true
         ));
         return array(

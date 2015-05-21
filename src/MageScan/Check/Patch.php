@@ -41,9 +41,8 @@ class Patch extends AbstractCheck
      */
     public function checkSupee5344($url, $admin = 'admin')
     {
-        $request = $this->getRequest();
         $url = $this->trimUrl($url);
-        $response = $request->fetch('https://shoplift.byte.nl/scan/' . $url . '/' . $admin . '.json', array(
+        $response = $this->getRequest()->fetch('https://shoplift.byte.nl/scan/' . $url . '/' . $admin . '.json', array(
             CURLOPT_FOLLOWLOCATION => true
         ));
         $body = json_decode($response->body);

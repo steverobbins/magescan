@@ -26,7 +26,6 @@ class Sitemap extends AbstractCheck
      */
     public function getSitemapFromRobotsTxt($response)
     {
-        $request = $this->getRequest();
-        return $request->findMatchInResponse($response, '/^(?!#+)\s*Sitemap: (.*)$/mi');
+        return $this->getRequest()->findMatchInResponse($response, '/^(?!#+)\s*Sitemap: (.*)$/mi');
     }
 }

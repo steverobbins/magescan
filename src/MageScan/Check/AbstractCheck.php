@@ -11,6 +11,8 @@
 
 namespace MageScan\Check;
 
+use MageScan\Request;
+
 /**
  * Defines some core check functionality
  */
@@ -26,6 +28,9 @@ abstract class AbstractCheck
      */
     public function getRequest()
     {
+        if ($this->request === null) {
+            $this->setRequest(new Request);
+        }
         return $this->request;
     }
 

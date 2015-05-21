@@ -39,8 +39,7 @@ class TechHeader extends AbstractCheck
      */
     public function getHeaders($url)
     {
-        $request  = $this->getRequest();
-        $response = $request->fetch($url, array(
+        $response = $this->getRequest()->fetch($url, array(
             CURLOPT_NOBODY => true
         ));
         $rows = array();

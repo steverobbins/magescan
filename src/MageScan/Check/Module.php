@@ -94,8 +94,7 @@ class Module extends AbstractCheck
      */
     public function checkForModule($url, $file)
     {
-        $request = $this->getRequest();
-        $response = $request->fetch($url . $file, array(
+        $response = $this->getRequest()->fetch($url . $file, array(
             CURLOPT_NOBODY         => true,
             CURLOPT_FOLLOWLOCATION => true
         ));
