@@ -81,6 +81,10 @@ Scans the given `<url>`.
 
 Checks additional paths that should not be accesible (this will make the scan take longer)
 
+##### `--insecure`, `-k`
+
+If set, SSL certificates won't be validated
+
 ##### `--show-modules`
 
 Show all modules that we tried to detect, not just those that were found
