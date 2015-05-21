@@ -1,23 +1,13 @@
 <?xml version="1.0"?>
-<ruleset name="MageScan-Mage1">
-    <description>Magento extension ruleset based on PSR-2 but modified for Magento 1</description>
-
-    <rule ref="PSR2">
-        <!-- Magento 1 class names don't comply so ignore these rules  -->
-        <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
-        <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps"/>
-
-        <!-- Magento standards use underscore for private methods so lets ignore this -->
-        <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
-        <exclude name="PSR2.Classes.PropertyDeclaration.Underscore"/>
-
-        <!-- Magento requires including files in some cases so we either exclude this test or add DocBlocks -->
-        <exclude name="PSR1.Files.SideEffects"/>
-
-        <!-- Handle line length in a different rule -->
-        <exclude name="Generic.Files.LineLength"/>
+<ruleset name="MageScan">
+    <description>Mage Scan coding standards</description>
+    <rule ref="PEAR">
+        <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine" />
+        <exclude name="PEAR.WhiteSpace.ScopeIndent.IncorrectExact" />
     </rule>
-
+    <rule ref="PSR2" />
     <rule ref="Generic.Files.LineLength">
         <properties>
             <property name="lineLimit" value="120"/>

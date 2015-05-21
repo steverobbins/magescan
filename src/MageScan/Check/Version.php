@@ -4,15 +4,25 @@
  *
  * PHP version 5
  *
+ * @category  MageScan
+ * @package   MageScan
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
- * @license   http://creativecommons.org/licenses/by/4.0/
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
 
 namespace MageScan\Check;
 
 /**
- * Make a cURL request to a url
+ * Scan for Magento edition and version
+ *
+ * @category  MageScan
+ * @package   MageScan
+ * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
+ * @link      https://github.com/steverobbins/magescan
  */
 class Version
 {
@@ -23,7 +33,8 @@ class Version
     /**
      * Guess Magento edition from license in public file
      *
-     * @param  \stdClass $response
+     * @param \stdClass $response
+     *
      * @return string
      */
     public function getMagentoEdition(\stdClass $response)
@@ -45,8 +56,9 @@ class Version
     /**
      * Guess Magento version from copyright in public file
      *
-     * @param  array  $response
-     * @param  string $edition
+     * @param array  $response
+     * @param string $edition
+     *
      * @return string
      */
     public function getMagentoVersion(\stdClass $response, $edition)
@@ -66,8 +78,9 @@ class Version
     /**
      * Guess Magento version from copyright year and edition
      *
-     * @param  string $year
-     * @param  string $edition
+     * @param string $year
+     * @param string $edition
+     *
      * @return string
      */
     protected function getMagentoVersionByYear($year, $edition)

@@ -4,8 +4,11 @@
  *
  * PHP version 5
  *
+ * @category  MageScan
+ * @package   MageScan
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
- * @license   http://creativecommons.org/licenses/by/4.0/
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
 
@@ -28,34 +31,49 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Add scan command and run tests
+ * Scan a Magento site using PHP CLI
+ *
+ * @category  MageScan
+ * @package   MageScan
+ * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
+ * @link      https://github.com/steverobbins/magescan
  */
 class ScanCommand extends Command
 {
     /**
+     * Input object
+     *
      * @var \Symfony\Component\Console\Input\InputInterface
      */
-    private $input;
+    protected $input;
 
     /**
+     * Output object
+     *
      * @var \Symfony\Component\Console\Output\OutputInterface
      */
-    private $output;
+    protected $output;
 
     /**
      * URL of Magento site
      *
      * @var string
      */
-    private $url;
+    protected $url;
 
     /**
+     * Cached request object with desired secure flag
+     *
      * @var \MageScan\Request
      */
-    private $request;
+    protected $request;
 
     /**
      * Configure scan command
+     *
+     * @return void
      */
     protected function configure()
     {
@@ -84,15 +102,16 @@ class ScanCommand extends Command
                 'k',
                 InputOption::VALUE_NONE,
                 'Don\'t validate SSL certificate if URL is https'
-            )
-        ;
+            );
     }
 
     /**
      * Run scan command
      *
-     * @param  InputInterface  $input
-     * @param  OutputInterface $output
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -118,6 +137,8 @@ class ScanCommand extends Command
 
     /**
      * Get information about the Magento application
+     *
+     * @return void
      */
     protected function checkMagentoInfo()
     {
@@ -146,6 +167,8 @@ class ScanCommand extends Command
      * Check for files known to be associated with a module
      *
      * @param boolean $all
+     *
+     * @return void
      */
     protected function checkModules($all = false)
     {
@@ -175,6 +198,8 @@ class ScanCommand extends Command
 
     /**
      * Get catalog data
+     *
+     * @return void
      */
     protected function checkCatalog()
     {
@@ -200,6 +225,8 @@ class ScanCommand extends Command
 
     /**
      * Check for installed patches
+     *
+     * @return void
      */
     protected function checkPatch()
     {
@@ -232,6 +259,10 @@ class ScanCommand extends Command
 
     /**
      * Check HTTP status codes for files/paths that shouldn't be reachable
+     *
+     * @param boolean $all
+     *
+     * @return void
      */
     protected function checkUnreachablePath($all = false)
     {
@@ -254,6 +285,8 @@ class ScanCommand extends Command
 
     /**
      * Analize the server technology being used
+     *
+     * @return void
      */
     protected function checkServerTech()
     {
@@ -277,6 +310,8 @@ class ScanCommand extends Command
 
     /**
      * Check that the store is correctly using a sitemap
+     *
+     * @return void
      */
     protected function checkSitemapExists()
     {
@@ -322,7 +357,9 @@ class ScanCommand extends Command
     /**
      * Validate and set url
      *
-     * @param  string                   $input
+     * @param string $input
+     *
+     * @return void
      * @throws InvalidArgumentException
      */
     protected function setUrl($input)
@@ -346,8 +383,10 @@ class ScanCommand extends Command
     /**
      * Write a header block
      *
-     * @param  string $text
-     * @param  string $style
+     * @param string $text
+     * @param string $style
+     *
+     * @return void
      */
     protected function writeHeader($text, $style = 'bg=blue;fg=white')
     {
