@@ -4,8 +4,11 @@
  *
  * PHP version 5
  *
+ * @category  MageScan
+ * @package   MageScan
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
- * @license   http://creativecommons.org/licenses/by/4.0/
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
 
@@ -13,6 +16,13 @@ namespace MageScan\Check;
 
 /**
  * Check for installed patches
+ *
+ * @category  MageScan
+ * @package   MageScan
+ * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
+ * @link      https://github.com/steverobbins/magescan
  */
 class Patch extends AbstractCheck
 {
@@ -22,7 +32,8 @@ class Patch extends AbstractCheck
     /**
      * Check all patches
      *
-     * @param  string $url
+     * @param string $url
+     *
      * @return array
      */
     public function checkAll($url)
@@ -35,8 +46,9 @@ class Patch extends AbstractCheck
     /**
      * Check if SUPEE-5344 is patched
      *
-     * @param  string $url
-     * @param  string $admin
+     * @param string $url
+     * @param string $admin
+     *
      * @return boolean
      */
     public function checkSupee5344($url, $admin = 'admin')
@@ -60,7 +72,8 @@ class Patch extends AbstractCheck
     /**
      * Remove http from url
      *
-     * @param  string $url
+     * @param string $url
+     *
      * @return string
      */
     public function trimUrl($url)

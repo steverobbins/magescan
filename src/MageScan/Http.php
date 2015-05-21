@@ -4,8 +4,11 @@
  *
  * PHP version 5
  *
+ * @category  MageScan
+ * @package   MageScan
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
- * @license   http://creativecommons.org/licenses/by/4.0/
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
 
@@ -23,6 +26,13 @@ use MageScan\Url;
 
 /**
  * Response to HTTP requests
+ *
+ * @category  MageScan
+ * @package   MageScan
+ * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
+ * @link      https://github.com/steverobbins/magescan
  */
 class Http
 {
@@ -48,6 +58,8 @@ class Http
 
     /**
      * Check for Magento version
+     *
+     * @return void
      */
     public function checkMagentoinfo()
     {
@@ -70,6 +82,8 @@ class Http
 
     /**
      * Check for installed modules
+     *
+     * @return void
      */
     public function checkModules()
     {
@@ -79,6 +93,8 @@ class Http
 
     /**
      * Check for an installed module
+     *
+     * @return void
      */
     public function checkModulessingle()
     {
@@ -94,6 +110,8 @@ class Http
 
     /**
      * Check for install patches
+     *
+     * @return void
      */
     public function checkPatch()
     {
@@ -113,7 +131,8 @@ class Http
             }
             switch ($name) {
                 case 'SUPEE-5344':
-                    $name = '<a href="https://shoplift.byte.nl/scan/' . $patch->trimUrl($this->url) . '/admin">' . $name . '</a>';
+                    $name = '<a href="https://shoplift.byte.nl/scan/' . $patch->trimUrl($this->url)
+                        . '/admin">' . $name . '</a>';
                     break;
             }
             $rows[] = array(
@@ -129,6 +148,8 @@ class Http
 
     /**
      * Check for catalog information
+     *
+     * @return void
      */
     public function checkCatalog()
     {
@@ -136,7 +157,7 @@ class Http
         $catalog       = new Catalog;
         $categoryCount = $catalog->categoryCount($this->url);
         $rows[]        = array(
-            '<a href="' . $this->url . 'catalog/seo_sitemap/category" target="_blank">Categories</a>',
+            '<a href="' . $this->url. 'catalog/seo_sitemap/category" target="_blank">Categories</a>',
             $categoryCount !== false ? $categoryCount : 'Unknown'
         );
         $productCount = $catalog->productCount($this->url);
@@ -149,6 +170,8 @@ class Http
 
     /**
      * Check for a valid sitemap
+     *
+     * @return void
      */
     public function checkSitemap()
     {
@@ -158,10 +181,12 @@ class Http
         $sitemap    = new Sitemap;
         $sitemapUrl = $sitemap->getSitemapFromRobotsTxt($response);
         if ($sitemapUrl === false) {
-            $rows[] = array('<span class="fail">Sitemap is not declared in <a href="' . $this->url . 'robots.txt" target="_blank">robots.txt</a></span>');
+            $rows[] = array('<span class="fail">Sitemap is not declared in <a href="' . $this->url
+                . 'robots.txt" target="_blank">robots.txt</a></span>');
             $sitemapUrl = $this->url . 'sitemap.xml';
         } else {
-            $rows[] = array('<span class="pass">Sitemap is declared in <a href="' . $this->url . 'robots.txt" target="_blank">robots.txt</a></span></span>');
+            $rows[] = array('<span class="pass">Sitemap is declared in <a href="' . $this->url
+                . 'robots.txt" target="_blank">robots.txt</a></span></span>');
         }
         $request = new Request;
         $response = $request->fetch((string) $sitemapUrl, array(
@@ -169,15 +194,19 @@ class Http
             CURLOPT_FOLLOWLOCATION => true
         ));
         if ($response->code == 200) {
-            $rows[] = array('<span class="pass"><a href="' . $sitemapUrl . '" target="_blank">Sitemap</a> is accessible</span>');
+            $rows[] = array('<span class="pass"><a href="' . $sitemapUrl
+                . '" target="_blank">Sitemap</a> is accessible</span>');
         } else {
-            $rows[] = array('<span class="fail"><a href="' . $sitemapUrl . '" target="_blank">Sitemap</a> is not accessible</span>');
+            $rows[] = array('<span class="fail"><a href="' . $sitemapUrl
+                . '" target="_blank">Sitemap</a> is not accessible</span>');
         }
         $this->respond(array('body' => $rows));
     }
 
     /**
      * Check for server technologies
+     *
+     * @return void
      */
     public function checkServertech()
     {
@@ -195,15 +224,19 @@ class Http
 
     /**
      * Check for unreachable paths
+     *
+     * @return void
      */
     public function checkUnreachablepath()
     {
         $unreachablePath = new UnreachablePath;
-        return $this->respond($unreachablePath->getPaths(true));
+        $this->respond($unreachablePath->getPaths(true));
     }
 
     /**
      * Check for unreachable paths
+     *
+     * @return void
      */
     public function checkUnreachablepathsingle()
     {
@@ -211,7 +244,7 @@ class Http
         $unreachablePath = new UnreachablePath;
         $result         = $unreachablePath->checkPath($this->url, $_GET['path']);
         if ($result[2] === true) {
-            return false;
+            return;
         }
         if ($result[2] === false) {
             $result[0] = '<a target="_blank" href="' . $this->url . $result[0] . '">' . $result[0] . '</a>';
@@ -231,6 +264,10 @@ class Http
 
     /**
      * Send JSON response
+     *
+     * @param array $data
+     *
+     * @return void
      */
     public function respond(array $data)
     {

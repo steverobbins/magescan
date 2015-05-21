@@ -4,8 +4,11 @@
  *
  * PHP version 5
  *
+ * @category  MageScan
+ * @package   MageScan
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
- * @license   http://creativecommons.org/licenses/by/4.0/
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
 
@@ -15,15 +18,26 @@ use MageScan\Request;
 
 /**
  * Defines some core check functionality
+ *
+ * @category  MageScan
+ * @package   MageScan
+ * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
+ * @link      https://github.com/steverobbins/magescan
  */
 abstract class AbstractCheck
 {
     /**
+     * Request object
+     *
      * @var \MageScan\Request
      */
     protected $request;
 
     /**
+     * Get an instance of the Request object
+     *
      * @return \MageScan\Request
      */
     public function getRequest()
@@ -35,10 +49,15 @@ abstract class AbstractCheck
     }
 
     /**
+     * Set the cached request object
+     *
      * @param \MageScan\Request $request
+     *
+     * @return AbstractCheck
      */
     public function setRequest(\MageScan\Request $request)
     {
         $this->request = $request;
+        return $this;
     }
 }

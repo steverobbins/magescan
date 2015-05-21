@@ -4,8 +4,11 @@
  *
  * PHP version 5
  *
+ * @category  MageScan
+ * @package   MageScan
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
- * @license   http://creativecommons.org/licenses/by/4.0/
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
 
@@ -13,6 +16,13 @@ namespace MageScan;
 
 /**
  * Make a cURL request to a url
+ *
+ * @category  MageScan
+ * @package   MageScan
+ * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
+ * @link      https://github.com/steverobbins/magescan
  */
 class Request
 {
@@ -27,6 +37,7 @@ class Request
      * Mark the request as insecure which will prevent ssl validation
      *
      * @param boolean $flag
+     *
      * @return Request
      */
     public function setInsecure($flag)
@@ -38,8 +49,9 @@ class Request
     /**
      * Create a curl request for a given url
      *
-     * @param  string   $url
-     * @param  array    $params
+     * @param string $url
+     * @param array  $params
+     *
      * @return \stdClass
      */
     public function fetch($url, array $params = array())
@@ -68,7 +80,8 @@ class Request
     /**
      * Manipulate header data into a parsable format
      *
-     * @param  string $rawData
+     * @param string $rawData
+     *
      * @return array
      */
     public function parseHeader($rawData)
@@ -88,9 +101,10 @@ class Request
     /**
      * Parse out the count from the response
      *
-     * @param  \stdClass $response
-     * @param  string    $pattern
-     * @param  boolean   $returnAll
+     * @param \stdClass $response
+     * @param string    $pattern
+     * @param boolean   $returnAll
+     *
      * @return string|array|boolean
      */
     public function findMatchInResponse(\stdClass $response, $pattern, $returnAll = false)

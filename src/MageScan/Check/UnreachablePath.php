@@ -4,8 +4,11 @@
  *
  * PHP version 5
  *
+ * @category  MageScan
+ * @package   MageScan
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
- * @license   http://creativecommons.org/licenses/by/4.0/
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
 
@@ -15,6 +18,13 @@ use MageScan\Request;
 
 /**
  * Checks that files/folder aren't accessible
+ *
+ * @category  MageScan
+ * @package   MageScan
+ * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
+ * @link      https://github.com/steverobbins/magescan
  */
 class UnreachablePath extends AbstractCheck
 {
@@ -83,7 +93,8 @@ class UnreachablePath extends AbstractCheck
     /**
      * Get all paths to be tested
      *
-     * @param  boolean $all
+     * @param boolean $all
+     *
      * @return string[]
      */
     public function getPaths($all = false)
@@ -99,8 +110,9 @@ class UnreachablePath extends AbstractCheck
     /**
      * Test that paths are inaccessible
      *
-     * @param  string  $url
-     * @param  boolean $all
+     * @param string  $url
+     * @param boolean $all
+     *
      * @return array
      */
     public function checkPaths($url, $all = false)
@@ -115,8 +127,9 @@ class UnreachablePath extends AbstractCheck
     /**
      * Test that a path is inaccessible
      *
-     * @param  string  $url
-     * @param  string  $path
+     * @param string $url
+     * @param string $path
+     *
      * @return array
      */
     public function checkPath($url, $path)
@@ -134,8 +147,9 @@ class UnreachablePath extends AbstractCheck
     /**
      * Get the status string for the given response
      *
-     * @param  string    $url
-     * @param  \stdClass $response
+     * @param string    $url
+     * @param \stdClass $response
+     *
      * @return mixed
      */
     protected function getUnreachableStatus($url, \stdClass $response)

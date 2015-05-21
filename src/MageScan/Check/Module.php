@@ -4,8 +4,11 @@
  *
  * PHP version 5
  *
+ * @category  MageScan
+ * @package   MageScan
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
- * @license   http://creativecommons.org/licenses/by/4.0/
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
 
@@ -13,6 +16,13 @@ namespace MageScan\Check;
 
 /**
  * Check for installed modules
+ *
+ * @category  MageScan
+ * @package   MageScan
+ * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
+ * @link      https://github.com/steverobbins/magescan
  */
 class Module extends AbstractCheck
 {
@@ -67,7 +77,8 @@ class Module extends AbstractCheck
     /**
      * Check for module files that exist in a url
      *
-     * @param  string $url
+     * @param string $url
+     *
      * @return array
      */
     public function checkForModules($url)
@@ -88,8 +99,9 @@ class Module extends AbstractCheck
     /**
      * Check for a module file that exist in a url
      *
-     * @param  string $url
-     * @param  string $file
+     * @param string $url
+     * @param string $file
+     *
      * @return boolean
      */
     public function checkForModule($url, $file)

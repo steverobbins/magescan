@@ -4,8 +4,11 @@
  *
  * PHP version 5
  *
+ * @category  MageScan
+ * @package   MageScan
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
- * @license   http://creativecommons.org/licenses/by/4.0/
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
 
@@ -15,6 +18,13 @@ use MageScan\Request;
 
 /**
  * Check for technical information exposed in the headers of a response
+ *
+ * @category  MageScan
+ * @package   MageScan
+ * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
+ * @link      https://github.com/steverobbins/magescan
  */
 class TechHeader extends AbstractCheck
 {
@@ -34,7 +44,8 @@ class TechHeader extends AbstractCheck
     /**
      * Crawl the url's headers
      *
-     * @param  string $url
+     * @param string $url
+     *
      * @return array
      */
     public function getHeaders($url)

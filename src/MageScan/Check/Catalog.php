@@ -4,8 +4,11 @@
  *
  * PHP version 5
  *
+ * @category  MageScan
+ * @package   MageScan
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
- * @license   http://creativecommons.org/licenses/by/4.0/
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
 
@@ -15,13 +18,21 @@ use MageScan\Request;
 
 /**
  * Check for installed modules
+ *
+ * @category  MageScan
+ * @package   MageScan
+ * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @copyright 2015 Steve Robbins
+ * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
+ * @link      https://github.com/steverobbins/magescan
  */
 class Catalog extends AbstractCheck
 {
     /**
      * Try to figure out how many categories there are in the store
      *
-     * @param  string $url
+     * @param string $url
+     *
      * @return string|boolean
      */
     public function categoryCount($url)
@@ -31,7 +42,8 @@ class Catalog extends AbstractCheck
     /**
      * Try to figure out how many products there are in the store
      *
-     * @param  string $url
+     * @param string $url
+     *
      * @return string|boolean
      */
     public function productCount($url)
@@ -42,8 +54,9 @@ class Catalog extends AbstractCheck
     /**
      * Count different entity types
      *
-     * @param  string $url
-     * @param  string $entity
+     * @param string $url
+     * @param string $entity
+     *
      * @return string|boolean
      */
     protected function countEntity($url, $entity)
