@@ -16,6 +16,17 @@ namespace MageScan;
  */
 class Request
 {
+    /** @var bool */
+    protected $insecure = false;
+
+    /**
+     * Mark the request as insecure which will prevent ssl validation
+     */
+    public function setInsecure()
+    {
+        $this->insecure = true;
+    }
+
     /**
      * Create a curl request for a given url
      *
@@ -29,6 +40,10 @@ class Request
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
+        if ($this->insecure) {
+            $params[CURLOPT_SSL_VERIFYHOST] = false;
+            $params[CURLOPT_SSL_VERIFYPEER] = false;
+        }
         foreach ($params as $key => $value) {
             curl_setopt($ch, $key, $value);
         }

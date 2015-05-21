@@ -16,7 +16,7 @@ use MageScan\Request;
 /**
  * Parse a sitemap
  */
-class Sitemap
+class Sitemap extends AbstractCheck
 {
     /**
      * Parse the sitemap url out of a robots.txt contents
@@ -26,7 +26,7 @@ class Sitemap
      */
     public function getSitemapFromRobotsTxt($response)
     {
-        $request = new Request;
+        $request = $this->getRequest();
         return $request->findMatchInResponse($response, '/^(?!#+)\s*Sitemap: (.*)$/mi');
     }
 }

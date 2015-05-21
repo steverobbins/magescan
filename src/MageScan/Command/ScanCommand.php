@@ -74,6 +74,12 @@ class ScanCommand extends Command
                 InputOption::VALUE_NONE,
                 'Show all modules that were scanned for, not just matches'
             )
+            ->addOption(
+                'insecure',
+                'k',
+                InputOption::VALUE_NONE,
+                'Don\'t validate SSL certificate if URL is https'
+            )
         ;
     }
 
@@ -108,7 +114,7 @@ class ScanCommand extends Command
     protected function checkMagentoInfo()
     {
         $this->writeHeader('Magento Information');
-        $request = new Request;
+        $request = $this->buildRequest();
         $response = $request->fetch(
             $this->url . 'js/varien/product.js',
             array(
@@ -137,6 +143,7 @@ class ScanCommand extends Command
     {
         $this->writeHeader('Installed Modules');
         $module = new Module;
+        $module->setRequest($this->buildRequest());
         $found = $notFound = array();
         foreach ($module->checkForModules($this->url) as $name => $exists) {
             if ($exists) {
@@ -166,6 +173,7 @@ class ScanCommand extends Command
         $this->writeHeader('Catalog Information');
         $rows     = array();
         $catalog  = new Catalog;
+        $catalog->setRequest($this->buildRequest());
         $categoryCount = $catalog->categoryCount($this->url);
         $rows[] = array(
             'Categories',
@@ -190,6 +198,7 @@ class ScanCommand extends Command
         $this->writeHeader('Patches');
         $rows    = array();
         $patch   = new Patch;
+        $patch->setRequest($this->buildRequest());
         $patches = $patch->checkAll($this->url);
         foreach ($patches as $name => $result) {
             switch ($result) {
@@ -220,6 +229,7 @@ class ScanCommand extends Command
     {
         $this->writeHeader('Unreachable Path Check');
         $unreachablePath = new UnreachablePath;
+        $unreachablePath->setRequest($this->buildRequest());
         $results = $unreachablePath->checkPaths($this->url, $all);
         foreach ($results as &$result) {
             if ($result[2] === false) {
@@ -241,6 +251,7 @@ class ScanCommand extends Command
     {
         $this->writeHeader('Server Technology');
         $techHeader = new TechHeader;
+        $techHeader->setRequest($this->buildRequest());
         $values = $techHeader->getHeaders($this->url);
         if (empty($values)) {
             $this->output->writeln('No detectable technology was found');
@@ -287,6 +298,7 @@ class ScanCommand extends Command
         $request = new Request;
         $response = $request->fetch($this->url . 'robots.txt');
         $sitemap = new Sitemap;
+        $sitemap->setRequest($this->buildRequest());
         $sitemap  = $sitemap->getSitemapFromRobotsTxt($response);
         if ($sitemap === false) {
             $this->output->writeln(
@@ -309,7 +321,7 @@ class ScanCommand extends Command
     {
         $url = new Url;
         $this->url = $url->clean($input);
-        $request = new Request;
+        $request = $this->buildRequest();
         $response = $request->fetch($this->url, array(
             CURLOPT_NOBODY => true
         ));
@@ -321,6 +333,20 @@ class ScanCommand extends Command
         if (isset($response->header['Location'])) {
             $this->url = $response->header['Location'];
         }
+    }
+
+    /**
+     * Factory method for creating request object.
+     * @return Request
+     */
+    protected function buildRequest()
+    {
+        $request = new Request;
+        if ($this->input->getOption('insecure')) {
+            $request->setInsecure();
+        }
+
+        return $request;
     }
 
     /**

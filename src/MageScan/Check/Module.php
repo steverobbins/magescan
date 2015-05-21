@@ -11,12 +11,10 @@
 
 namespace MageScan\Check;
 
-use MageScan\Request;
-
 /**
  * Check for installed modules
  */
-class Module
+class Module extends AbstractCheck
 {
     /**
      * Files and the modules they belong to
@@ -96,7 +94,7 @@ class Module
      */
     public function checkForModule($url, $file)
     {
-        $request = new Request;
+        $request = $this->getRequest();
         $response = $request->fetch($url . $file, array(
             CURLOPT_NOBODY         => true,
             CURLOPT_FOLLOWLOCATION => true
