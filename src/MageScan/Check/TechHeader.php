@@ -16,7 +16,7 @@ use MageScan\Request;
 /**
  * Check for technical information exposed in the headers of a response
  */
-class TechHeader
+class TechHeader extends AbstractCheck
 {
     /**
      * Headers that provide information about the technology used
@@ -39,8 +39,7 @@ class TechHeader
      */
     public function getHeaders($url)
     {
-        $request  = new Request;
-        $response = $request->fetch($url, array(
+        $response = $this->getRequest()->fetch($url, array(
             CURLOPT_NOBODY => true
         ));
         $rows = array();

@@ -16,7 +16,7 @@ use MageScan\Request;
 /**
  * Check for installed modules
  */
-class Catalog
+class Catalog extends AbstractCheck
 {
     /**
      * Try to figure out how many categories there are in the store
@@ -48,7 +48,7 @@ class Catalog
      */
     protected function countEntity($url, $entity)
     {
-        $request = new Request;
+        $request = $this->getRequest();
         $response = $request->fetch($url . 'catalog/seo_sitemap/' . $entity, array(
             CURLOPT_FOLLOWLOCATION => true
         ));

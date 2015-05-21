@@ -11,12 +11,10 @@
 
 namespace MageScan\Check;
 
-use MageScan\Request;
-
 /**
  * Check for installed patches
  */
-class Patch
+class Patch extends AbstractCheck
 {
     const PATCHED   = 1;
     const UNPATCHED = 2;
@@ -43,9 +41,8 @@ class Patch
      */
     public function checkSupee5344($url, $admin = 'admin')
     {
-        $request = new Request;
         $url = $this->trimUrl($url);
-        $response = $request->fetch('https://shoplift.byte.nl/scan/' . $url . '/' . $admin . '.json', array(
+        $response = $this->getRequest()->fetch('https://shoplift.byte.nl/scan/' . $url . '/' . $admin . '.json', array(
             CURLOPT_FOLLOWLOCATION => true
         ));
         $body = json_decode($response->body);

@@ -16,7 +16,7 @@ use MageScan\Request;
 /**
  * Checks that files/folder aren't accessible
  */
-class UnreachablePath
+class UnreachablePath extends AbstractCheck
 {
     /**
      * List of paths that we shouldn't be able to access
@@ -121,8 +121,7 @@ class UnreachablePath
      */
     public function checkPath($url, $path)
     {
-        $request = new Request;
-        $response = $request->fetch($url . $path, array(
+        $response = $this->getRequest()->fetch($url . $path, array(
             CURLOPT_NOBODY => true
         ));
         return array(
