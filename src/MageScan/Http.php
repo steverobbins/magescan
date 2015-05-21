@@ -25,7 +25,7 @@ use MageScan\Request;
 use MageScan\Url;
 
 /**
- * Response to HTTP requests
+ * Scan a Magento site using a web browser
  *
  * @category  MageScan
  * @package   MageScan

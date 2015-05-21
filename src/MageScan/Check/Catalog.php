@@ -17,7 +17,7 @@ namespace MageScan\Check;
 use MageScan\Request;
 
 /**
- * Check for installed modules
+ * Scan for category and product information
  *
  * @category  MageScan
  * @package   MageScan

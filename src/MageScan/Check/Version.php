@@ -15,7 +15,7 @@
 namespace MageScan\Check;
 
 /**
- * Make a cURL request to a url
+ * Scan for Magento edition and version
  *
  * @category  MageScan
  * @package   MageScan
