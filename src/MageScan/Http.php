@@ -240,9 +240,8 @@ class Http
      */
     public function checkUnreachablepathsingle()
     {
-        $urls            = array();
         $unreachablePath = new UnreachablePath;
-        $result         = $unreachablePath->checkPath($this->url, $_GET['path']);
+        $result          = $unreachablePath->checkPath($this->url, $_GET['path']);
         if ($result[2] === true) {
             return;
         }
@@ -258,7 +257,6 @@ class Http
             $result[0] = '<a target="_blank" href="' . $newUrl . '">' . $result[0] . '</a>';
             $result[2] = '<a target="_blank" href="' . $newUrl . '">Redirect</a>';
         }
-        $urls[] = $result;
         $this->respond($result);
     }
 

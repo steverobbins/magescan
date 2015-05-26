@@ -14,8 +14,6 @@
 
 namespace MageScan\Check;
 
-use MageScan\Request;
-
 /**
  * Scan for category and product information
  *

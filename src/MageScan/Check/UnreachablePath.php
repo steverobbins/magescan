@@ -14,8 +14,6 @@
 
 namespace MageScan\Check;
 
-use MageScan\Request;
-
 /**
  * Checks that files/folder aren't accessible
  *

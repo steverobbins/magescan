@@ -14,8 +14,6 @@
 
 namespace MageScan\Check;
 
-use MageScan\Request;
-
 /**
  * Check for technical information exposed in the headers of a response
  *
