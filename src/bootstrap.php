@@ -15,10 +15,12 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use MageScan\Command\ScanCommand;
+use MageScan\Command\SelfUpdateCommand;
 use Symfony\Component\Console\Application;
 
 $app = new Application('Mage Scan', '1.3.1');
 
 $app->add(new ScanCommand);
+$app->add(new SelfUpdateCommand);
 
 $app->run();
