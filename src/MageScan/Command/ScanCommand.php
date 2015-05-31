@@ -25,6 +25,7 @@ use MageScan\Request;
 use MageScan\Url;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -157,10 +158,11 @@ class ScanCommand extends Command
             array('Edition', $edition),
             array('Version', $version)
         );
-        $this->getHelper('table')
+        $table = new Table($this->output);
+        $table
             ->setHeaders(array('Parameter', 'Value'))
             ->setRows($rows)
-            ->render($this->output);
+            ->render();
     }
 
     /**
@@ -190,10 +192,11 @@ class ScanCommand extends Command
         if ($all) {
             $found = array_merge($found, $notFound);
         }
-        $this->getHelper('table')
+        $table = new Table($this->output);
+        $table
             ->setHeaders(array('Module', 'Installed'))
             ->setRows($found)
-            ->render($this->output);
+            ->render();
     }
 
     /**
@@ -217,10 +220,11 @@ class ScanCommand extends Command
             'Products',
             $productCount !== false ? $productCount : 'Unknown'
         );
-        $this->getHelper('table')
+        $table = new Table($this->output);
+        $table
             ->setHeaders(array('Type', 'Count'))
             ->setRows($rows)
-            ->render($this->output);
+            ->render();
     }
 
     /**
@@ -251,10 +255,11 @@ class ScanCommand extends Command
                 $status
             );
         }
-        $this->getHelper('table')
+        $table = new Table($this->output);
+        $table
             ->setHeaders(array('Name', 'Status'))
             ->setRows($rows)
-            ->render($this->output);
+            ->render();
     }
 
     /**
@@ -277,10 +282,11 @@ class ScanCommand extends Command
                 $result[2] = '<bg=green>Pass</bg=green>';
             }
         }
-        $this->getHelper('table')
+        $table = new Table($this->output);
+        $table
             ->setHeaders(array('Path', 'Response Code', 'Status'))
             ->setRows($results)
-            ->render($this->output);
+            ->render();
     }
 
     /**
@@ -302,10 +308,11 @@ class ScanCommand extends Command
         foreach ($values as $key => $value) {
             $rows[] = array($key, $value);
         }
-        $this->getHelper('table')
+        $table = new Table($this->output);
+        $table
             ->setHeaders(array('Key', 'Value'))
             ->setRows($rows)
-            ->render($this->output);
+            ->render();
     }
 
     /**
