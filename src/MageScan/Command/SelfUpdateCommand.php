@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Mage Scan
  *
@@ -18,7 +17,6 @@ namespace MageScan\Command;
 use MageScan\Request;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -33,6 +31,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class SelfUpdateCommand extends Command
 {
+    const URL_VERSION  = 'http://magescan.project.steverobbins.name/download/version';
+    const URL_DOWNLOAD = 'http://magescan.project.steverobbins.name/download/magescan.phar';
+
     /**
      * Configure selfupdate command
      *
@@ -49,8 +50,7 @@ versions of magescan and if found, installs the latest.
 
 <info>php magescan.phar selfupdate</info>
 EOT
-            )
-        ;
+            );
     }
 
     /**
@@ -63,97 +63,120 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $localFilename = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
-        $tempFilename = dirname($localFilename) . '/' . basename($localFilename, '.phar').'-temp.phar';
-
-        // check for permissions in local filesystem before start connection process
-        if (!is_writable($tempDirectory = dirname($tempFilename))) {
-            throw new Exception('magescan update failed: the "' . $tempDirectory . '" directory used to download the temp file could not be written');
+        $localFilename = $this->getCurrentFile();
+        $tempFilename  = $this->getTempFile($localFilename);
+        $version       = $this->getApplication()->getVersion();
+        $latest        = $this->checkLatestVersion();
+        if (version_compare($version, $latest) >= 0) {
+            return $output->writeln(sprintf(
+                'You are using the latest version <info>%s</info>',
+                $version
+            ));
         }
-
-        if (!is_writable($localFilename)) {
-            throw new Exception('magescan update failed: the "' . $localFilename . '" file could not be written');
+        $output->writeln(sprintf(
+            'Updating from <info>%s</info> to <info>%s</info>',
+            $version,
+            $latest
+        ));
+        if (!$this->downloadLatestVersion($tempFilename)) {
+            return $output->writeln(
+                '<error>The download failed unexpectedly</error>'
+            );
         }
-
-        $latest = $this->checkLatestVersion();
-        if ($this->getApplication()->getVersion() !== $latest) {
-            $output->writeln(sprintf("Updating to version <info>%s</info>.", $latest));
-
-            $this->downloadLatestVersion($tempFilename);
-
-            if (!file_exists($tempFilename)) {
-                $output->writeln('<error>The download of the new magescan version failed for an unexpected reason');
-
-                return 1;
-            }
-
-            try {
-                \error_reporting(E_ALL);
-
-                @chmod($tempFilename, 0777 & ~umask());
-                // test the phar validity
-                $phar = new \Phar($tempFilename);
-                // free the variable to unlock the file
-                unset($phar);
-                @rename($tempFilename, $localFilename);
-                $output->writeln('<info>Successfully updated magescan</info>');
-
-                $this->_exit();
-            } catch (\Exception $e) {
-                @unlink($tempFilename);
-                if (!$e instanceof \UnexpectedValueException && !$e instanceof \PharException) {
-                    throw $e;
-                }
-                $output->writeln('<error>The download is corrupted ('.$e->getMessage().').</error>');
-                $output->writeln('<error>Please re-run the selfupdate command to try again.</error>');
-            }
-        } else {
-            $output->writeln("<info>You are using the latest magescan version.</info>");
+        $test = $this->testPharValidity($tempFilename);
+        if ($test !== true) {
+            unlink($tempFilename);
+            return $output->writeln('<error>Update failed</error> ' . $test);
         }
+        chmod($tempFilename, 0777 & ~umask());
+        rename($tempFilename, $localFilename);
+        $output->writeln('<info>Mage Scan successfully updated</info>');
     }
 
     /**
-     * Fetch version number of latest release from homepage
+     * Gets the path/name of the local executable file
+     *
+     * @return string
+     *
+     * @throws Exception
+     */
+    protected function getCurrentFile()
+    {
+        $file = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
+        if (!is_writable($file)) {
+            throw new Exception(
+                'Update failed: "' . $file . '" is not writable'
+            );
+        }
+        return $file;
+    }
+
+    /**
+     * Gets the path/name of the temporary download file
+     *
+     * @param string $currentFile
+     *
+     * @return string
+     *
+     * @throws Exception
+     */
+    protected function getTempFile($currentFile)
+    {
+        $file = dirname($currentFile) . DIRECTORY_SEPARATOR
+            . basename($currentFile, '.phar') . '-temp.phar';
+        if (!is_writable($dir = dirname($file))) {
+            throw new Exception(
+                'Update failed: "' . $dir . '" is not writable'
+            );
+        }
+        return $file;
+    }
+
+    /**
+     * Test that the downloaded phar is valid
+     *
+     * @param string $file
+     *
+     * @return boolean|string
+     */
+    protected function testPharValidity($file)
+    {
+        try {
+            new \Phar($file);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+        return true;
+    }
+
+    /**
+     * Fetch version number of latest release
+     *
+     * @return string
      *
      * @throws Exception
      */
     protected function checkLatestVersion()
     {
-        $request = new Request;
-        $latestURL = 'http://magescan.project.steverobbins.name/download/magescan-version';
-        $latestResponse = $request->fetch($latestURL);
-        if ($latestResponse->code !== 200) {
+        $request  = new Request;
+        $response = $request->fetch(self::URL_VERSION);
+        if ($response->code !== 200) {
             throw new \Exception('Error fetching latest version');
         }
-
-        return $latestResponse->body;
+        return trim($response->body);
     }
 
     /**
-     * Download the latest version of magescan to temp location
+     * Download the latest version of magescan
      *
-     * @param $tempFilename
-     *
-     * @return void
-     */
-    protected function downloadLatestVersion($tempFilename)
-    {
-        $request = new Request;
-        $remoteFilename = 'http://magescan.project.steverobbins.name/download/magescan.phar';
-        $fileContents = $request->fetch($remoteFilename);
-        file_put_contents($tempFilename, $fileContents->body);
-    }
-
-    /**
-     * Stop execution
-     *
-     * This is a workaround to prevent warning of dispatcher after replacing
-     * the phar file.
+     * @param string $filename
      *
      * @return void
      */
-    protected function _exit()
+    protected function downloadLatestVersion($filename)
     {
-        exit;
+        $request  = new Request;
+        $response = $request->fetch(self::URL_DOWNLOAD);
+        return file_put_contents($filename, $response->body) !== false;
     }
 }

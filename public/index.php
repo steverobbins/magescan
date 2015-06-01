@@ -45,7 +45,7 @@ if (isset($_GET['url'])) {
         </button>
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/"><?php echo file_get_contents('../build/version') ?></a>
+                <a class="navbar-brand" href="/">Mage Scan <?php echo file_get_contents('download/version') ?></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
