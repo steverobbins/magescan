@@ -17,7 +17,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use MageScan\Command\ScanCommand;
 use Symfony\Component\Console\Application;
 
-$app = new Application('Mage Scan', '1.3.1');
+$app = new Application('Mage Scan', '1.3.2');
 
 $app->add(new ScanCommand);
 
