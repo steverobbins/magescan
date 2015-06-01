@@ -65,13 +65,13 @@ Add the following to your `composer.json`
 
 # Usage
 
-    $ magescan scan store.example.com
+    $ magescan.phar scan store.example.com
 
 ## Commands
 
 ### `scan`
 
-    scan [--all-paths] [--show-modules] <url>
+    $ magescan.phar scan [--all-paths] [--insecure] [--show-modules] <url>
 
 Scans the given `<url>`.
 
@@ -88,6 +88,12 @@ If set, SSL certificates won't be validated
 ##### `--show-modules`
 
 Show all modules that we tried to detect, not just those that were found
+
+### `selfupdate`
+
+    $ magescan.phar selfupdate
+
+Updates the phar file to the latest version.
 
 # Disclaimer
 
