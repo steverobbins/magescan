@@ -5,6 +5,7 @@ include '../vendor/autoload.php';
 use MageScan\Url;
 use MageScan\Request;
 
+$suggestUrl = '';
 if (isset($_GET['url'])) {
     $url = $_GET['url'];
     $magescanUrl = new Url;
@@ -13,7 +14,6 @@ if (isset($_GET['url'])) {
     $response = $request->fetch($url, array(
         CURLOPT_NOBODY => true
     ));
-    $suggestUrl = '';
     if (isset($response->header['Location'])) {
         $suggestUrl = $response->header['Location'];
     }
