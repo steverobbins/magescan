@@ -1,6 +1,8 @@
 Mage Scan
 ===
 
+[![Join the chat at https://gitter.im/steverobbins/magescan](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/steverobbins/magescan?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Master Build Status](https://img.shields.io/travis/steverobbins/magescan/master.svg?style=flat-square)](https://travis-ci.org/steverobbins/magescan)
 [![Master Code Quality](https://img.shields.io/scrutinizer/g/steverobbins/magescan/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/steverobbins/magescan/?branch=master)
 [![Master Code Coverage](https://img.shields.io/coveralls/steverobbins/magescan/master.svg?style=flat-square)](https://coveralls.io/r/steverobbins/magescan?branch=master)
