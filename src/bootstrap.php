@@ -18,7 +18,7 @@ use MageScan\Command\ScanCommand;
 use MageScan\Command\SelfUpdateCommand;
 use Symfony\Component\Console\Application;
 
-$app = new Application('Mage Scan', '1.4');
+$app = new Application('Mage Scan', '1.5');
 
 $app->add(new ScanCommand);
 $app->add(new SelfUpdateCommand);
