@@ -24,86 +24,54 @@ namespace MageScan\Check;
  * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
-class Version
+class Version extends AbstractCheck
 {
     const EDITION_ENTERPRISE   = 'Enterprise';
     const EDITION_PROFESSIONAL = 'Professional';
     const EDITION_COMMUNITY    = 'Community';
 
     /**
-     * Guess Magento edition from license in public file
+     * Various ways we can sniff out the Magento version
      *
-     * @param \stdClass $response
-     *
-     * @return string
+     * @var string[]
      */
-    public function getMagentoEdition(\stdClass $response)
+    protected $versionCheck = array(
+        'FileHash',
+        'DocComment',
+    );
+
+    /**
+     * Guess Magento edition and version
+     *
+     * @param string $url
+     *
+     * @return array
+     */
+    public function getInfo($url)
     {
-        if ($response->code == 200) {
-            preg_match('/@license.*/', $response->body, $match);
-            if (isset($match[0])) {
-                if (strpos($match[0], 'enterprise') !== false) {
-                    return self::EDITION_ENTERPRISE;
-                } elseif (strpos($match[0], 'commercial') !== false) {
-                    return self::EDITION_PROFESSIONAL;
-                }
-                return self::EDITION_COMMUNITY;
+        foreach ($this->versionCheck as $name) {
+            $check = $this->getCheck($name);
+            $check->setRequest($this->getRequest());
+            $result = $check->getInfo($url);
+            if ($result !== false) {
+                return $result;
             }
         }
-        return 'Unknown';
+        return array(false, false);
     }
 
     /**
-     * Guess Magento version from copyright in public file
+     * Get check object
      *
-     * @param array  $response
-     * @param string $edition
+     * @param string $name
      *
-     * @return string
+     * @return AbstractCheck
      */
-    public function getMagentoVersion(\stdClass $response, $edition)
+    protected function getCheck($name)
     {
-        if ($response->code == 200 && $edition != 'Unknown') {
-            preg_match('/@copyright.*/', $response->body, $match);
-            if (isset($match[0])
-                && preg_match('/[0-9-]{4,}/', $match[0], $match)
-                && isset($match[0])
-            ) {
-                return $this->getMagentoVersionByYear($match[0], $edition);
-            }
-        }
-        return 'Unknown';
-    }
-
-    /**
-     * Guess Magento version from copyright year and edition
-     *
-     * @param string $year
-     * @param string $edition
-     *
-     * @return string
-     */
-    protected function getMagentoVersionByYear($year, $edition)
-    {
-        switch ($year) {
-            case '2006-2015':
-            case '2006-2014':
-            case '2014':
-                return $edition == self::EDITION_ENTERPRISE ?
-                    '1.14' : '1.9';
-            case 2013:
-                return $edition == self::EDITION_ENTERPRISE ?
-                    '1.13' : '1.8';
-            case 2012:
-                return ($edition == self::EDITION_ENTERPRISE || $edition == self::EDITION_PROFESSIONAL) ?
-                    '1.12' : '1.7';
-            case 2011:
-                return ($edition == self::EDITION_ENTERPRISE || $edition == self::EDITION_PROFESSIONAL) ?
-                    '1.11' : '1.6';
-            case 2010:
-                return ($edition == self::EDITION_ENTERPRISE || $edition == self::EDITION_PROFESSIONAL) ?
-                    '1.9 - 1.10' : '1.4 - 1.5';
-        }
-        return 'Unknown';
+        $class = '\\MageScan\\Check\\Version\\' . $name;
+        $check = new $class;
+        $check->setRequest($this->getRequest());
+        return $check;
     }
 }

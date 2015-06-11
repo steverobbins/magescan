@@ -3,21 +3,21 @@
  * Mage Scan
  *
  * PHP version 5
- * 
+ *
  * @author    Steve Robbins <steven.j.robbins@gmail.com>
  * @license   http://creativecommons.org/licenses/by/4.0/
  * @link      https://github.com/steverobbins/magescan
  */
 
-namespace MageScan\Test\Mga\Check;
+namespace MageScan\Test\Mga\Check\Version;
 
-use MageScan\Check\Version;
+use MageScan\Check\Version\DocComment;
 use PHPUnit_Framework_TestCase;
 
 /**
  * Run tests on Magento version getter
  */
-class VersionTest extends PHPUnit_Framework_TestCase
+class DocCommentTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test for an existing but empty product.js
@@ -28,11 +28,11 @@ class VersionTest extends PHPUnit_Framework_TestCase
         $response->code = 200;
         $response->body = '';
 
-        $version = new Version;
-        $edition = $version->getMagentoEdition($response);
-        $this->assertSame('Unknown', $edition);
-        $version = $version->getMagentoVersion($response, $edition);
-        $this->assertSame('Unknown', $version);
+        $doccomment = new DocComment;
+        $edition = $doccomment->getEdition($response);
+        $this->assertSame(false, $edition);
+        $doccomment = $doccomment->getVersion($response, $edition);
+        $this->assertSame(false, $doccomment);
     }
 
     public function testFileMissing()
@@ -41,11 +41,11 @@ class VersionTest extends PHPUnit_Framework_TestCase
         $response->code = 404;
         $response->body = '';
 
-        $version = new Version;
-        $edition = $version->getMagentoEdition($response);
-        $this->assertSame('Unknown', $edition);
-        $version = $version->getMagentoVersion($response, $edition);
-        $this->assertSame('Unknown', $version);
+        $doccomment = new DocComment;
+        $edition = $doccomment->getEdition($response);
+        $this->assertSame(false, $edition);
+        $doccomment = $doccomment->getVersion($response, $edition);
+        $this->assertSame(false, $doccomment);
     }
 
     public function testEnterprise114()
@@ -64,11 +64,11 @@ class VersionTest extends PHPUnit_Framework_TestCase
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $version = new Version;
-        $edition = $version->getMagentoEdition($response);
+        $doccomment = new DocComment;
+        $edition = $doccomment->getEdition($response);
         $this->assertSame('Enterprise', $edition);
-        $version = $version->getMagentoVersion($response, $edition);
-        $this->assertSame('1.14', $version);
+        $doccomment = $doccomment->getVersion($response, $edition);
+        $this->assertSame('1.14', $doccomment);
     }
 
     public function testEnterprise113()
@@ -87,11 +87,11 @@ FILE;
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $version = new Version;
-        $edition = $version->getMagentoEdition($response);
+        $doccomment = new DocComment;
+        $edition = $doccomment->getEdition($response);
         $this->assertSame('Enterprise', $edition);
-        $version = $version->getMagentoVersion($response, $edition);
-        $this->assertSame('1.13', $version);
+        $doccomment = $doccomment->getVersion($response, $edition);
+        $this->assertSame('1.13', $doccomment);
     }
 
     public function testEnterprise112()
@@ -110,11 +110,11 @@ FILE;
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $version = new Version;
-        $edition = $version->getMagentoEdition($response);
+        $doccomment = new DocComment;
+        $edition = $doccomment->getEdition($response);
         $this->assertSame('Enterprise', $edition);
-        $version = $version->getMagentoVersion($response, $edition);
-        $this->assertSame('1.12', $version);
+        $doccomment = $doccomment->getVersion($response, $edition);
+        $this->assertSame('1.12', $doccomment);
     }
 
     public function testProfessional112()
@@ -133,11 +133,11 @@ FILE;
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $version = new Version;
-        $edition = $version->getMagentoEdition($response);
+        $doccomment = new DocComment;
+        $edition = $doccomment->getEdition($response);
         $this->assertSame('Professional', $edition);
-        $version = $version->getMagentoVersion($response, $edition);
-        $this->assertSame('1.12', $version);
+        $doccomment = $doccomment->getVersion($response, $edition);
+        $this->assertSame('1.12', $doccomment);
     }
 
     public function testCommunity19()
@@ -156,11 +156,11 @@ FILE;
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $version = new Version;
-        $edition = $version->getMagentoEdition($response);
+        $doccomment = new DocComment;
+        $edition = $doccomment->getEdition($response);
         $this->assertSame('Community', $edition);
-        $version = $version->getMagentoVersion($response, $edition);
-        $this->assertSame('1.9', $version);
+        $doccomment = $doccomment->getVersion($response, $edition);
+        $this->assertSame('1.9', $doccomment);
     }
 
     public function testCommunity18()
@@ -179,11 +179,11 @@ FILE;
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $version = new Version;
-        $edition = $version->getMagentoEdition($response);
+        $doccomment = new DocComment;
+        $edition = $doccomment->getEdition($response);
         $this->assertSame('Community', $edition);
-        $version = $version->getMagentoVersion($response, $edition);
-        $this->assertSame('1.8', $version);
+        $doccomment = $doccomment->getVersion($response, $edition);
+        $this->assertSame('1.8', $doccomment);
     }
 
     public function testCommunity17()
@@ -202,10 +202,10 @@ FILE;
 if(typeof Product=='undefined') {
     var Product = {};
 FILE;
-        $version = new Version;
-        $edition = $version->getMagentoEdition($response);
+        $doccomment = new DocComment;
+        $edition = $doccomment->getEdition($response);
         $this->assertSame('Community', $edition);
-        $version = $version->getMagentoVersion($response, $edition);
-        $this->assertSame('1.7', $version);
+        $doccomment = $doccomment->getVersion($response, $edition);
+        $this->assertSame('1.7', $doccomment);
     }
 }

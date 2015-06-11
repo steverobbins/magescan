@@ -63,19 +63,11 @@ class Http
      */
     public function checkMagentoinfo()
     {
-        $request  = new Request;
-        $response = $request->fetch(
-            $this->url . 'js/varien/product.js',
-            array(
-                CURLOPT_FOLLOWLOCATION => true
-            )
-        );
         $version = new Version;
-        $edition = $version->getMagentoEdition($response);
-        $version = $version->getMagentoVersion($response, $edition);
+        $version = $version->getInfo($this->url);
         $rows    = array(
-            array('Edition', $edition),
-            array('Version', $version)
+            array('Edition', $version[0] ?: 'Unknown'),
+            array('Version', $version[1] ?: 'Unknown')
         );
         $this->respond(array('body' => $rows));
     }
