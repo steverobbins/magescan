@@ -57,7 +57,7 @@ class DocComment extends AbstractCheck
      *
      * @param \stdClass $response
      *
-     * @return string
+     * @return string|boolean
      */
     public function getEdition(\stdClass $response)
     {
@@ -78,10 +78,10 @@ class DocComment extends AbstractCheck
     /**
      * Guess Magento version from copyright in public file
      *
-     * @param \stdClass $response
-     * @param string    $edition
+     * @param \stdClass      $response
+     * @param string|boolean $edition
      *
-     * @return string
+     * @return string|boolean
      */
     public function getVersion(\stdClass $response, $edition)
     {
