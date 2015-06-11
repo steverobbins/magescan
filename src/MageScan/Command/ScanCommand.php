@@ -144,19 +144,12 @@ class ScanCommand extends Command
     protected function checkMagentoInfo()
     {
         $this->writeHeader('Magento Information');
-        $request = $this->request;
-        $response = $request->fetch(
-            $this->url . 'js/varien/product.js',
-            array(
-                CURLOPT_FOLLOWLOCATION => true
-            )
-        );
         $version = new Version;
-        $edition = $version->getMagentoEdition($response);
-        $version = $version->getMagentoVersion($response, $edition);
+        $version->setRequest($this->request);
+        $version = $version->getInfo($this->url);
         $rows = array(
-            array('Edition', $edition),
-            array('Version', $version)
+            array('Edition', $version[0] ?: 'Unknown'),
+            array('Version', $version[1] ?: 'Unknown')
         );
         $table = new Table($this->output);
         $table
