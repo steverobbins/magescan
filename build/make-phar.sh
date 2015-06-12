@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT=/var/www/html/magescan.project.steverobbins.name
+ROOT=/var/www/html/magescan.steverobbins.com
 REQUEST=$ROOT/build/request
 BIN_BOX=$ROOT/build/box.phar
 BIN_COMPOSER=/usr/local/bin/composer

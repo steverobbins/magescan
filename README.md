@@ -17,11 +17,11 @@ The idea behind this is to evaluate the quality and security of a Magento site y
 
 ### .phar
 
-* Download the [`magescan.phar`](http://magescan.project.steverobbins.name/download/magescan.phar) file
+* Download the [`magescan.phar`](http://magescan.steverobbins.com/download/magescan.phar) file
 * Run in command line with the `php` command
 
 ```
-curl -o magescan.phar http://magescan.project.steverobbins.name/download/magescan.phar
+curl -o magescan.phar http://magescan.steverobbins.com/download/magescan.phar
 php magescan.phar scan www.example.com
 ```
 

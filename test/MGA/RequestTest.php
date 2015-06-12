@@ -4,7 +4,7 @@
  *
  * PHP version 5
  * 
- * @author    Steve Robbins <steven.j.robbins@gmail.com>
+ * @author    Steve Robbins <steve@steverobbins.com>
  * @license   http://creativecommons.org/licenses/by/4.0/
  * @link      https://github.com/steverobbins/magescan
  */
