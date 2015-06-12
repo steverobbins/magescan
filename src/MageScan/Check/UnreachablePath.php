@@ -61,6 +61,8 @@ class UnreachablePath extends AbstractCheck
         'app/etc/enterprise.xml',
         'chive',
         'composer.lock',
+        'magmi/web/magmi.php',
+        'magmi/conf/magmi.ini',
         'info.php',
         'p.php',
         'README.txt',
