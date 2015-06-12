@@ -45,6 +45,23 @@ class UnreachablePath extends AbstractCheck
     );
 
     /**
+     * Get all paths to be tested
+     *
+     * @param boolean $all
+     *
+     * @return string[]
+     */
+    public function getPaths($all = false)
+    {
+        $paths = $this->unreachablePathDefault;
+        if ($all) {
+            $paths += $this->unreachablePathMore;
+        }
+        sort($paths);
+        return $paths;
+    }
+
+    /**
      * More paths that we shouldn't be able to access
      *
      * @var array
@@ -61,8 +78,8 @@ class UnreachablePath extends AbstractCheck
         'app/etc/enterprise.xml',
         'chive',
         'composer.lock',
-        'magmi/web/magmi.php',
         'magmi/conf/magmi.ini',
+        'magmi/web/magmi.php',
         'info.php',
         'p.php',
         'README.txt',
@@ -89,23 +106,6 @@ class UnreachablePath extends AbstractCheck
         'var/log/payment_verisign.log',
         'var/report/',
     );
-
-    /**
-     * Get all paths to be tested
-     *
-     * @param boolean $all
-     *
-     * @return string[]
-     */
-    public function getPaths($all = false)
-    {
-        $paths = $this->unreachablePathDefault;
-        if ($all) {
-            $paths += $this->unreachablePathMore;
-        }
-        sort($paths);
-        return $paths;
-    }
 
     /**
      * Test that paths are inaccessible
