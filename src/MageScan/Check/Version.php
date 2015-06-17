@@ -51,7 +51,6 @@ class Version extends AbstractCheck
     {
         foreach ($this->versionCheck as $name) {
             $check = $this->getCheck($name);
-            $check->setRequest($this->getRequest());
             $result = $check->getInfo($url);
             if ($result !== false) {
                 return $result;
