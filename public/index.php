@@ -57,11 +57,11 @@ if (isset($_GET['url'])) {
     </nav>
     <div class="container">
         <div class="page-header">
-            <h1>Start Here</h1>
+            <h1>Scan Your Magento Store</h1>
         </div>
         <form id="magescan-form" method="get" action="/">
             <fieldset>
-                <input type="text" placeholder="http://store.example.com/" name="url"<?php echo $url ? ' value="' . $url . '"' : '' ?> />
+                <input type="text" placeholder="http://store.example.com/" autofocus="autofocus" name="url"<?php echo $url ? ' value="' . $url . '"' : '' ?> />
                 <input type="submit" value="Scan" />
             </fieldset>
         </form>
