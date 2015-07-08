@@ -44,13 +44,16 @@ class FileHash extends AbstractCheck
             'd0511b190cdddf865cca7873917f9a69' => array(Version::EDITION_COMMUNITY, '1.1.1'),
             'a2c7f9ddda846ba76220d7bcbe85c985' => array(Version::EDITION_COMMUNITY, '1.2.1, 1.2.1.1, 1.2.1'),
         ),
+        'js/mage/translate_inline.js' => array(
+            '915d0cf14ee7f6b3e29339ea46620908' => array(VERSION::EDITION_COMMUNITY, '1.9.2.0'),
+            '913b5412af26c3bb060b93a478beadc8' => array(VERSION::EDITION_COMMUNITY, '1.9.1.1'),
+        ),
         'js/mage/adminhtml/sales.js' => array(
             'a86ad3ba7ab64bf9b3d7d2b9861d93dc' => array(Version::EDITION_COMMUNITY, '1.0'),
             'd80c40eeef3ca62eb4243443fe41705e' => array(Version::EDITION_COMMUNITY, '1.5.0.1'),
             '95e730c4316669f2df71031d5439df21' => array(Version::EDITION_COMMUNITY, '1.1.0'),
             'bdacf81a3cf7121d7a20eaa266a684ec' => array(Version::EDITION_COMMUNITY, '1.5.1.0'),
             'ba43d3af7ee4cb6f26190fc9d8fba751' => array(Version::EDITION_ENTERPRISE, '1.14.1.0'),
-            'c8dd0fd8fa3faa9b9f0dd767b5a2c995' => array(Version::EDITION_COMMUNITY, '1.9.1.1'),
             '4422dffc16da547c671b086938656397' => array(Version::EDITION_COMMUNITY, '1.4.2.0'),
             '0e400488c83e63110da75534f49f23f3' => array(
                 Version::EDITION_COMMUNITY, '1.3.2, 1.3.2.1, 1.3.2.2, 1.3.2.3, 1.3.2.4'
