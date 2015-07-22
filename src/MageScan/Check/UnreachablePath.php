@@ -42,15 +42,14 @@ class UnreachablePath extends AbstractCheck
     /**
      * Test that paths are inaccessible
      *
-     * @param string  $url
-     * @param boolean $all
+     * @param string $url
      *
      * @return array
      */
-    public function checkPaths($url, $all = false)
+    public function checkPaths($url)
     {
         $result = array();
-        foreach ($this->getPaths($all) as $path) {
+        foreach ($this->getPaths() as $path) {
             $result[] = $this->checkPath($url, $path);
         }
         return $result;

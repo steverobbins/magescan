@@ -252,16 +252,14 @@ class ScanCommand extends Command
     /**
      * Check HTTP status codes for files/paths that shouldn't be reachable
      *
-     * @param boolean $all
-     *
      * @return void
      */
-    protected function checkUnreachablePath($all = false)
+    protected function checkUnreachablePath()
     {
         $this->writeHeader('Unreachable Path Check');
         $unreachablePath = new UnreachablePath;
         $unreachablePath->setRequest($this->request);
-        $results = $unreachablePath->checkPaths($this->url, $all);
+        $results = $unreachablePath->checkPaths($this->url);
         foreach ($results as &$result) {
             if ($result[2] === false) {
                 $result[2] = '<error>Fail</error>';

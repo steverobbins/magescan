@@ -39,8 +39,7 @@ class Module extends AbstractCheck
     public function checkForModules($url)
     {
         $modules = array();
-        $file = new File('src/config/module.json');
-        foreach ($file->getJson() as $file => $name) {
+        foreach ($this->getFiles() as $file => $name) {
             $response = $this->checkForModule($url, $file);
             if ($response && (!isset($modules[$name]) || $modules[$name] === false)) {
                 $modules[$name] = true;
@@ -67,5 +66,16 @@ class Module extends AbstractCheck
             CURLOPT_FOLLOWLOCATION => true
         ));
         return $response->code == 200;
+    }
+
+    /**
+     * Get modules files as array
+     *
+     * @return array
+     */
+    public function getFiles()
+    {
+        $file = new File('src/config/module.json');
+        return $file->getJson();
     }
 }

@@ -80,7 +80,7 @@ class Http
     public function checkModules()
     {
         $module = new Module;
-        $this->respond(array_keys($module->files));
+        $this->respond(array_keys($module->getFiles()));
     }
 
     /**
@@ -92,10 +92,11 @@ class Http
     {
         $module = new Module;
         $file   = $_GET['path'];
+        $files  = $module->getFiles();
         $result = $module->checkForModule($this->url, $_GET['path']);
         if ($result) {
             $this->respond(array(
-                isset($module->files[$file]) ? $module->files[$file] : '<!-- how did this happen -->'
+                isset($files[$file]) ? $files[$file] : '<!-- how did this happen -->'
             ));
         }
     }
@@ -222,7 +223,7 @@ class Http
     public function checkUnreachablepath()
     {
         $unreachablePath = new UnreachablePath;
-        $this->respond($unreachablePath->getPaths(true));
+        $this->respond($unreachablePath->getPaths());
     }
 
     /**
