@@ -87,12 +87,6 @@ class ScanCommand extends Command
                 'The URL of the Magento application'
             )
             ->addOption(
-                'all-paths',
-                null,
-                InputOption::VALUE_NONE,
-                'Crawl all urls that should not be reachable'
-            )
-            ->addOption(
                 'show-modules',
                 null,
                 InputOption::VALUE_NONE,
@@ -133,7 +127,7 @@ class ScanCommand extends Command
         $this->checkPatch();
         $this->checkSitemapExists();
         $this->checkServerTech();
-        $this->checkUnreachablePath($input->getOption('all-paths'));
+        $this->checkUnreachablePath();
     }
 
     /**

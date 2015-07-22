@@ -73,15 +73,11 @@ Add the following to your `composer.json`
 
 ### `scan`
 
-    $ magescan.phar scan [--all-paths] [--insecure] [--show-modules] <url>
+    $ magescan.phar scan [--insecure|-k] [--show-modules] <url>
 
 Scans the given `<url>`.
 
 #### Options
-
-##### `--all-paths`
-
-Checks additional paths that should not be accesible (this will make the scan take longer)
 
 ##### `--insecure`, `-k`
 

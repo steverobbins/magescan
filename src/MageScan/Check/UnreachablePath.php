@@ -14,6 +14,8 @@
 
 namespace MageScan\Check;
 
+use MageScan\File;
+
 /**
  * Checks that files/folder aren't accessible
  *
@@ -27,87 +29,15 @@ namespace MageScan\Check;
 class UnreachablePath extends AbstractCheck
 {
     /**
-     * List of paths that we shouldn't be able to access
-     *
-     * @var array
-     */
-    protected $unreachablePathDefault = array(
-        '.git/config',
-        '.svn/entries',
-        'admin',
-        'app/etc/local.xml',
-        'composer.json',
-        'downloader/index.php',
-        'phpinfo.php',
-        'phpmyadmin',
-        'var/log/exception.log',
-        'var/log/system.log',
-    );
-
-    /**
      * Get all paths to be tested
-     *
-     * @param boolean $all
      *
      * @return string[]
      */
-    public function getPaths($all = false)
+    public function getPaths()
     {
-        $paths = $this->unreachablePathDefault;
-        if ($all) {
-            $paths += $this->unreachablePathMore;
-        }
-        sort($paths);
-        return $paths;
+        $file = new File('src/config/unreachablepath.json');
+        return $file->getJson();
     }
-
-    /**
-     * More paths that we shouldn't be able to access
-     *
-     * @var array
-     */
-    protected $unreachablePathMore = array(
-        '.bzr/',
-        '.cvs/',
-        '.git/',
-        '.git/refs/',
-        '.gitignore',
-        '.idea',
-        '.hg/',
-        '.svn/',
-        'app/etc/enterprise.xml',
-        'chive',
-        'composer.lock',
-        'adminer.php',
-        'magmi/',
-        'magmi/conf/magmi.ini',
-        'magmi/web/magmi.php',
-        'info.php',
-        'p.php',
-        'README.txt',
-        'README.md',
-        'shell/',
-        'var/export/',
-        'var/export/export_all_products.csv',
-        'var/export/export_product_stocks.csv',
-        'var/export/export_customers.csv',
-        'var/log/',
-        'var/log/payment_authnetcim.log',
-        'var/log/payment_authorizenet.log',
-        'var/log/payment_authorizenet_directpost.log',
-        'var/log/payment_cybersource_soap.log',
-        'var/log/payment_ogone.log',
-        'var/log/payment_payflow_advanced.log',
-        'var/log/payment_payflow_link.log',
-        'var/log/payment_paypal_billing_agreement.log',
-        'var/log/payment_paypal_direct.log',
-        'var/log/payment_paypal_express.log',
-        'var/log/payment_paypal_standard.log',
-        'var/log/payment_paypaluk_express.log',
-        'var/log/payment_pbridge.log',
-        'var/log/payment_verisign.log',
-        'var/report/',
-    );
 
     /**
      * Test that paths are inaccessible
