@@ -95,20 +95,60 @@ Sitemap is not accessible: http://demo.magentocommerce.com/sitemap.xml
   Unreachable Path Check  
                           
 
-+-----------------------+---------------+---------------------------------------------+
-| Path                  | Response Code | Status                                      |
-+-----------------------+---------------+---------------------------------------------+
-| .git/config           | 404           | Pass                                        |
-| .svn/entries          | 403           | Pass                                        |
-| admin                 | 301           | http://demo-admin.magentocommerce.com/admin |
-| app/etc/local.xml     | 403           | Pass                                        |
-| composer.json         | 404           | Pass                                        |
-| downloader/index.php  | 200           | Fail                                        |
-| phpinfo.php           | 404           | Pass                                        |
-| phpmyadmin            | 404           | Pass                                        |
-| var/log/exception.log | 403           | Pass                                        |
-| var/log/system.log    | 403           | Pass                                        |
-+-----------------------+---------------+---------------------------------------------+
++----------------------------------------------+---------------+---------------------------------------------+
+| Path                                         | Response Code | Status                                      |
++----------------------------------------------+---------------+---------------------------------------------+
+| .bzr/                                        | 404           | Pass                                        |
+| .cvs/                                        | 404           | Pass                                        |
+| .git/                                        | 404           | Pass                                        |
+| .git/config                                  | 404           | Pass                                        |
+| .git/refs/                                   | 404           | Pass                                        |
+| .gitignore                                   | 404           | Pass                                        |
+| .hg/                                         | 404           | Pass                                        |
+| .idea                                        | 404           | Pass                                        |
+| .svn/                                        | 403           | Pass                                        |
+| .svn/entries                                 | 403           | Pass                                        |
+| admin                                        | 301           | http://demo-admin.magentocommerce.com/admin |
+| adminer.php                                  | 301           | http://demo-admin.magentocommerce.com/admin |
+| app/etc/enterprise.xml                       | 403           | Pass                                        |
+| app/etc/local.xml                            | 403           | Pass                                        |
+| chive                                        | 404           | Pass                                        |
+| composer.json                                | 404           | Pass                                        |
+| composer.lock                                | 404           | Pass                                        |
+| downloader/index.php                         | 200           | Fail                                        |
+| info.php                                     | 404           | Pass                                        |
+| magmi/                                       | 404           | Pass                                        |
+| magmi/conf/magmi.ini                         | 404           | Pass                                        |
+| magmi/web/magmi.php                          | 404           | Pass                                        |
+| p.php                                        | 404           | Pass                                        |
+| phpinfo.php                                  | 404           | Pass                                        |
+| phpmyadmin                                   | 404           | Pass                                        |
+| README.md                                    | 404           | Pass                                        |
+| README.txt                                   | 404           | Pass                                        |
+| shell/                                       | 404           | Pass                                        |
+| var/export/                                  | 403           | Pass                                        |
+| var/export/export_all_products.csv           | 403           | Pass                                        |
+| var/export/export_customers.csv              | 403           | Pass                                        |
+| var/export/export_product_stocks.csv         | 403           | Pass                                        |
+| var/log/                                     | 403           | Pass                                        |
+| var/log/exception.log                        | 403           | Pass                                        |
+| var/log/payment_authnetcim.log               | 403           | Pass                                        |
+| var/log/payment_authorizenet.log             | 403           | Pass                                        |
+| var/log/payment_authorizenet_directpost.log  | 403           | Pass                                        |
+| var/log/payment_cybersource_soap.log         | 403           | Pass                                        |
+| var/log/payment_ogone.log                    | 403           | Pass                                        |
+| var/log/payment_payflow_advanced.log         | 403           | Pass                                        |
+| var/log/payment_payflow_link.log             | 403           | Pass                                        |
+| var/log/payment_paypal_billing_agreement.log | 403           | Pass                                        |
+| var/log/payment_paypal_direct.log            | 403           | Pass                                        |
+| var/log/payment_paypal_express.log           | 403           | Pass                                        |
+| var/log/payment_paypal_standard.log          | 403           | Pass                                        |
+| var/log/payment_paypaluk_express.log         | 403           | Pass                                        |
+| var/log/payment_pbridge.log                  | 403           | Pass                                        |
+| var/log/payment_verisign.log                 | 403           | Pass                                        |
+| var/log/system.log                           | 403           | Pass                                        |
+| var/report/                                  | 403           | Pass                                        |
++----------------------------------------------+---------------+---------------------------------------------+
 
 DISPLAY;
         $this->assertEquals($display, $commandTester->getDisplay());
