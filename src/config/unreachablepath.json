@@ -16,6 +16,7 @@
     "chive",
     "composer.json",
     "composer.lock",
+    "dev/tests/functional/etc/config.xml",
     "downloader\/index.php",
     "info.php",
     "magmi\/",
