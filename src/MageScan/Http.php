@@ -51,7 +51,7 @@ class Http
      */
     public function __construct($code, $url)
     {
-        $magescanUrl    = new Url;
+        $magescanUrl = new Url;
         $this->url = $magescanUrl->clean(urldecode($url));
         call_user_func(array($this, 'check' . ucwords($code)));
     }
