@@ -11,6 +11,8 @@
     ".svn\/entries",
     "admin",
     "adminer.php",
+    "aittmp\/",
+    "aittmp\/adminer.php",
     "app\/etc\/enterprise.xml",
     "app\/etc\/local.xml",
     "chive",
