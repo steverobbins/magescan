@@ -110,8 +110,7 @@ Sitemap is not accessible: http://demo.magentocommerce.com/sitemap.xml
 | .svn/entries                                 | 403           | Pass                                        |
 | admin                                        | 301           | http://demo-admin.magentocommerce.com/admin |
 | adminer.php                                  | 301           | http://demo-admin.magentocommerce.com/admin |
-| aittmp/                                      | 404           | Pass                                        |
-| aittmp/adminer.php                           | 404           | Pass                                        |
+| aittmp/index.php                             | 404           | Pass                                        |
 | app/etc/enterprise.xml                       | 403           | Pass                                        |
 | app/etc/local.xml                            | 403           | Pass                                        |
 | chive                                        | 404           | Pass                                        |
