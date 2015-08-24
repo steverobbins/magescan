@@ -1,18 +1,14 @@
 #!/usr/bin/env php
 <?php
 
-$source = 'https://raw.githubusercontent.com/gwillem/magento-version-identification/master/README.md';
+$source = 'https://raw.githubusercontent.com/gwillem/magento-version-identification/master/version_hashes.json';
 $dest = dirname(__DIR__)
     . DIRECTORY_SEPARATOR . 'src'
     . DIRECTORY_SEPARATOR . 'config'
     . DIRECTORY_SEPARATOR . 'version'
     . DIRECTORY_SEPARATOR . 'hash.json';
 
-$readme = file_get_contents($source);
-
-preg_match('/```json(.*)```/ms', $readme, $matches);
-
-$json = json_decode($matches[1]);
+$json = json_decode(file_get_contents($source));
 
 foreach ($json as $file => $hashes) {
     foreach ($hashes as $hash => &$values) {
