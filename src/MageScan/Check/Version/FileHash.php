@@ -39,7 +39,7 @@ class FileHash extends AbstractCheck
      */
     public function getInfo($url)
     {
-        $file = new File('src/config/version/hash.json');
+        $file = new File('vendor/steverobbins/magento-version-identification/version.json');
         foreach ($file->getJson() as $path => $hash) {
             $response = $this->getRequest()->fetch(
                 $url . $path,

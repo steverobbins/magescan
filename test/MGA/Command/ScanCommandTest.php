@@ -39,12 +39,12 @@ Scanning http://demo.magentocommerce.com/...
   Magento Information  
                        
 
-+-----------+------------------+
-| Parameter | Value            |
-+-----------+------------------+
-| Edition   | Community        |
-| Version   | 1.9.0.0, 1.9.0.1 |
-+-----------+------------------+
++-----------+-----------+
+| Parameter | Value     |
++-----------+-----------+
+| Edition   | Community |
+| Version   | 1.8.1.0   |
++-----------+-----------+
 
                      
   Installed Modules  
