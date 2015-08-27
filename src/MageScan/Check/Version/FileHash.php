@@ -14,9 +14,9 @@
 
 namespace MageScan\Check\Version;
 
-use MageScan\File;
-use MageScan\Check\Version;
 use MageScan\Check\AbstractCheck;
+use MageScan\Check\Version;
+use Mvi\Check;
 
 /**
  * Scan for Magento edition and version via file md5 hash
@@ -39,19 +39,13 @@ class FileHash extends AbstractCheck
      */
     public function getInfo($url)
     {
-        $file = new File('vendor/steverobbins/magento-version-identification/version.json');
-        foreach ($file->getJson() as $path => $hash) {
-            $response = $this->getRequest()->fetch(
-                $url . $path,
-                array(
-                    CURLOPT_FOLLOWLOCATION => true
-                )
-            );
-            $md5 = md5($response->body);
-            if (isset($hash[$md5])) {
-                return $hash[$md5];
-            }
+        $checker = new Check($url);
+        $info    = $checker->getInfo();
+        if ($info === false) {
+            return false;
         }
-        return false;
+        $edition  = key($info);
+        $versions = $info[$edition];
+        return [$edition, implode(', ', $versions)];
     }
 }
