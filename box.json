@@ -18,6 +18,15 @@
                 "vendor/composer",
                 "vendor/symfony"
             ]
+        },
+        {
+            "name": [
+                "*.php",
+                "*.json"
+            ],
+            "in": [
+                "vendor/steverobbins"
+            ]
         }
     ],
     "stub": true
