@@ -1,5 +1,6 @@
 autoloaders:
   MageScan: %module%/src
+  Mvi: %module%/vendor/steverobbins/magento-version-identification/src
 
 commands:
   customCommands:
