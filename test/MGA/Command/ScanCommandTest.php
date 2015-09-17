@@ -108,6 +108,7 @@ Sitemap is not accessible: http://demo.magentocommerce.com/sitemap.xml
 | .idea                                        | 404           | Pass                                        |
 | .svn/                                        | 403           | Pass                                        |
 | .svn/entries                                 | 403           | Pass                                        |
+| index.php/rss/order/NEW/new                  | 200           | Fail                                        |
 | admin                                        | 301           | http://demo-admin.magentocommerce.com/admin |
 | adminer.php                                  | 301           | http://demo-admin.magentocommerce.com/admin |
 | aittmp/index.php                             | 404           | Pass                                        |
