@@ -9,6 +9,7 @@
     ".idea",
     ".svn/",
     ".svn/entries",
+    "index.php/rss/order/NEW/new",
     "admin",
     "adminer.php",
     "aittmp/index.php",
