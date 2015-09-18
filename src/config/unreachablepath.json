@@ -18,6 +18,7 @@
     "chive",
     "composer.json",
     "composer.lock",
+    "control/",
     "dev/tests/functional/etc/config.xml",
     "downloader/index.php",
     "info.php",

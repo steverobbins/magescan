@@ -117,6 +117,7 @@ Sitemap is not accessible: http://demo.magentocommerce.com/sitemap.xml
 | chive                                        | 404           | Pass                                        |
 | composer.json                                | 404           | Pass                                        |
 | composer.lock                                | 404           | Pass                                        |
+| control/                                     | 200           | Fail                                        |
 | dev/tests/functional/etc/config.xml          | 404           | Pass                                        |
 | downloader/index.php                         | 200           | Fail                                        |
 | info.php                                     | 404           | Pass                                        |
