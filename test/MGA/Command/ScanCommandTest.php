@@ -30,21 +30,21 @@ class ScanCommandTest extends PHPUnit_Framework_TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'        => $command->getName(),
-            'url'            => 'demo.magentocommerce.com'
+            'url'            => 'enterprise-demo.user.magentotrial.com'
         ));
         $display = <<<DISPLAY
-Scanning http://demo.magentocommerce.com/...
+Scanning http://enterprise-demo.user.magentotrial.com/...
 
                        
   Magento Information  
                        
 
-+-----------+------------------+
-| Parameter | Value            |
-+-----------+------------------+
-| Edition   | Community        |
-| Version   | 1.9.0.0, 1.9.0.1 |
-+-----------+------------------+
++-----------+------------+
+| Parameter | Value      |
++-----------+------------+
+| Edition   | Enterprise |
+| Version   | 1.14.1.0   |
++-----------+------------+
 
                      
   Installed Modules  
@@ -59,8 +59,8 @@ No detectable modules were found
 +------------+-------+
 | Type       | Count |
 +------------+-------+
-| Categories | 27    |
-| Products   | 93    |
+| Categories | 28    |
+| Products   | 94    |
 +------------+-------+
 
            
@@ -78,81 +78,80 @@ No detectable modules were found
            
 
 Sitemap is not declared in robots.txt
-Sitemap is not accessible: http://demo.magentocommerce.com/sitemap.xml
+Sitemap is not accessible: http://enterprise-demo.user.magentotrial.com/sitemap.xml
 
                      
   Server Technology  
                      
 
-+--------------+-------------+
-| Key          | Value       |
-+--------------+-------------+
-| Server       | nginx/1.8.0 |
-| X-Powered-By | PHP/5.3.3   |
-+--------------+-------------+
++--------+-------+
+| Key    | Value |
++--------+-------+
+| Server | nginx |
++--------+-------+
 
                           
   Unreachable Path Check  
                           
 
-+----------------------------------------------+---------------+---------------------------------------------+
-| Path                                         | Response Code | Status                                      |
-+----------------------------------------------+---------------+---------------------------------------------+
-| .bzr/                                        | 404           | Pass                                        |
-| .cvs/                                        | 404           | Pass                                        |
-| .git/                                        | 404           | Pass                                        |
-| .git/config                                  | 404           | Pass                                        |
-| .git/refs/                                   | 404           | Pass                                        |
-| .gitignore                                   | 404           | Pass                                        |
-| .hg/                                         | 404           | Pass                                        |
-| .idea                                        | 404           | Pass                                        |
-| .svn/                                        | 403           | Pass                                        |
-| .svn/entries                                 | 403           | Pass                                        |
-| index.php/rss/order/NEW/new                  | 200           | Fail                                        |
-| admin                                        | 301           | http://demo-admin.magentocommerce.com/admin |
-| adminer.php                                  | 301           | http://demo-admin.magentocommerce.com/admin |
-| aittmp/index.php                             | 404           | Pass                                        |
-| app/etc/enterprise.xml                       | 403           | Pass                                        |
-| app/etc/local.xml                            | 403           | Pass                                        |
-| chive                                        | 404           | Pass                                        |
-| composer.json                                | 404           | Pass                                        |
-| composer.lock                                | 404           | Pass                                        |
-| control/                                     | 200           | Fail                                        |
-| dev/tests/functional/etc/config.xml          | 404           | Pass                                        |
-| downloader/index.php                         | 200           | Fail                                        |
-| info.php                                     | 404           | Pass                                        |
-| magmi/                                       | 404           | Pass                                        |
-| magmi/conf/magmi.ini                         | 404           | Pass                                        |
-| magmi/web/magmi.php                          | 404           | Pass                                        |
-| p.php                                        | 404           | Pass                                        |
-| phpinfo.php                                  | 404           | Pass                                        |
-| phpmyadmin                                   | 404           | Pass                                        |
-| README.md                                    | 404           | Pass                                        |
-| README.txt                                   | 404           | Pass                                        |
-| shell/                                       | 404           | Pass                                        |
-| var/export/                                  | 403           | Pass                                        |
-| var/export/export_all_products.csv           | 403           | Pass                                        |
-| var/export/export_customers.csv              | 403           | Pass                                        |
-| var/export/export_product_stocks.csv         | 403           | Pass                                        |
-| var/log/                                     | 403           | Pass                                        |
-| var/log/exception.log                        | 403           | Pass                                        |
-| var/log/payment_authnetcim.log               | 403           | Pass                                        |
-| var/log/payment_authorizenet.log             | 403           | Pass                                        |
-| var/log/payment_authorizenet_directpost.log  | 403           | Pass                                        |
-| var/log/payment_cybersource_soap.log         | 403           | Pass                                        |
-| var/log/payment_ogone.log                    | 403           | Pass                                        |
-| var/log/payment_payflow_advanced.log         | 403           | Pass                                        |
-| var/log/payment_payflow_link.log             | 403           | Pass                                        |
-| var/log/payment_paypal_billing_agreement.log | 403           | Pass                                        |
-| var/log/payment_paypal_direct.log            | 403           | Pass                                        |
-| var/log/payment_paypal_express.log           | 403           | Pass                                        |
-| var/log/payment_paypal_standard.log          | 403           | Pass                                        |
-| var/log/payment_paypaluk_express.log         | 403           | Pass                                        |
-| var/log/payment_pbridge.log                  | 403           | Pass                                        |
-| var/log/payment_verisign.log                 | 403           | Pass                                        |
-| var/log/system.log                           | 403           | Pass                                        |
-| var/report/                                  | 403           | Pass                                        |
-+----------------------------------------------+---------------+---------------------------------------------+
++----------------------------------------------+---------------+-----------------------------------------------------+
+| Path                                         | Response Code | Status                                              |
++----------------------------------------------+---------------+-----------------------------------------------------+
+| .bzr/                                        | 404           | Pass                                                |
+| .cvs/                                        | 404           | Pass                                                |
+| .git/                                        | 403           | Pass                                                |
+| .git/config                                  | 403           | Pass                                                |
+| .git/refs/                                   | 403           | Pass                                                |
+| .gitignore                                   | 404           | Pass                                                |
+| .hg/                                         | 404           | Pass                                                |
+| .idea                                        | 404           | Pass                                                |
+| .svn/                                        | 403           | Pass                                                |
+| .svn/entries                                 | 403           | Pass                                                |
+| index.php/rss/order/NEW/new                  | 200           | Fail                                                |
+| admin                                        | 301           | http://enterprise-admin.user.magentotrial.com/admin |
+| adminer.php                                  | 301           | http://enterprise-admin.user.magentotrial.com/admin |
+| aittmp/index.php                             | 404           | Pass                                                |
+| app/etc/enterprise.xml                       | 403           | Pass                                                |
+| app/etc/local.xml                            | 403           | Pass                                                |
+| chive                                        | 404           | Pass                                                |
+| composer.json                                | 404           | Pass                                                |
+| composer.lock                                | 404           | Pass                                                |
+| control/                                     | 200           | Fail                                                |
+| dev/tests/functional/etc/config.xml          | 404           | Pass                                                |
+| downloader/index.php                         | 200           | Fail                                                |
+| info.php                                     | 404           | Pass                                                |
+| magmi/                                       | 404           | Pass                                                |
+| magmi/conf/magmi.ini                         | 404           | Pass                                                |
+| magmi/web/magmi.php                          | 404           | Pass                                                |
+| p.php                                        | 404           | Pass                                                |
+| phpinfo.php                                  | 404           | Pass                                                |
+| phpmyadmin                                   | 404           | Pass                                                |
+| README.md                                    | 404           | Pass                                                |
+| README.txt                                   | 404           | Pass                                                |
+| shell/                                       | 403           | Pass                                                |
+| var/export/                                  | 403           | Pass                                                |
+| var/export/export_all_products.csv           | 403           | Pass                                                |
+| var/export/export_customers.csv              | 403           | Pass                                                |
+| var/export/export_product_stocks.csv         | 403           | Pass                                                |
+| var/log/                                     | 403           | Pass                                                |
+| var/log/exception.log                        | 403           | Pass                                                |
+| var/log/payment_authnetcim.log               | 403           | Pass                                                |
+| var/log/payment_authorizenet.log             | 403           | Pass                                                |
+| var/log/payment_authorizenet_directpost.log  | 403           | Pass                                                |
+| var/log/payment_cybersource_soap.log         | 403           | Pass                                                |
+| var/log/payment_ogone.log                    | 403           | Pass                                                |
+| var/log/payment_payflow_advanced.log         | 403           | Pass                                                |
+| var/log/payment_payflow_link.log             | 403           | Pass                                                |
+| var/log/payment_paypal_billing_agreement.log | 403           | Pass                                                |
+| var/log/payment_paypal_direct.log            | 403           | Pass                                                |
+| var/log/payment_paypal_express.log           | 403           | Pass                                                |
+| var/log/payment_paypal_standard.log          | 403           | Pass                                                |
+| var/log/payment_paypaluk_express.log         | 403           | Pass                                                |
+| var/log/payment_pbridge.log                  | 403           | Pass                                                |
+| var/log/payment_verisign.log                 | 403           | Pass                                                |
+| var/log/system.log                           | 403           | Pass                                                |
+| var/report/                                  | 403           | Pass                                                |
++----------------------------------------------+---------------+-----------------------------------------------------+
 
 DISPLAY;
         $this->assertEquals($display, $commandTester->getDisplay());
