@@ -43,13 +43,14 @@ class File
     /**
      * Initialize the root dir and set the path
      *
-     * @param string $path
+     * @param string $filename
      */
     public function __construct($filename)
     {
         $this->root = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
         $this->paths[] = $this->root . 'src' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $filename;
-        $homePath = getenv("HOME").'/.magescan/config/'.$filename;
+        $homePath = getenv('HOME') . DIRECTORY_SEPARATOR . '.magescan' . DIRECTORY_SEPARATOR
+            . 'config' . DIRECTORY_SEPARATOR . $filename;
         if (file_exists($homePath)) {
             $this->paths[] = $homePath;
         }
@@ -67,7 +68,6 @@ class File
             $pathData = json_decode(file_get_contents($path), true);
             $return = array_merge($return, $pathData);
         }
-
         return $return;
     }
 }
