@@ -67,11 +67,14 @@ No detectable modules were found
   Patches  
            
 
-+------------+---------+
-| Name       | Status  |
-+------------+---------+
-| SUPEE-5344 | Unknown |
-+------------+---------+
++------------+-----------+
+| Name       | Status    |
++------------+-----------+
+| SUPEE-5344 | Patched   |
+| SUPEE-5994 | Unpatched |
+| SUPEE-6285 | Unpatched |
+| SUPEE-6482 | Unpatched |
++------------+-----------+
 
            
   Sitemap  

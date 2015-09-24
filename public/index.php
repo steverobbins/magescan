@@ -158,11 +158,16 @@ if (isset($_GET['url'])) {
                         <div class="panel-heading">
                             <h3 class="panel-title">Patches</h3>
                         </div>
-                        <div class="panel-body response">
-                            <div class="loader">
-                                <div class="loader-inner ball-clip-rotate-multiple">
-                                    <div></div>
-                                    <div></div>
+                        <div class="panel-body">
+                            <div class="magereport">
+                                Need help? View report on <a href="https://www.magereport.com/scan/?s=<?php echo urlencode($url) ?>">MageReport.com</a>
+                            </div>
+                            <div class="response">
+                                <div class="loader">
+                                    <div class="loader-inner ball-clip-rotate-multiple">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

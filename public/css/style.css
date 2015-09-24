@@ -55,3 +55,8 @@ input[type=text] {
     margin-top: 10px;
     font-style: italic;
 }
+
+.magereport {
+    text-align: center;
+    padding-bottom: 10px;
+}

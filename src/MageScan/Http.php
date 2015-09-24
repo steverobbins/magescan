@@ -122,12 +122,6 @@ class Http
                 default:
                     $status = 'Unknown';
             }
-            switch ($name) {
-                case 'SUPEE-5344':
-                    $name = '<a href="https://shoplift.byte.nl/scan/' . $patch->trimUrl($this->url)
-                        . '/admin">' . $name . '</a>';
-                    break;
-            }
             $rows[] = array(
                 $name,
                 $status

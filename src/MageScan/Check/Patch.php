@@ -14,6 +14,8 @@
 
 namespace MageScan\Check;
 
+use MageScan\Check\Patch\MageReport;
+
 /**
  * Check for installed patches
  *
@@ -29,6 +31,7 @@ class Patch extends AbstractCheck
     const PATCHED   = 1;
     const UNPATCHED = 2;
     const UNKNOWN   = 3;
+
     /**
      * Check all patches
      *
@@ -38,46 +41,8 @@ class Patch extends AbstractCheck
      */
     public function checkAll($url)
     {
-        $results = array();
-        $results['SUPEE-5344'] = $this->checkSupee5344($url);
+        $mageReport = new MageReport($url);
+        $results = $mageReport->checkAll();
         return $results;
-    }
-
-    /**
-     * Check if SUPEE-5344 is patched
-     *
-     * @param string $url
-     * @param string $admin
-     *
-     * @return boolean
-     */
-    public function checkSupee5344($url, $admin = 'admin')
-    {
-        $url = $this->trimUrl($url);
-        $response = $this->getRequest()->fetch('https://shoplift.byte.nl/scan/' . $url . '/' . $admin . '.json', array(
-            CURLOPT_FOLLOWLOCATION => true
-        ));
-        $body = json_decode($response->body);
-        if (is_object($body)) {
-            switch ($body->result) {
-                case 'safe':
-                    return self::PATCHED;
-                case 'vuln':
-                    return self::UNPATCHED;
-            }
-        }
-        return self::UNKNOWN;
-    }
-
-    /**
-     * Remove http from url
-     *
-     * @param string $url
-     *
-     * @return string
-     */
-    public function trimUrl($url)
-    {
-        return trim(preg_replace('/https?:\/+/', '', $url), '/');
     }
 }
