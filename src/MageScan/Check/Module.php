@@ -75,7 +75,7 @@ class Module extends AbstractCheck
      */
     public function getFiles()
     {
-        $file = new File('src/config/module.json');
+        $file = new File('module.json');
         return $file->getJson();
     }
 }

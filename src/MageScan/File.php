@@ -34,21 +34,25 @@ class File
     private $root;
 
     /**
-     * This file's location
+     * This file's locations
      *
-     * @var string
+     * @var array
      */
-    private $path;
+    private $paths = array();
 
     /**
      * Initialize the root dir and set the path
      *
      * @param string $path
      */
-    public function __construct($path)
+    public function __construct($filename)
     {
         $this->root = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
-        $this->path = $path;
+        $this->paths[] = $this->root . 'src' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $filename;
+        $homePath = getenv("HOME").'/.magescan/config/'.$filename;
+        if (file_exists($homePath)) {
+            $this->paths[] = $homePath;
+        }
     }
 
     /**
@@ -58,6 +62,12 @@ class File
      */
     public function getJson()
     {
-        return json_decode(file_get_contents($this->root . $this->path), true);
+        $return = array();
+        foreach ($this->paths as $path) {
+            $pathData = json_decode(file_get_contents($path), true);
+            $return = array_merge($return, $pathData);
+        }
+
+        return $return;
     }
 }
