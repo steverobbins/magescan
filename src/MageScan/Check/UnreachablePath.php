@@ -35,7 +35,7 @@ class UnreachablePath extends AbstractCheck
      */
     public function getPaths()
     {
-        $file = new File('src/config/unreachablepath.json');
+        $file = new File('unreachablepath.json');
         return $file->getJson();
     }
 
