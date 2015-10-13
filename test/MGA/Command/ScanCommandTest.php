@@ -129,6 +129,7 @@ Sitemap is not accessible: http://enterprise-demo.user.magentotrial.com/sitemap.
 | downloader/index.php                         | 200           | Fail                                                |
 | index.php/rss/order/NEW/new                  | 200           | Fail                                                |
 | info.php                                     | 404           | Pass                                                |
+| mageaudit.php                                | 404           | Pass                                                |
 | magmi/                                       | 404           | Pass                                                |
 | magmi/conf/magmi.ini                         | 404           | Pass                                                |
 | magmi/web/magmi.php                          | 404           | Pass                                                |

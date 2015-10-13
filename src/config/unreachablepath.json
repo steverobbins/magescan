@@ -28,6 +28,7 @@
     "downloader/index.php",
     "index.php/rss/order/NEW/new",
     "info.php",
+    "mageaudit.php",
     "magmi/",
     "magmi/conf/magmi.ini",
     "magmi/web/magmi.php",
