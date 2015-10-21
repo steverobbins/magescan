@@ -71,11 +71,11 @@ Add the following to your `composer.json`
 
 ## Commands
 
-### `scan`
+### `scan:all`
 
     $ magescan.phar scan [--insecure|-k] [--show-modules] <url>
 
-Scans the given `<url>`.
+Run all scans on the given `<url>`.
 
 #### Options
 
@@ -84,6 +84,49 @@ Scans the given `<url>`.
 If set, SSL certificates won't be validated
 
 ##### `--show-modules`
+
+### `scan:catalog`
+
+    $ magescan.phar scan:catalog [--insecure|-k] <url>
+
+Get catalog information
+
+### `scan:modules`
+
+    $ magescan.phar scan:modules [--insecure|-k] [--show-modules] <url>
+
+Get installed modules
+
+### `scan:patch`
+
+    $ magescan.phar scan:patch [--insecure|-k] <url>
+
+Get patch information
+
+### `scan:server`
+
+    $ magescan.phar scan:server [--insecure|-k] <url>
+
+Check server technology
+
+### `scan:sitemap`
+
+    $ magescan.phar scan:sitemap [--insecure|-k] <url>
+
+Check sitemap
+
+### `scan:unreachable`
+
+    $ magescan.phar scan:unreachable [--insecure|-k] <url>
+
+Check unreachable paths
+
+### `scan:version`
+
+    $ magescan.phar scan:version [--insecure|-k] <url>
+
+Get the version of a Magento installation
+
 
 Show all modules that we tried to detect, not just those that were found
 
