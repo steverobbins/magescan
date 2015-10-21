@@ -12,15 +12,31 @@
  * @link      https://github.com/steverobbins/magescan
  */
 
+ini_set('display_errors', 1);
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use MageScan\Command\ScanCommand;
+use MageScan\Command\Scan\AllCommand;
+use MageScan\Command\Scan\CatalogCommand;
+use MageScan\Command\Scan\ModuleCommand;
+use MageScan\Command\Scan\PatchCommand;
+use MageScan\Command\Scan\ServerCommand;
+use MageScan\Command\Scan\SitemapCommand;
+use MageScan\Command\Scan\VersionCommand;
+use MageScan\Command\Scan\UnreachableCommand;
 use MageScan\Command\SelfUpdateCommand;
 use Symfony\Component\Console\Application;
 
 $app = new Application('Mage Scan', '1.9.2');
 
-$app->add(new ScanCommand);
+$app->add(new AllCommand);
+$app->add(new VersionCommand);
+$app->add(new ModuleCommand);
+$app->add(new CatalogCommand);
+$app->add(new PatchCommand);
+$app->add(new SitemapCommand);
+$app->add(new ServerCommand);
+$app->add(new UnreachableCommand);
 $app->add(new SelfUpdateCommand);
 
 $app->run();

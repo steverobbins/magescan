@@ -11,7 +11,14 @@
 
 namespace MageScan\Test\Command;
 
-use MageScan\Command\ScanCommand;
+use MageScan\Command\Scan\AllCommand;
+use MageScan\Command\Scan\CatalogCommand;
+use MageScan\Command\Scan\ModuleCommand;
+use MageScan\Command\Scan\PatchCommand;
+use MageScan\Command\Scan\ServerCommand;
+use MageScan\Command\Scan\SitemapCommand;
+use MageScan\Command\Scan\VersionCommand;
+use MageScan\Command\Scan\UnreachableCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Application;
 use PHPUnit_Framework_TestCase;
@@ -19,17 +26,24 @@ use PHPUnit_Framework_TestCase;
 /**
  * Run tests on the scan command
  */
-class ScanCommandTest extends PHPUnit_Framework_TestCase
+class ScanAllCommandTest extends PHPUnit_Framework_TestCase
 {
     public function testExecute()
     {
-        $application = new Application();
-        $application->add(new ScanCommand());
+        $application = new Application;
+        $application->add(new AllCommand);
+        $application->add(new CatalogCommand);
+        $application->add(new ModuleCommand);
+        $application->add(new PatchCommand);
+        $application->add(new ServerCommand);
+        $application->add(new SitemapCommand);
+        $application->add(new VersionCommand);
+        $application->add(new UnreachableCommand);
 
-        $command = $application->find('scan');
+        $command = $application->find('scan:all');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
-            'command'        => $command->getName(),
+            'command'        => 'scan:all',
             'url'            => 'enterprise-demo.user.magentotrial.com'
         ));
         $display = <<<DISPLAY
