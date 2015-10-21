@@ -115,7 +115,7 @@ abstract class AbstractCommand extends Command
      */
     protected function setUrl($input)
     {
-        if (empty(trim($input))) {
+        if (trim($input) == '') {
             throw new \InvalidArgumentException(
                 'Target URL not specified'
             );
