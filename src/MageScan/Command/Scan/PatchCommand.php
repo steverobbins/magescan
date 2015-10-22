@@ -54,7 +54,7 @@ class PatchCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Patches');
+
         $rows    = array();
         $patch   = new Patch;
         $patch->setRequest($this->request);
@@ -75,10 +75,23 @@ class PatchCommand extends AbstractCommand
                 $status
             );
         }
+        if ($input->getOption('json')) {
+          $return = array();
+          foreach ($rows as $status) {
+            $name = $status[0];
+            $status = strip_tags($status[1]);
+            $return[$name] = $status;
+          }
+          $this->output->write(json_encode($return));
+        } else {
+
+        $this->writeHeader('Patches');
         $table = new Table($this->output);
         $table
             ->setHeaders(array('Name', 'Status'))
             ->setRows($rows)
             ->render();
+
+        }
     }
 }

@@ -74,13 +74,13 @@ class AllCommand extends AbstractCommand
           $jsonArray = [];
         }
         foreach ([
-            //'scan:version', //
+            'scan:version',
             'scan:module',
-            //'scan:catalog', //
+            'scan:catalog',
             'scan:patch',
-            //'scan:sitemap',
+            'scan:sitemap',
             'scan:server',
-            //'scan:unreachable', //
+            'scan:unreachable',
         ] as $commandName) {
 
 

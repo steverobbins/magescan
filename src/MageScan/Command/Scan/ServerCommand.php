@@ -54,22 +54,29 @@ class ServerCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Server Technology');
+
         $techHeader = new TechHeader;
         $techHeader->setRequest($this->request);
         $values = $techHeader->getHeaders($this->url);
         if (empty($values)) {
-            $this->output->writeln('No detectable technology was found');
+          if ($input->getOption('json')) { $this->output->write(json_encode(['error'=>'No detectable technology was found'])); }
+          else { $this->output->writeln('No detectable technology was found'); }
             return;
         }
-        $rows = array();
-        foreach ($values as $key => $value) {
-            $rows[] = array($key, $value);
+
+        if ($input->getOption('json')) {
+          $this->output->write(json_encode($values));
+        } else {
+          $rows = array();
+          foreach ($values as $key => $value) {
+              $rows[] = array($key, $value);
+          }
+          $this->writeHeader('Server Technology');
+          $table = new Table($this->output);
+          $table
+              ->setHeaders(array('Key', 'Value'))
+              ->setRows($rows)
+              ->render();
         }
-        $table = new Table($this->output);
-        $table
-            ->setHeaders(array('Key', 'Value'))
-            ->setRows($rows)
-            ->render();
     }
 }
