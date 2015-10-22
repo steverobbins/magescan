@@ -7,7 +7,7 @@ Mage Scan
 [![Master Code Quality](https://img.shields.io/scrutinizer/g/steverobbins/magescan/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/steverobbins/magescan/?branch=master)
 [![Master Code Coverage](https://img.shields.io/coveralls/steverobbins/magescan/master.svg?style=flat-square)](https://coveralls.io/r/steverobbins/magescan?branch=master)
 [![Latest Stable Version](https://img.shields.io/packagist/v/steverobbins/magescan.svg?style=flat-square)](https://packagist.org/packages/steverobbins/magescan)
-[![Master Dependancies](https://www.versioneye.com/user/projects/5550f5c506c3183941000002/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5550f5c506c3183941000002)
+[![Master Dependancies](https://www.versioneye.com/user/projects/55e4bfec8c0f62001c000052/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/55e4bfec8c0f62001c000052)
 
 The idea behind this is to evaluate the quality and security of a Magento site you don't have access to.  The scenario when you're interviewing a potential developer or vetting a new client and want to have an idea of what you're getting into.
 
