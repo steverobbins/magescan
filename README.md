@@ -79,11 +79,20 @@ Run all scans on the given `<url>`.
 
 #### Options
 
+##### `--format=FORMAT`
+
+Specify a different output format.  Possible values:
+
+* `default`
+* `json`
+
 ##### `--insecure`, `-k`
 
 If set, SSL certificates won't be validated
 
 ##### `--show-modules`
+
+Lists all modules searched for, not just those found
 
 ### `scan:catalog`
 
