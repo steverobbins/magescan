@@ -54,42 +54,59 @@ class SitemapCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Sitemap');
-        $url = $this->getSitemapUrl();
+
+        $url = $this->getSitemapUrl($input->getOption('json'));
         $request = new Request;
         $response = $request->fetch($url, array(
             CURLOPT_NOBODY         => true,
             CURLOPT_FOLLOWLOCATION => true
         ));
-        if ($response->code == 200) {
-            $this->output
-                ->writeln('<info>Sitemap is accessible:</info> ' . $url);
+
+        if ($input->getOption('json')) {
+          if ($response->code == 200) {
+            $this->output->writeln(json_encode(['Status'=>'Sitemap is accessible','URL'=>$url]));
+          } else {
+            $this->output->writeln(json_encode(['Status'=>'Sitemap is not accessible','URL'=>$url]));
+          }
         } else {
-            $this->output
-                ->writeln('<error>Sitemap is not accessible:</error> ' . $url);
+          $this->writeHeader('Sitemap');
+          if ($response->code == 200) {
+            $this->output->writeln('<info>Sitemap is accessible:</info> ' . $url);
+          } else {
+            $this->output->writeln('<error>Sitemap is not accessible:</error> ' . $url);
+          }
         }
+
     }
 
     /**
      * Parse the robots.txt text file to find the sitemap
      *
+     * @param bool $json
+     *
      * @return string
      */
-    protected function getSitemapUrl()
+    protected function getSitemapUrl($json)
     {
         $request = new Request;
         $response = $request->fetch($this->url . 'robots.txt');
         $sitemap = new Sitemap;
         $sitemap->setRequest($this->request);
         $sitemap  = $sitemap->getSitemapFromRobotsTxt($response);
-        if ($sitemap === false) {
-            $this->output->writeln(
-                '<error>Sitemap is not declared in robots.txt</error>'
-            );
-            return $this->url . 'sitemap.xml';
-        }
-        $this->output
-            ->writeln('<info>Sitemap is declared in robots.txt</info>');
+
+          if ($sitemap === false) {
+              if (!$json) {
+                $this->output->writeln(
+                  '<error>Sitemap is not declared in robots.txt</error>'
+                );
+              }
+              return $this->url . 'sitemap.xml';
+          }
+          if (!$json) {
+            $this->output
+              ->writeln('<info>Sitemap is declared in robots.txt</info>');
+          }
+
         return (string) $sitemap;
     }
 }

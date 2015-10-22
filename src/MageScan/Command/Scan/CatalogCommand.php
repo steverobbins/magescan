@@ -54,24 +54,37 @@ class CatalogCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Catalog Information');
+
         $rows     = array();
         $catalog  = new Catalog;
         $catalog->setRequest($this->request);
         $categoryCount = $catalog->categoryCount($this->url);
-        $rows[] = array(
-            'Categories',
-            $categoryCount !== false ? $categoryCount : 'Unknown'
-        );
         $productCount = $catalog->productCount($this->url);
-        $rows[] = array(
-            'Products',
-            $productCount !== false ? $productCount : 'Unknown'
-        );
-        $table = new Table($this->output);
-        $table
-            ->setHeaders(array('Type', 'Count'))
-            ->setRows($rows)
-            ->render();
+
+        if ($input->getOption('json')) {
+          $return = [
+            "Categories" => $categoryCount !== false ? $categoryCount : 'Unknown',
+            "Prodcuts" => $productCount !== false ? $productCount : 'Unknown'
+          ];
+          $output->write(json_encode($return));
+        } else {
+          $rows = [
+            [
+                'Categories',
+                $categoryCount !== false ? $categoryCount : 'Unknown'
+            ],[
+              'Products',
+              $productCount !== false ? $productCount : 'Unknown'
+            ]
+          ];
+          $this->writeHeader('Catalog Information');
+          $table = new Table($this->output);
+          $table
+              ->setHeaders(array('Type', 'Count'))
+              ->setRows($rows)
+              ->render();
+        }
+
+
     }
 }
