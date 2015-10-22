@@ -15,7 +15,6 @@
 namespace MageScan\Command\Scan;
 
 use MageScan\Check\Catalog;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -54,8 +53,7 @@ class CatalogCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Catalog Information');
-        $rows     = array();
+        $rows     = [];
         $catalog  = new Catalog;
         $catalog->setRequest($this->request);
         $categoryCount = $catalog->categoryCount($this->url);
@@ -68,10 +66,12 @@ class CatalogCommand extends AbstractCommand
             'Products',
             $productCount !== false ? $productCount : 'Unknown'
         );
-        $table = new Table($this->output);
-        $table
-            ->setHeaders(array('Type', 'Count'))
-            ->setRows($rows)
-            ->render();
+        $this->out('Catalog Information', [[
+            'type' => 'table',
+            'data' => [
+                ['Type', 'Count'],
+                $rows
+            ]
+        ]]);
     }
 }

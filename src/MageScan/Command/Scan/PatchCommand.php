@@ -54,9 +54,8 @@ class PatchCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Patches');
-        $rows    = array();
-        $patch   = new Patch;
+        $rows  = [];
+        $patch = new Patch;
         $patch->setRequest($this->request);
         $patches = $patch->checkAll($this->url);
         foreach ($patches as $name => $result) {
@@ -70,15 +69,17 @@ class PatchCommand extends AbstractCommand
                 default:
                     $status = 'Unknown';
             }
-            $rows[] = array(
+            $rows[] = [
                 $name,
                 $status
-            );
+            ];
         }
-        $table = new Table($this->output);
-        $table
-            ->setHeaders(array('Name', 'Status'))
-            ->setRows($rows)
-            ->render();
+        $this->out('Patches', [[
+            'type' => 'table',
+            'data' => [
+                ['Name', 'Status'],
+                $rows
+            ]
+        ]]);
     }
 }

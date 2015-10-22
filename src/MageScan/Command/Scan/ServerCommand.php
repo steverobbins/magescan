@@ -54,22 +54,22 @@ class ServerCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Server Technology');
         $techHeader = new TechHeader;
         $techHeader->setRequest($this->request);
         $values = $techHeader->getHeaders($this->url);
         if (empty($values)) {
-            $this->output->writeln('No detectable technology was found');
-            return;
+            return $this->out('Server Technology', 'No detectable technology was found');
         }
-        $rows = array();
+        $rows = [];
         foreach ($values as $key => $value) {
-            $rows[] = array($key, $value);
+            $rows[] = [$key, $value];
         }
-        $table = new Table($this->output);
-        $table
-            ->setHeaders(array('Key', 'Value'))
-            ->setRows($rows)
-            ->render();
+        $this->out('Server Technology', [[
+            'type' => 'table',
+            'data' => [
+                ['Key', 'Value'],
+                $rows
+            ]
+        ]]);
     }
 }

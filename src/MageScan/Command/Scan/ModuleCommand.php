@@ -61,7 +61,6 @@ class ModuleCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Installed Modules');
         $all = $input->getOption('show-modules');
         $module = new Module;
         $module->setRequest($this->request);
@@ -74,16 +73,17 @@ class ModuleCommand extends AbstractCommand
             }
         }
         if (empty($found) && !$all) {
-            $this->output->writeln('No detectable modules were found');
-            return;
+            return $this->out('Installed Modules', 'No detectable modules were found');
         }
         if ($all) {
             $found = array_merge($found, $notFound);
         }
-        $table = new Table($this->output);
-        $table
-            ->setHeaders(array('Module', 'Installed'))
-            ->setRows($found)
-            ->render();
+        $this->out('Installed Modules', [[
+            'type' => 'table',
+            'data' => [
+                ['Module', 'Installed'],
+                $found
+            ]
+        ]]);
     }
 }

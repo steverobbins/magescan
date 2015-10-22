@@ -18,6 +18,7 @@ use MageScan\Request;
 use MageScan\Url;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -133,6 +134,35 @@ abstract class AbstractCommand extends Command
         }
         if (isset($response->header['Location'])) {
             $this->url = $response->header['Location'];
+        }
+    }
+
+    /**
+     * Output information in the correct format
+     *
+     * @param string $title
+     * @param array  $messages
+     *
+     * @return void
+     */
+    protected function out($title, $messages = [])
+    {
+        $this->writeHeader($title);
+        if (!is_array($messages)) {
+            return $this->output->writeln($messages);
+        }
+        foreach ($messages as $message) {
+            switch (isset($message['type']) ? $message['type'] : false) {
+                case 'table':
+                    $tableHelper = new Table($this->output);
+                    $tableHelper
+                        ->setHeaders($message['data'][0])
+                        ->setRows($message['data'][1])
+                        ->render();
+                    break;
+                default:
+                    $this->output->writeln(is_array($message) ? $message['data'] : $message);
+            }
         }
     }
 

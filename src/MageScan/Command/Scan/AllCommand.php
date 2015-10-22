@@ -61,7 +61,6 @@ class AllCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
         foreach ([
             'scan:version',
             'scan:module',

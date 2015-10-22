@@ -54,26 +54,31 @@ class SitemapCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Sitemap');
+        $result = [];
         $url = $this->getSitemapUrl();
+        if ($url === false) {
+            $result[] = '<error>Sitemap is not declared in robots.txt</error>';
+            $url = $this->url . 'sitemap.xml';
+        } else {
+            $result[] = '<info>Sitemap is declared in robots.txt</info>';
+        }
         $request = new Request;
         $response = $request->fetch($url, array(
             CURLOPT_NOBODY         => true,
             CURLOPT_FOLLOWLOCATION => true
         ));
         if ($response->code == 200) {
-            $this->output
-                ->writeln('<info>Sitemap is accessible:</info> ' . $url);
+            $result[] = '<info>Sitemap is accessible:</info> ' . $url;
         } else {
-            $this->output
-                ->writeln('<error>Sitemap is not accessible:</error> ' . $url);
+            $result[] = '<error>Sitemap is not accessible:</error> ' . $url;
         }
+        $this->out('Sitemap', $result);
     }
 
     /**
      * Parse the robots.txt text file to find the sitemap
      *
-     * @return string
+     * @return string|boolean
      */
     protected function getSitemapUrl()
     {
@@ -81,15 +86,6 @@ class SitemapCommand extends AbstractCommand
         $response = $request->fetch($this->url . 'robots.txt');
         $sitemap = new Sitemap;
         $sitemap->setRequest($this->request);
-        $sitemap  = $sitemap->getSitemapFromRobotsTxt($response);
-        if ($sitemap === false) {
-            $this->output->writeln(
-                '<error>Sitemap is not declared in robots.txt</error>'
-            );
-            return $this->url . 'sitemap.xml';
-        }
-        $this->output
-            ->writeln('<info>Sitemap is declared in robots.txt</info>');
-        return (string) $sitemap;
+        return $sitemap->getSitemapFromRobotsTxt($response);
     }
 }

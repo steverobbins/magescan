@@ -54,7 +54,6 @@ class UnreachableCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Unreachable Path Check');
         $unreachablePath = new UnreachablePath;
         $unreachablePath->setRequest($this->request);
         $results = $unreachablePath->checkPaths($this->url);
@@ -65,10 +64,12 @@ class UnreachableCommand extends AbstractCommand
                 $result[2] = '<bg=green>Pass</bg=green>';
             }
         }
-        $table = new Table($this->output);
-        $table
-            ->setHeaders(array('Path', 'Response Code', 'Status'))
-            ->setRows($results)
-            ->render();
+        $this->out('Unreachable Path Check', [[
+            'type' => 'table',
+            'data' => [
+                ['Path', 'Response Code', 'Status'],
+                $results
+            ]
+        ]]);
     }
 }
