@@ -147,8 +147,8 @@ abstract class AbstractCommand extends Command
     /**
      * Output information in the correct format
      *
-     * @param string $title
-     * @param array  $messages
+     * @param string       $title
+     * @param array|string $messages
      *
      * @return void
      */
@@ -167,8 +167,8 @@ abstract class AbstractCommand extends Command
     /**
      * Output in default format
      *
-     * @param string $title
-     * @param array  $messages
+     * @param string       $title
+     * @param array|string $messages
      *
      * @return void
      */
@@ -196,8 +196,8 @@ abstract class AbstractCommand extends Command
     /**
      * Output in json format
      *
-     * @param string $title
-     * @param array  $messages
+     * @param string       $title
+     * @param array|string $messages
      *
      * @return void
      */
