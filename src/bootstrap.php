@@ -25,7 +25,7 @@ use MageScan\Command\Scan\UnreachableCommand;
 use MageScan\Command\SelfUpdateCommand;
 use Symfony\Component\Console\Application;
 
-$app = new Application('Mage Scan', '1.10.0');
+$app = new Application('Mage Scan', '1.11.0');
 
 $app->add(new AllCommand);
 $app->add(new VersionCommand);
