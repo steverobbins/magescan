@@ -33,6 +33,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AllCommand extends AbstractCommand
 {
     /**
+     * Names of all the scans
+     *
+     * @var array
+     */
+    protected $scanNames = [
+        'scan:version',
+        'scan:module',
+        'scan:catalog',
+        'scan:patch',
+        'scan:sitemap',
+        'scan:server',
+        'scan:unreachable',
+    ];
+
+    /**
      * Configure command
      *
      * @return void
@@ -61,24 +76,75 @@ class AllCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        foreach ([
-            'scan:version',
-            'scan:module',
-            'scan:catalog',
-            'scan:patch',
-            'scan:sitemap',
-            'scan:server',
-            'scan:unreachable',
-        ] as $commandName) {
+        $this->setUrl($input->getArgument('url'));
+        $format = $input->getOption('format');
+        $this->executeStart($format);
+        $scanCount = count($this->scanNames);
+        foreach ($this->scanNames as $i => $commandName) {
             $command = $this->getApplication()->find($commandName);
             $args = [
-                'command' => $commandName,
-                'url' => $input->getArgument('url')
+                'command'  => $commandName,
+                'url'      => $this->url,
+                '--format' => $format,
             ];
             if ($commandName === 'scan:module' && $input->getOption('show-modules')) {
                 $args['--show-modules'] = true;
             }
             $command->run(new ArrayInput($args), $output);
+            if (++$i < $scanCount) {
+                $this->afterScan($format);
+            }
+        }
+        $this->executeEnd($format);
+    }
+
+    /**
+     * Things to output when execusion starts
+     *
+     * @param string $format
+     *
+     * @return void
+     */
+    protected function executeStart($format)
+    {
+        switch ($format) {
+            case 'json':
+                echo '[';
+                break;
+            default:
+                $this->output->writeln(sprintf('Scanning <info>%s</info>...', $this->url));
+        }
+    }
+
+    /**
+     * Things to output when execusion ends
+     *
+     * @param string $format
+     *
+     * @return void
+     */
+    protected function executeEnd($format)
+    {
+        switch ($format) {
+            case 'json':
+                echo ']';
+                break;
+        }
+    }
+
+    /**
+     * Things to output after a scan
+     *
+     * @param string $format
+     *
+     * @return void
+     */
+    protected function afterScan($format)
+    {
+        switch ($format) {
+            case 'json':
+                echo ',';
+                break;
         }
     }
 }

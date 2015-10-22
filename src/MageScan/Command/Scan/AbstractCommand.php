@@ -82,6 +82,13 @@ abstract class AbstractCommand extends Command
                 'k',
                 InputOption::VALUE_NONE,
                 'Don\'t validate SSL certificate if URL is https'
+            )
+            ->addOption(
+                'format',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Specify output format (default, json)',
+                'default'
             );
     }
 
@@ -147,6 +154,26 @@ abstract class AbstractCommand extends Command
      */
     protected function out($title, $messages = [])
     {
+        $format = $this->input->getOption('format');
+        $method = 'outputFormat' . ucfirst($format);
+        if (!method_exists($this, $method)) {
+            throw new \InvalidArgumentException(
+                'Format "' . $format . '" is not supported'
+            );
+        }
+        $this->$method($title, $messages);
+    }
+
+    /**
+     * Output in default format
+     *
+     * @param string $title
+     * @param array  $messages
+     *
+     * @return void
+     */
+    protected function outputFormatDefault($title, $messages)
+    {
         $this->writeHeader($title);
         if (!is_array($messages)) {
             return $this->output->writeln($messages);
@@ -164,6 +191,45 @@ abstract class AbstractCommand extends Command
                     $this->output->writeln(is_array($message) ? $message['data'] : $message);
             }
         }
+    }
+
+    /**
+     * Output in json format
+     *
+     * @param string $title
+     * @param array  $messages
+     *
+     * @return void
+     */
+    protected function outputFormatJson($title, $messages)
+    {
+        $json = [
+            'name'     => $title,
+            'results'  => [],
+            'messages' => [],
+        ];
+        if (!is_array($messages)) {
+            $json['messages'][] = strip_tags($messages);
+        } else {
+            foreach ($messages as $message) {
+                switch (isset($message['type']) ? $message['type'] : false) {
+                    case 'table':
+                        $result = [];
+                        $headers = $message['data'][0];
+                        array_map('strtolower', $headers);
+                        foreach ($message['data'][1] as $row) {
+                            foreach ($headers as $key => $name) {
+                                $result[$name] = strip_tags($row[$key]);
+                            }
+                            $json['results'][] = $result;
+                        }
+                        break;
+                    default:
+                        $json['messages'][] = strip_tags(is_array($message) ? $message['data'] : $message);
+                }
+            }
+        }
+        echo json_encode($json);
     }
 
     /**
