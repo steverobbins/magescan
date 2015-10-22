@@ -59,8 +59,11 @@ class ServerCommand extends AbstractCommand
         $techHeader->setRequest($this->request);
         $values = $techHeader->getHeaders($this->url);
         if (empty($values)) {
-          if ($input->getOption('json')) { $this->output->write(json_encode(['error'=>'No detectable technology was found'])); }
-          else { $this->output->writeln('No detectable technology was found'); }
+          if ($input->getOption('json')) {
+            $this->output->write(json_encode(['error'=>'No detectable technology was found']));
+          } else {
+            $this->output->writeln('No detectable technology was found');
+          }
             return;
         }
 

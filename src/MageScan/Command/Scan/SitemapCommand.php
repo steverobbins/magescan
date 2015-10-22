@@ -63,18 +63,26 @@ class SitemapCommand extends AbstractCommand
         ));
 
         if ($input->getOption('json')) {
-          if ($response->code == 200) { $this->output->writeln(json_encode(['Status'=>'Sitemap is accessible','URL'=>$url])); }
-          else { $this->output->writeln(json_encode(['Status'=>'Sitemap is not accessible','URL'=>$url])); }
+          if ($response->code == 200) {
+            $this->output->writeln(json_encode(['Status'=>'Sitemap is accessible','URL'=>$url]));
+          } else {
+            $this->output->writeln(json_encode(['Status'=>'Sitemap is not accessible','URL'=>$url]));
+          }
         } else {
           $this->writeHeader('Sitemap');
-          if ($response->code == 200) { $this->output->writeln('<info>Sitemap is accessible:</info> ' . $url); }
-          else { $this->output->writeln('<error>Sitemap is not accessible:</error> ' . $url); }
+          if ($response->code == 200) {
+            $this->output->writeln('<info>Sitemap is accessible:</info> ' . $url);
+          } else {
+            $this->output->writeln('<error>Sitemap is not accessible:</error> ' . $url);
+          }
         }
 
     }
 
     /**
      * Parse the robots.txt text file to find the sitemap
+     *
+     * @param bool $json
      *
      * @return string
      */
@@ -87,13 +95,17 @@ class SitemapCommand extends AbstractCommand
         $sitemap  = $sitemap->getSitemapFromRobotsTxt($response);
 
           if ($sitemap === false) {
-              if (!$json) {$this->output->writeln(
+              if (!$json) {
+                $this->output->writeln(
                   '<error>Sitemap is not declared in robots.txt</error>'
-              );}
+                );
+              }
               return $this->url . 'sitemap.xml';
           }
-          if (!$json) {$this->output
-              ->writeln('<info>Sitemap is declared in robots.txt</info>');}
+          if (!$json) {
+            $this->output
+              ->writeln('<info>Sitemap is declared in robots.txt</info>');
+          }
 
         return (string) $sitemap;
     }

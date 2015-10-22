@@ -70,7 +70,7 @@ class AllCommand extends AbstractCommand
         if ($outputMode=="echo") {
           $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
         }
-        if ($outputMode=="json"){
+        if ($outputMode=="json") {
           $jsonArray = [];
         }
         foreach ([
