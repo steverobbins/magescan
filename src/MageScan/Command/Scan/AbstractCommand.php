@@ -81,6 +81,11 @@ abstract class AbstractCommand extends Command
                 'k',
                 InputOption::VALUE_NONE,
                 'Don\'t validate SSL certificate if URL is https'
+            )->addOption(
+                'json',
+                null,
+                InputOption::VALUE_NONE,
+                'Output in JSON'
             );
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mage Scan
  *
@@ -19,6 +20,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\StreamOutput;
+use Applehat\HijackInterface;
 
 /**
  * Run all scan commands
@@ -30,6 +33,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
+
 class AllCommand extends AbstractCommand
 {
     /**
@@ -61,16 +65,25 @@ class AllCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
+        $outputMode = ($input->getOption('json'))?"json":"echo";
+
+        if ($outputMode=="echo") {
+          $this->output->writeln('Scanning <info>' . $this->url . '</info>...');
+        }
+        if ($outputMode=="json"){
+          $jsonArray = [];
+        }
         foreach ([
-            'scan:version',
+            //'scan:version', //
             'scan:module',
-            'scan:catalog',
+            //'scan:catalog', //
             'scan:patch',
-            'scan:sitemap',
+            //'scan:sitemap',
             'scan:server',
-            'scan:unreachable',
+            //'scan:unreachable', //
         ] as $commandName) {
+
+
             $command = $this->getApplication()->find($commandName);
             $args = [
                 'command' => $commandName,
@@ -79,7 +92,22 @@ class AllCommand extends AbstractCommand
             if ($commandName === 'scan:module' && $input->getOption('show-modules')) {
                 $args['--show-modules'] = true;
             }
-            $command->run(new ArrayInput($args), $output);
+            if ($input->getOption('json')) {
+              $args['--json'] = true;
+            }
+            if ($outputMode=="echo") {
+              $command->run(new ArrayInput($args), $output);
+            }
+            if ($outputMode=="json") {
+              $hji = new HijackInterface();
+              $command->run(new ArrayInput($args), $hji);
+              $jsonArray[$commandName] = json_decode($hji->getOutput(),1);
+            }
         }
+
+        if ($outputMode=="json") {
+           $output->writeln(json_encode($jsonArray));
+        }
+
     }
 }

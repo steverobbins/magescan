@@ -17,6 +17,8 @@ namespace MageScan\Command\Scan;
 use MageScan\Check\Version;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -54,18 +56,27 @@ class VersionCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Magento Information');
         $version = new Version;
         $version->setRequest($this->request);
         $version = $version->getInfo($this->url);
-        $rows = array(
-            array('Edition', $version[0] ?: 'Unknown'),
-            array('Version', $version[1] ?: 'Unknown')
-        );
-        $table = new Table($this->output);
-        $table
-            ->setHeaders(array('Parameter', 'Value'))
-            ->setRows($rows)
-            ->render();
+
+        if ($input->getOption('json')) {
+          $json = [
+            "Edition" => $version[0] ?: 'Unknown',
+            "Version" => $version[1] ?: 'Unknown'
+          ];
+          $output->write(json_encode($json));
+        } else {
+          $rows = array(
+              array('Edition', $version[0] ?: 'Unknown'),
+              array('Version', $version[1] ?: 'Unknown')
+          );
+          $this->writeHeader('Magento Information');
+          $table = new Table($this->output);
+          $table
+              ->setHeaders(array('Parameter', 'Value'))
+              ->setRows($rows)
+              ->render();
+        }
     }
 }

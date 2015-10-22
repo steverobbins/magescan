@@ -61,7 +61,6 @@ class ModuleCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Installed Modules');
         $all = $input->getOption('show-modules');
         $module = new Module;
         $module->setRequest($this->request);
@@ -74,16 +73,32 @@ class ModuleCommand extends AbstractCommand
             }
         }
         if (empty($found) && !$all) {
+          if ($input->getOption('json')) {
+            $this->output->write(json_encode(['error'=>'No detectable modules were found']));
+          } else {
+            $this->writeHeader('Installed Modules');
             $this->output->writeln('No detectable modules were found');
+          }
             return;
         }
         if ($all) {
             $found = array_merge($found, $notFound);
         }
-        $table = new Table($this->output);
-        $table
-            ->setHeaders(array('Module', 'Installed'))
-            ->setRows($found)
-            ->render();
+
+        if ($input->getOption('json')) {
+          $return = [];
+          foreach ($found as $f) {
+            $return[$f[0]] = ($f[1]=="No")?"no":"yes";
+          }
+          $this->output->write(json_encode($return));
+
+        } else {
+          $this->writeHeader('Installed Modules');
+          $table = new Table($this->output);
+          $table
+              ->setHeaders(array('Module', 'Installed'))
+              ->setRows($found)
+              ->render();
+        }
     }
 }

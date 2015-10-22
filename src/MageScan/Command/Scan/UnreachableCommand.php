@@ -54,21 +54,32 @@ class UnreachableCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->writeHeader('Unreachable Path Check');
+
         $unreachablePath = new UnreachablePath;
         $unreachablePath->setRequest($this->request);
         $results = $unreachablePath->checkPaths($this->url);
-        foreach ($results as &$result) {
-            if ($result[2] === false) {
-                $result[2] = '<error>Fail</error>';
-            } elseif ($result[2] === true) {
-                $result[2] = '<bg=green>Pass</bg=green>';
-            }
+
+        if ($input->getOption('json')) {
+          $cleanOut=[];
+          foreach ($results as $r) {
+            $cleanOut[$r[0]] = ["http_status"=>$r[1],"status"=>$r[2]?"Pass":"Fail"];
+          }
+          $output->write(json_encode($cleanOut));
+        } else {
+          foreach ($results as &$result) {
+              if ($result[2] === false) {
+                  $result[2] = '<error>Fail</error>';
+              } elseif ($result[2] === true) {
+                  $result[2] = '<bg=green>Pass</bg=green>';
+              }
+          }
+
+          $this->writeHeader('Unreachable Path Check');
+          $table = new Table($this->output);
+          $table
+              ->setHeaders(array('Path', 'Response Code', 'Status'))
+              ->setRows($results)
+              ->render();
         }
-        $table = new Table($this->output);
-        $table
-            ->setHeaders(array('Path', 'Response Code', 'Status'))
-            ->setRows($results)
-            ->render();
     }
 }
