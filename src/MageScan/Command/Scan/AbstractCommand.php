@@ -130,18 +130,6 @@ abstract class AbstractCommand extends Command
         }
         $url = new Url;
         $this->url = $url->clean($input);
-        $request = $this->request;
-        $response = $request->fetch($this->url, array(
-            CURLOPT_NOBODY => true
-        ));
-        if ($response->code == 0) {
-            throw new \InvalidArgumentException(
-                'Could not connect to URL: ' . $this->url
-            );
-        }
-        if (isset($response->header['Location'])) {
-            $this->url = $response->header['Location'];
-        }
     }
 
     /**
