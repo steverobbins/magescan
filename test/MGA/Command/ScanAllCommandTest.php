@@ -88,6 +88,7 @@ No detectable modules were found
 | SUPEE-5994 | Unpatched |
 | SUPEE-6285 | Unpatched |
 | SUPEE-6482 | Unpatched |
+| SUPEE-6788 | Unpatched |
 +------------+-----------+
 
            

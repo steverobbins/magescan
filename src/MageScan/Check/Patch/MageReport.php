@@ -49,6 +49,7 @@ class MageReport extends AbstractCheck
         'SUPEE-5994' => 'https://www.magereport.com/scan/result/supee5994',
         'SUPEE-6285' => 'https://www.magereport.com/scan/result/supee6285',
         'SUPEE-6482' => 'https://www.magereport.com/scan/result/supee6482',
+        'SUPEE-6788' => 'https://www.magereport.com/scan/result/supee6788',
     ];
 
     /**
