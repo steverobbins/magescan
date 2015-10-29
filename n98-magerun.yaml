@@ -4,4 +4,11 @@ autoloaders:
 
 commands:
   customCommands:
-    - "magescan:scan": MageScan\Command\ScanCommand
+    - "magescan:scan:all": MageScan\Command\Scan\AllCommand
+    - "magescan:scan:catalog": MageScan\Command\Scan\CatalogCommand
+    - "magescan:scan:module": MageScan\Command\Scan\ModuleCommand
+    - "magescan:scan:patch": MageScan\Command\Scan\PatchCommand
+    - "magescan:scan:server": MageScan\Command\Scan\ServerCommand
+    - "magescan:scan:sitemap": MageScan\Command\Scan\SitemapCommand
+    - "magescan:scan:unreachable": MageScan\Command\Scan\UnreachableCommand
+    - "magescan:scan:version": MageScan\Command\Scan\VersionCommand
