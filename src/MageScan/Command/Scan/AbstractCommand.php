@@ -217,7 +217,8 @@ abstract class AbstractCommand extends Command
                 }
             }
         }
-        echo json_encode($json);
+
+        $this->output->write(json_encode($json), false, OutputInterface::OUTPUT_RAW);
     }
 
     /**
