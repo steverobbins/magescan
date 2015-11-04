@@ -11,7 +11,7 @@ Mage Scan
 
 The idea behind this is to evaluate the quality and security of a Magento site you don't have access to.  The scenario when you're interviewing a potential developer or vetting a new client and want to have an idea of what you're getting into.
 
-![Screenshot](http://i.imgur.com/dGyZsq4.png)
+![Screenshot](https://i.imgur.com/HfUiEK9.png)
 
 # Installation
 
