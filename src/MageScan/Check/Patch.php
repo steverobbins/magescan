@@ -42,6 +42,7 @@ class Patch extends AbstractCheck
     public function checkAll($url)
     {
         $mageReport = new MageReport($url);
+        $mageReport->setRequest($this->request);
         $results = $mageReport->checkAll();
         return $results;
     }

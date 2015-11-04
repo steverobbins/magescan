@@ -32,16 +32,14 @@ class Module extends AbstractCheck
     /**
      * Check for module files that exist in a url
      *
-     * @param string $url
-     *
      * @return array
      */
-    public function checkForModules($url)
+    public function checkForModules()
     {
-        $modules = array();
-        foreach ($this->getFiles() as $file => $name) {
-            $response = $this->checkForModule($url, $file);
-            if ($response && (!isset($modules[$name]) || $modules[$name] === false)) {
+        $modules = [];
+        $responses = $this->getRequest()->getMany($this->getFiles());
+        foreach ($responses as $path => $response) {
+            if ($response->getStatusCode == 200 && (!isset($modules[$name]) || $modules[$name] === false)) {
                 $modules[$name] = true;
             } else {
                 $modules[$name] = false;
@@ -54,18 +52,14 @@ class Module extends AbstractCheck
     /**
      * Check for a module file that exist in a url
      *
-     * @param string $url
      * @param string $file
      *
      * @return boolean
      */
-    public function checkForModule($url, $file)
+    public function checkForModule($file)
     {
-        $response = $this->getRequest()->fetch($url . $file, array(
-            CURLOPT_NOBODY         => true,
-            CURLOPT_FOLLOWLOCATION => true
-        ));
-        return $response->code == 200;
+        $response = $this->getRequest()->get($file);
+        return $response->getStatusCode() == 200;
     }
 
     /**

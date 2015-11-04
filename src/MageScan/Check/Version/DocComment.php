@@ -14,8 +14,9 @@
 
 namespace MageScan\Check\Version;
 
-use MageScan\Check\Version;
+use GuzzleHttp\Psr7\Response;
 use MageScan\Check\AbstractCheck;
+use MageScan\Check\Version;
 
 /**
  * Scan for Magento edition and version via doc block style comment
@@ -32,22 +33,15 @@ class DocComment extends AbstractCheck
     /**
      * Guess magento edition and version
      *
-     * @param string $url
-     *
      * @return array|boolean
      */
-    public function getInfo($url)
+    public function getInfo()
     {
-        $response = $this->getRequest()->fetch(
-            $url . 'js/varien/product.js',
-            array(
-                CURLOPT_FOLLOWLOCATION => true
-            )
-        );
+        $response = $this->getRequest()->get('js/varien/product.js');
         $edition = $this->getEdition($response);
         if ($edition) {
             $version = $this->getVersion($response, $edition);
-            return array($edition, $version);
+            return [$edition, $version];
         }
         return false;
     }
@@ -55,14 +49,14 @@ class DocComment extends AbstractCheck
     /**
      * Guess Magento edition from license in public file
      *
-     * @param \stdClass $response
+     * @param Response $response
      *
      * @return string|boolean
      */
-    public function getEdition(\stdClass $response)
+    public function getEdition(Response $response)
     {
-        if ($response->code == 200) {
-            preg_match('/@license.*/', $response->body, $match);
+        if ($response->getStatusCode() == 200) {
+            preg_match('/@license.*/', $response->getBody(), $match);
             if (isset($match[0])) {
                 if (strpos($match[0], 'enterprise') !== false) {
                     return Version::EDITION_ENTERPRISE;
@@ -78,15 +72,15 @@ class DocComment extends AbstractCheck
     /**
      * Guess Magento version from copyright in public file
      *
-     * @param \stdClass      $response
+     * @param Response       $response
      * @param string|boolean $edition
      *
      * @return string|boolean
      */
-    public function getVersion(\stdClass $response, $edition)
+    public function getVersion(Response $response, $edition)
     {
-        if ($response->code == 200 && $edition != false) {
-            preg_match('/@copyright.*/', $response->body, $match);
+        if ($response->getStatusCode() == 200 && $edition != false) {
+            preg_match('/@copyright.*/', $response->getBody(), $match);
             if (isset($match[0])
                 && preg_match('/[0-9-]{4,}/', $match[0], $match)
                 && isset($match[0])

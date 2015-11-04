@@ -63,12 +63,12 @@ class ModuleCommand extends AbstractCommand
         $all = $input->getOption('show-modules');
         $module = new Module;
         $module->setRequest($this->request);
-        $found = $notFound = array();
+        $found = $notFound = [];
         foreach ($module->checkForModules($this->url) as $name => $exists) {
             if ($exists) {
-                $found[] = array($name, '<bg=green>Yes</bg=green>');
+                $found[] = [$name, '<bg=green>Yes</bg=green>'];
             } else {
-                $notFound[] = array($name, 'No');
+                $notFound[] = [$name, 'No'];
             }
         }
         if (empty($found) && !$all) {

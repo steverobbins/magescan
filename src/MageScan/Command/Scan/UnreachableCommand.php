@@ -55,7 +55,7 @@ class UnreachableCommand extends AbstractCommand
     {
         $unreachablePath = new UnreachablePath;
         $unreachablePath->setRequest($this->request);
-        $results = $unreachablePath->checkPaths($this->url);
+        $results = $unreachablePath->checkPaths();
         foreach ($results as &$result) {
             if ($result[2] === false) {
                 $result[2] = '<error>Fail</error>';

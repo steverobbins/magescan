@@ -14,6 +14,10 @@
 
 namespace MageScan;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Psr7\Response;
+
 /**
  * Make a cURL request to a url
  *
@@ -26,6 +30,8 @@ namespace MageScan;
  */
 class Request
 {
+    const REQUEST_TIMEOUT = 15.0;
+
     /**
      * If true, SSL does not have to be verified
      *
@@ -33,48 +39,65 @@ class Request
      */
     protected $insecure = false;
 
+    protected $client;
+
     /**
-     * Mark the request as insecure which will prevent ssl validation
+     * Initialize request object
      *
-     * @param boolean $flag
-     *
-     * @return Request
+     * @param string  $baseUri
+     * @param boolean $verify
      */
-    public function setInsecure($flag)
+    public function __construct($baseUri, $verify = true)
     {
-        $this->insecure = (boolean) $flag;
-        return $this;
+        $this->client = new Client([
+            'base_uri' => $baseUri,
+            //'timeout'  => self::REQUEST_TIMEOUT,
+            'verify'   => $verify,
+            'http_errors' => false,
+        ]);
     }
 
     /**
-     * Create a curl request for a given url
+     * Get a path
      *
-     * @param string $url
+     * @param string $path
      * @param array  $params
      *
-     * @return \stdClass
+     * @return GuzzleHttp\Psr7\Response
      */
-    public function fetch($url, array $params = array())
+    public function get($path, array $params = [])
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        if ($this->insecure) {
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        return $this->client->get('/' . $path, $params);
+    }
+
+    /**
+     * Get many paths asyncronously
+     *
+     * @param string[] $paths
+     * @param array    $params
+     *
+     * @return GuzzleHttp\Psr7\Response[]
+     */
+    public function getMany($paths, array $params = [])
+    {
+        $promises = [];
+        foreach ($paths as $path) {
+            $promises[$path] = $this->client->getAsync('/' . $path, $params);
         }
-        foreach ($params as $key => $value) {
-            curl_setopt($ch, $key, $value);
-        }
-        $response     = curl_exec($ch);
-        $result       = new \stdClass;
-        $result->code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $headerSize   = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        curl_close($ch);
-        $result->header = $this->parseHeader(substr($response, 0, $headerSize));
-        $result->body   = substr($response, $headerSize);
-        return $result;
+        return Promise\unwrap($promises);
+    }
+
+    /**
+     * Post to a path
+     *
+     * @param string $path
+     * @param array  $params
+     *
+     * @return GuzzleHttp\Psr7\Response
+     */
+    public function post($path, array $params = [])
+    {
+        return $client->post('/' . $path, $params);
     }
 
     /**
@@ -86,7 +109,7 @@ class Request
      */
     public function parseHeader($rawData)
     {
-        $data = array();
+        $data = [];
         foreach (explode("\n", trim($rawData)) as $line) {
             $bits = explode(': ', $line);
             if (count($bits) > 1) {
@@ -101,16 +124,16 @@ class Request
     /**
      * Parse out the count from the response
      *
-     * @param \stdClass $response
+     * @param Response $response
      * @param string    $pattern
      * @param boolean   $returnAll
      *
      * @return string|array|boolean
      */
-    public function findMatchInResponse(\stdClass $response, $pattern, $returnAll = false)
+    public function findMatchInResponse(Response $response, $pattern, $returnAll = false)
     {
-        if ($response->code == 200) {
-            if (preg_match($pattern, $response->body, $match)
+        if ($response->getStatusCode() == 200) {
+            if (preg_match($pattern, $response->getBody(), $match)
                 && (isset($match[1]) || $returnAll)
             ) {
                 return $returnAll ? $match : $match[1];

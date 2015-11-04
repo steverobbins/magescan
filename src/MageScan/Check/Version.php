@@ -35,28 +35,26 @@ class Version extends AbstractCheck
      *
      * @var string[]
      */
-    protected $versionCheck = array(
+    protected $versionCheck = [
         'FileHash',
         'DocComment',
-    );
+    ];
 
     /**
      * Guess Magento edition and version
      *
-     * @param string $url
-     *
      * @return array
      */
-    public function getInfo($url)
+    public function getInfo()
     {
         foreach ($this->versionCheck as $name) {
             $check = $this->getCheck($name);
-            $result = $check->getInfo($url);
+            $result = $check->getInfo();
             if ($result !== false) {
                 return $result;
             }
         }
-        return array(false, false);
+        return [false, false];
     }
 
     /**

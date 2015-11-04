@@ -14,8 +14,10 @@
 
 namespace MageScan\Check\Patch;
 
+use GuzzleHttp\Psr7\Response;
 use MageScan\Check\AbstractCheck;
 use MageScan\Check\Patch;
+use MageScan\Request;
 
 /**
  * Check for installed, provided by magereport.com
@@ -31,6 +33,7 @@ class MageReport extends AbstractCheck
 {
     const RESULT_SUCCESS = 'ok';
     const RESULT_FAIL    = 'fail';
+    const BASE_URL       = 'https://www.magereport.com/';
 
     /**
      * The URL we're scanning
@@ -45,11 +48,11 @@ class MageReport extends AbstractCheck
      * @param array $patches
      */
     public $patches = [
-        'SUPEE-5344' => 'https://www.magereport.com/scan/result/supee5344',
-        'SUPEE-5994' => 'https://www.magereport.com/scan/result/supee5994',
-        'SUPEE-6285' => 'https://www.magereport.com/scan/result/supee6285',
-        'SUPEE-6482' => 'https://www.magereport.com/scan/result/supee6482',
-        'SUPEE-6788' => 'https://www.magereport.com/scan/result/supee6788',
+        'scan/result/supee5344',
+        'scan/result/supee5994',
+        'scan/result/supee6285',
+        'scan/result/supee6482',
+        'scan/result/supee6788',
     ];
 
     /**
@@ -69,9 +72,15 @@ class MageReport extends AbstractCheck
      */
     public function checkAll()
     {
-        $results = array();
-        foreach ($this->patches as $name => $endpoint) {
-            $results[$name] = $this->check($endpoint);
+        $results = [];
+        $request = new Request(self::BASE_URL);
+        $paths = $this->patches;
+        array_walk($paths, function (&$value) {
+            $value = $value . '?s=' . $this->url;
+        });
+        $responses = $request->getMany($paths);
+        foreach ($responses as $path => $response) {
+            $results[$this->getPatchName($path)] = $this->parseResponse($response);
         }
         return $results;
     }
@@ -85,10 +94,34 @@ class MageReport extends AbstractCheck
      */
     public function check($endpoint)
     {
-        $response = $this->getRequest()->fetch($endpoint . '?s=' . $this->url, [
-            CURLOPT_FOLLOWLOCATION => true
-        ]);
-        $body = json_decode($response->body);
+        $request = new Request(self::BASE_URL);
+        $response = $request->get($endpoint . '?s=' . $this->url);
+        return $this->parseResponse($response);
+    }
+
+    /**
+     * Get patch name from path
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    protected function getPatchName($path)
+    {
+        $bits = explode('?', $path);
+        return str_replace('scan/result/supee', 'SUPEE-', $bits[0]);
+    }
+
+    /**
+     * Derive if patched or not based on the response
+     *
+     * @param Response $response
+     *
+     * @return string
+     */
+    protected function parseResponse(Response $response)
+    {
+        $body = json_decode($response->getBody());
         if (is_object($body)) {
             switch ($body->result) {
                 case self::RESULT_SUCCESS:

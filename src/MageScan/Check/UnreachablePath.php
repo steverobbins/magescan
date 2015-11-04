@@ -15,6 +15,7 @@
 namespace MageScan\Check;
 
 use MageScan\File;
+use GuzzleHttp\Psr7\Response;
 
 /**
  * Checks that files/folder aren't accessible
@@ -42,15 +43,14 @@ class UnreachablePath extends AbstractCheck
     /**
      * Test that paths are inaccessible
      *
-     * @param string $url
-     *
      * @return array
      */
-    public function checkPaths($url)
+    public function checkPaths()
     {
-        $result = array();
-        foreach ($this->getPaths() as $path) {
-            $result[] = $this->checkPath($url, $path);
+        $result = [];
+        $responses = $this->getRequest()->getMany($this->getPaths(), ['allow_redirects' => false]);
+        foreach ($responses as $path => $response) {
+            $result[] = $this->prepareResponse($path, $response);
         }
         return $result;
     }
@@ -58,42 +58,49 @@ class UnreachablePath extends AbstractCheck
     /**
      * Test that a path is inaccessible
      *
-     * @param string $url
      * @param string $path
      *
      * @return array
      */
-    public function checkPath($url, $path)
+    public function checkPath($path)
     {
-        $response = $this->getRequest()->fetch($url . $path, array(
-            CURLOPT_NOBODY => true
-        ));
-        return array(
+        $response = $this->getRequest()->get($path, ['allow_redirects' => false]);
+        return $this->prepareResponse($path, $response);
+    }
+
+    /**
+     * Build response array
+     *
+     * @param string   $path
+     * @param Response $response
+     *
+     * @return string[]
+     */
+    protected function prepareResponse($path, Response $response)
+    {
+        return [
             $path,
-            $response->code,
-            $this->getUnreachableStatus($url, $response)
-        );
+            $response->getStatusCode(),
+            $this->getUnreachableStatus($response)
+        ];
     }
 
     /**
      * Get the status string for the given response
      *
-     * @param string    $url
-     * @param \stdClass $response
+     * @param Response $response
      *
      * @return mixed
      */
-    protected function getUnreachableStatus($url, \stdClass $response)
+    protected function getUnreachableStatus(Response $response)
     {
-        switch ($response->code) {
+        switch ($response->getStatusCode()) {
             case 200:
                 return false;
             case 301:
             case 302:
-                $redirect = $response->header['Location'];
-                if ($redirect != $url) {
-                    return $redirect;
-                }
+                $headers = $response->getHeaders();
+                return $headers['Location'][0];
         }
         return true;
     }

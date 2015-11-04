@@ -15,6 +15,7 @@
 namespace MageScan\Command\Scan;
 
 use MageScan\Check\Patch;
+use MageScan\Url;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -55,8 +56,9 @@ class PatchCommand extends AbstractCommand
     {
         $rows  = [];
         $patch = new Patch;
+        $url = new Url;
         $patch->setRequest($this->request);
-        $patches = $patch->checkAll($this->url);
+        $patches = $patch->checkAll($url->clean($input->getArgument('url')));
         foreach ($patches as $name => $result) {
             switch ($result) {
                 case PATCH::PATCHED:

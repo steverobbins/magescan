@@ -51,13 +51,6 @@ abstract class AbstractCommand extends Command
     protected $output;
 
     /**
-     * URL of Magento site
-     *
-     * @var string
-     */
-    protected $url;
-
-    /**
      * Cached request object with desired secure flag
      *
      * @var \MageScan\Request
@@ -104,32 +97,13 @@ abstract class AbstractCommand extends Command
     {
         $this->input   = $input;
         $this->output  = $output;
-        $this->request = new Request;
-        $this->request->setInsecure($this->input->getOption('insecure'));
-
-        $style = new OutputFormatterStyle('white', 'blue', array('bold'));
-        $this->output->getFormatter()->setStyle('header', $style);
-
-        $this->setUrl($input->getArgument('url'));
-    }
-
-    /**
-     * Validate and set url
-     *
-     * @param string $input
-     *
-     * @return void
-     * @throws InvalidArgumentException
-     */
-    protected function setUrl($input)
-    {
-        if (trim($input) == '') {
-            throw new \InvalidArgumentException(
-                'Target URL not specified'
-            );
-        }
         $url = new Url;
-        $this->url = $url->clean($input);
+        $this->request = new Request(
+            $url->clean($input->getArgument('url')),
+            $this->input->getOption('insecure')
+        );
+        $style = new OutputFormatterStyle('white', 'blue', ['bold']);
+        $this->output->getFormatter()->setStyle('header', $style);
     }
 
     /**
@@ -231,11 +205,11 @@ abstract class AbstractCommand extends Command
      */
     protected function writeHeader($text, $style = 'bg=blue;fg=white')
     {
-        $this->output->writeln(array(
+        $this->output->writeln([
             '',
             $this->getHelperSet()->get('formatter')
                 ->formatBlock($text, $style, true),
             '',
-        ));
+        ]);
     }
 }

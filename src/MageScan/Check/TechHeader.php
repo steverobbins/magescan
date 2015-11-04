@@ -31,13 +31,13 @@ class TechHeader extends AbstractCheck
      *
      * @var array
      */
-    protected $techHeader = array(
+    protected $techHeader = [
         'Server',
         'Via',
         'X-Mod-Pagespeed',
         'X-Page-Speed',
         'X-Powered-By',
-    );
+    ];
 
     /**
      * Crawl the url's headers
@@ -48,13 +48,12 @@ class TechHeader extends AbstractCheck
      */
     public function getHeaders($url)
     {
-        $response = $this->getRequest()->fetch($url, array(
-            CURLOPT_NOBODY => true
-        ));
-        $rows = array();
+        $response = $this->getRequest()->get('');
+        $rows = [];
+        $headers = $response->getHeaders();
         foreach ($this->techHeader as $value) {
-            if (isset($response->header[$value])) {
-                $rows[$value] = $response->header[$value];
+            if (isset($headers[$value])) {
+                $rows[$value] = $headers[$value];
             }
         }
         return $rows;

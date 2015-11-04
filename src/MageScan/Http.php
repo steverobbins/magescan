@@ -44,6 +44,13 @@ class Http
     public $url;
 
     /**
+     * Request object
+     *
+     * @var \MageScan\Request
+     */
+    protected $request;
+
+    /**
      * Start a check
      *
      * @param string $code
@@ -52,8 +59,9 @@ class Http
     public function __construct($code, $url)
     {
         $magescanUrl = new Url;
-        $this->url = $magescanUrl->clean(urldecode($url));
-        call_user_func(array($this, 'check' . ucwords($code)));
+        $this->url     = $magescanUrl->clean(urldecode($url));
+        $this->request = new Request($this->url, isset($_SERVER['ALLOW_INSECURE']));
+        call_user_func([$this, 'check' . ucwords($code)]);
     }
 
     /**
@@ -64,12 +72,13 @@ class Http
     public function checkMagentoinfo()
     {
         $version = new Version;
-        $version = $version->getInfo($this->url);
-        $rows    = array(
-            array('Edition', $version[0] ?: 'Unknown'),
-            array('Version', $version[1] ?: 'Unknown')
-        );
-        $this->respond(array('body' => $rows));
+        $version->setRequest($this->request);
+        $version = $version->getInfo();
+        $rows    = [
+            ['Edition', $version[0] ?: 'Unknown'],
+            ['Version', $version[1] ?: 'Unknown']
+        ];
+        $this->respond(['body' => $rows]);
     }
 
     /**
@@ -80,6 +89,7 @@ class Http
     public function checkModules()
     {
         $module = new Module;
+        $module->setRequest($this->request);
         $this->respond(array_keys($module->getFiles()));
     }
 
@@ -91,13 +101,14 @@ class Http
     public function checkModulessingle()
     {
         $module = new Module;
+        $module->setRequest($this->request);
         $file   = $_GET['path'];
         $files  = $module->getFiles();
-        $result = $module->checkForModule($this->url, $_GET['path']);
+        $result = $module->checkForModule($_GET['path']);
         if ($result) {
-            $this->respond(array(
+            $this->respond([
                 isset($files[$file]) ? $files[$file] : '<!-- how did this happen -->'
-            ));
+            ]);
         }
     }
 
@@ -109,8 +120,9 @@ class Http
     public function checkPatch()
     {
         $patch   = new Patch;
+        $patch->setRequest($this->request);
         $patches = $patch->checkAll($this->url);
-        $rows    = array();
+        $rows    = [];
         foreach ($patches as $name => $result) {
             switch ($result) {
                 case PATCH::PATCHED:
@@ -122,15 +134,15 @@ class Http
                 default:
                     $status = 'Unknown';
             }
-            $rows[] = array(
+            $rows[] = [
                 $name,
                 $status
-            );
+            ];
         }
-        $this->respond(array(
-            'head' => array('Patch', 'Status'),
+        $this->respond([
+            'head' => ['Patch', 'Status'],
             'body' => $rows
-        ));
+        ]);
     }
 
     /**
@@ -140,19 +152,20 @@ class Http
      */
     public function checkCatalog()
     {
-        $rows          = array();
-        $catalog       = new Catalog;
-        $categoryCount = $catalog->categoryCount($this->url);
-        $rows[]        = array(
+        $rows    = [];
+        $catalog = new Catalog;
+        $catalog->setRequest($this->request);
+        $categoryCount = $catalog->categoryCount();
+        $rows[]        = [
             '<a href="' . $this->url. 'catalog/seo_sitemap/category" target="_blank">Categories</a>',
             $categoryCount !== false ? $categoryCount : 'Unknown'
-        );
+        ];
         $productCount = $catalog->productCount($this->url);
-        $rows[]       = array(
+        $rows[]       = [
             '<a href="' . $this->url . 'catalog/seo_sitemap/product" target="_blank">Products</a>',
             $productCount !== false ? $productCount : 'Unknown'
-        );
-        $this->respond(array('body' => $rows));
+        ];
+        $this->respond(['body' => $rows]);
     }
 
     /**
@@ -162,32 +175,28 @@ class Http
      */
     public function checkSitemap()
     {
-        $rows       = array();
-        $request    = new Request;
-        $response   = $request->fetch($this->url . 'robots.txt');
+        $rows       = [];
+        $response   = $this->request->get('robots.txt');
         $sitemap    = new Sitemap;
+        $sitemap->setRequest($this->request);
         $sitemapUrl = $sitemap->getSitemapFromRobotsTxt($response);
         if ($sitemapUrl === false) {
-            $rows[] = array('<span class="fail">Sitemap is not declared in <a href="' . $this->url
-                . 'robots.txt" target="_blank">robots.txt</a></span>');
+            $rows[] = ['<span class="fail">Sitemap is not declared in <a href="' . $this->url
+                . 'robots.txt" target="_blank">robots.txt</a></span>'];
             $sitemapUrl = $this->url . 'sitemap.xml';
         } else {
-            $rows[] = array('<span class="pass">Sitemap is declared in <a href="' . $this->url
-                . 'robots.txt" target="_blank">robots.txt</a></span></span>');
+            $rows[] = ['<span class="pass">Sitemap is declared in <a href="' . $this->url
+                . 'robots.txt" target="_blank">robots.txt</a></span></span>'];
         }
-        $request = new Request;
-        $response = $request->fetch((string) $sitemapUrl, array(
-            CURLOPT_NOBODY         => true,
-            CURLOPT_FOLLOWLOCATION => true
-        ));
+        $response = $this->request->get($sitemapUrl);
         if ($response->code == 200) {
-            $rows[] = array('<span class="pass"><a href="' . $sitemapUrl
-                . '" target="_blank">Sitemap</a> is accessible</span>');
+            $rows[] = ['<span class="pass"><a href="' . $sitemapUrl
+                . '" target="_blank">Sitemap</a> is accessible</span>'];
         } else {
-            $rows[] = array('<span class="fail"><a href="' . $sitemapUrl
-                . '" target="_blank">Sitemap</a> is not accessible</span>');
+            $rows[] = ['<span class="fail"><a href="' . $sitemapUrl
+                . '" target="_blank">Sitemap</a> is not accessible</span>'];
         }
-        $this->respond(array('body' => $rows));
+        $this->respond(['body' => $rows]);
     }
 
     /**
@@ -197,16 +206,17 @@ class Http
      */
     public function checkServertech()
     {
-        $rows       = array();
+        $rows       = [];
         $techHeader = new TechHeader;
-        $values     = $techHeader->getHeaders($this->url);
+        $techHeader->setRequest($this->request);
+        $values     = $techHeader->getHeaders();
         if (empty($values)) {
-            $rows[] = array('No detectable technology was found');
+            $rows[] = ['No detectable technology was found'];
         }
         foreach ($values as $key => $value) {
-            $rows[] = array($key, $value);
+            $rows[] = [$key, $value];
         }
-        $this->respond(array('body' => $rows));
+        $this->respond(['body' => $rows]);
     }
 
     /**
@@ -217,6 +227,7 @@ class Http
     public function checkUnreachablepath()
     {
         $unreachablePath = new UnreachablePath;
+        $unreachablePath->setRequest($this->request);
         $this->respond($unreachablePath->getPaths());
     }
 
@@ -228,7 +239,8 @@ class Http
     public function checkUnreachablepathsingle()
     {
         $unreachablePath = new UnreachablePath;
-        $result          = $unreachablePath->checkPath($this->url, $_GET['path']);
+        $unreachablePath->setRequest($this->request);
+        $result          = $unreachablePath->checkPath($_GET['path']);
         if ($result[2] === true) {
             return;
         }

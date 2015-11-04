@@ -22,15 +22,11 @@ if (isset($_GET['url'])) {
     $url = $_GET['url'];
     $magescanUrl = new Url;
     $url = $magescanUrl->clean(urldecode($_GET['url']));
-    $request = new Request;
-    $response = $request->fetch($url, array(
-        CURLOPT_NOBODY => true
-    ));
-    if (isset($response->header['Location'])) {
-        $suggestUrl = $response->header['Location'];
-    }
-    if (isset($response->header['location'])) {
-        $suggestUrl = $response->header['location'];
+    $request = new Request($url, false);
+    $response = $request->get($url);
+    $headers = $response->getHeaders();
+    if (isset($headers['Location'])) {
+        $suggestUrl = $headers['Location'];
     }
     $suggestUrl = trim($suggestUrl, '/');
 } else {

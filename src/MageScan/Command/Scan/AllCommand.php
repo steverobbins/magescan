@@ -14,6 +14,7 @@
 
 namespace MageScan\Command\Scan;
 
+use MageScan\Url;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -76,15 +77,16 @@ class AllCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setUrl($input->getArgument('url'));
+        $url = new Url;
+        $url = $url->clean($input->getArgument('url'));
         $format = $input->getOption('format');
-        $this->executeStart($format);
+        $this->executeStart($format, $url);
         $scanCount = count($this->scanNames);
         foreach ($this->scanNames as $i => $commandName) {
             $command = $this->getApplication()->find($commandName);
             $args = [
                 'command'  => $commandName,
-                'url'      => $this->url,
+                'url'      => $url,
                 '--format' => $format,
             ];
             if ($commandName === 'scan:module' && $input->getOption('show-modules')) {
@@ -102,17 +104,18 @@ class AllCommand extends AbstractCommand
      * Things to output when execusion starts
      *
      * @param string $format
+     * @param string $url
      *
      * @return void
      */
-    protected function executeStart($format)
+    protected function executeStart($format, $url)
     {
         switch ($format) {
             case 'json':
                 echo '[';
                 break;
             default:
-                $this->output->writeln(sprintf('Scanning <info>%s</info>...', $this->url));
+                $this->output->writeln(sprintf('Scanning <info>%s</info>...', $url));
         }
     }
 

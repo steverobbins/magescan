@@ -42,12 +42,6 @@ abstract class AbstractCheck
      */
     public function getRequest()
     {
-        if ($this->request === null) {
-            $this->setRequest(new Request);
-            if (isset($_SERVER['ALLOW_INSECURE']) && $_SERVER['ALLOW_INSECURE']) {
-                $this->request->setInsecure(true);
-            }
-        }
         return $this->request;
     }
 

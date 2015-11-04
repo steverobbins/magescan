@@ -60,9 +60,7 @@ class Catalog extends AbstractCheck
     protected function countEntity($url, $entity)
     {
         $request = $this->getRequest();
-        $response = $request->fetch($url . 'catalog/seo_sitemap/' . $entity, array(
-            CURLOPT_FOLLOWLOCATION => true
-        ));
+        $response = $request->get('catalog/seo_sitemap/' . $entity);
         $match = $request->findMatchInResponse($response, '/-?[0-9]+[a-z0-9- ]+ of ([0-9]+)/');
         if (!$match) {
             $match = $request->findMatchInResponse($response, '/([0-9]+) Item\(s\)/');

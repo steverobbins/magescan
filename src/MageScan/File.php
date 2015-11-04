@@ -38,7 +38,7 @@ class File
      *
      * @var array
      */
-    private $paths = array();
+    private $paths = [];
 
     /**
      * Initialize the root dir and set the path
@@ -48,7 +48,8 @@ class File
     public function __construct($filename)
     {
         $this->root = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
-        $this->paths[] = $this->root . 'src' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $filename;
+        $this->paths[] = $this->root . 'src' . DIRECTORY_SEPARATOR . 'MageScan'
+            . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $filename;
         $homePath = getenv('HOME') . DIRECTORY_SEPARATOR . '.magescan' . DIRECTORY_SEPARATOR
             . 'config' . DIRECTORY_SEPARATOR . $filename;
         if (file_exists($homePath)) {
@@ -63,7 +64,7 @@ class File
      */
     public function getJson()
     {
-        $return = array();
+        $return = [];
         foreach ($this->paths as $path) {
             $pathData = json_decode(file_get_contents($path), true);
             $return = array_merge($return, $pathData);

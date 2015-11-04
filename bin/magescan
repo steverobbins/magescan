@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+ini_set('display_errors', 1);
+
 $application = require __DIR__.'/../src/bootstrap.php';
 
 __HALT_COMPILER();

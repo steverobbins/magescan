@@ -55,7 +55,7 @@ class VersionCommand extends AbstractCommand
     {
         $version = new Version;
         $version->setRequest($this->request);
-        $version = $version->getInfo($this->url);
+        $version = $version->getInfo();
         $this->out('Magento Information', [[
             'type' => 'table',
             'data' => [

@@ -63,10 +63,10 @@ class SitemapCommand extends AbstractCommand
             $result[] = '<info>Sitemap is declared in robots.txt</info>';
         }
         $request = new Request;
-        $response = $request->fetch($url, array(
+        $response = $request->fetch($url, [
             CURLOPT_NOBODY         => true,
             CURLOPT_FOLLOWLOCATION => true
-        ));
+        ]);
         if ($response->code == 200) {
             $result[] = '<info>Sitemap is accessible:</info> ' . $url;
         } else {
