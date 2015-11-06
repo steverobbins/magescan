@@ -44,13 +44,13 @@ class MageReport extends AbstractCheck
      *
      * @param array $patches
      */
-    public $patches = [
+    public $patches = array(
         'SUPEE-5344' => 'https://www.magereport.com/scan/result/supee5344',
         'SUPEE-5994' => 'https://www.magereport.com/scan/result/supee5994',
         'SUPEE-6285' => 'https://www.magereport.com/scan/result/supee6285',
         'SUPEE-6482' => 'https://www.magereport.com/scan/result/supee6482',
         'SUPEE-6788' => 'https://www.magereport.com/scan/result/supee6788',
-    ];
+    );
 
     /**
      * Set the URL
