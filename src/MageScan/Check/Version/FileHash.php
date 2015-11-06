@@ -46,6 +46,6 @@ class FileHash extends AbstractCheck
         }
         $edition  = key($info);
         $versions = $info[$edition];
-        return [$edition, implode(', ', $versions)];
+        return array($edition, implode(', ', $versions));
     }
 }
