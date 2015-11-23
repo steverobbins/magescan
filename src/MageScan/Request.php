@@ -16,7 +16,6 @@ namespace MageScan;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Promise;
-use GuzzleHttp\Psr7\Response;
 
 /**
  * Make a cURL request to a url
@@ -147,20 +146,18 @@ class Request
     /**
      * Parse out the count from the response
      *
-     * @param Response $response
-     * @param string   $pattern
-     * @param boolean  $returnAll
+     * @param string  $response
+     * @param string  $pattern
+     * @param boolean $returnAll
      *
      * @return string|array|boolean
      */
-    public function findMatchInResponse(Response $response, $pattern, $returnAll = false)
+    public function findMatchInResponse($response, $pattern, $returnAll = false)
     {
-        if ($response->getStatusCode() == 200) {
-            if (preg_match($pattern, $response->getBody()->getContents(), $match)
-                && (isset($match[1]) || $returnAll)
-            ) {
-                return $returnAll ? $match : $match[1];
-            }
+        if (preg_match($pattern, $response, $match)
+            && (isset($match[1]) || $returnAll)
+        ) {
+            return $returnAll ? $match : $match[1];
         }
         return false;
     }

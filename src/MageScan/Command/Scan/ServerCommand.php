@@ -55,7 +55,7 @@ class ServerCommand extends AbstractCommand
     {
         $techHeader = new TechHeader;
         $techHeader->setRequest($this->request);
-        $values = $techHeader->getHeaders($this->url);
+        $values = $techHeader->getHeaders();
         if (empty($values)) {
             return $this->out('Server Technology', 'No detectable technology was found');
         }

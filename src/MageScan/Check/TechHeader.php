@@ -42,18 +42,16 @@ class TechHeader extends AbstractCheck
     /**
      * Crawl the url's headers
      *
-     * @param string $url
-     *
      * @return array
      */
-    public function getHeaders($url)
+    public function getHeaders()
     {
-        $response = $this->getRequest()->get('');
+        $response = $this->getRequest()->get();
         $rows = [];
         $headers = $response->getHeaders();
         foreach ($this->techHeader as $value) {
             if (isset($headers[$value])) {
-                $rows[$value] = $headers[$value];
+                $rows[$value] = $headers[$value][0];
             }
         }
         return $rows;

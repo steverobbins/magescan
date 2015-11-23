@@ -55,11 +55,12 @@ class Catalog extends AbstractCheck
      */
     protected function countEntity($entity)
     {
-        $request = $this->getRequest();
-        $response = $request->get('catalog/seo_sitemap/' . $entity);
-        $match = $request->findMatchInResponse($response, '/-?[0-9]+[a-z0-9- ]+ of ([0-9]+)/');
+        $request      = $this->getRequest();
+        $response     = $request->get('catalog/seo_sitemap/' . $entity);
+        $responseBody = $response->getBody()->getContents();
+        $match        = $request->findMatchInResponse($responseBody, '/-?[0-9]+[a-z0-9- ]+ of ([0-9]+)/');
         if (!$match) {
-            $match = $request->findMatchInResponse($response, '/([0-9]+) Item\(s\)/');
+            $match = $request->findMatchInResponse($responseBody, '/([0-9]+) Item\(s\)/');
         }
         return $match;
     }
