@@ -58,15 +58,17 @@ class Request
      * @param string  $baseUri
      * @param boolean $verify
      */
-    public function __construct($baseUri, $verify = true)
+    public function __construct($baseUri = false, $verify = true)
     {
         $this->url = $baseUri;
-        $this->client = new Client([
-            'base_uri' => $this->url,
-            //'timeout'  => self::REQUEST_TIMEOUT,
+        $params = [
             'verify'   => $verify,
-            'http_errors' => false,
-        ]);
+            'http_errors' => false
+        ];
+        if ($this->url !== false) {
+            $params['base_uri'] = $this->url;
+        }
+        $this->client = new Client($params);
     }
 
     /**
@@ -119,7 +121,7 @@ class Request
      */
     public function post($path, array $params = [])
     {
-        return $client->post('/' . $path, $params);
+        return $this->client->post('/' . $path, $params);
     }
 
     /**
@@ -154,6 +156,9 @@ class Request
      */
     public function findMatchInResponse($response, $pattern, $returnAll = false)
     {
+        if (empty($response)) {
+            return false;
+        }
         if (preg_match($pattern, $response, $match)
             && (isset($match[1]) || $returnAll)
         ) {
