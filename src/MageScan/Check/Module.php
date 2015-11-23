@@ -37,9 +37,11 @@ class Module extends AbstractCheck
     public function checkForModules()
     {
         $modules = [];
-        $responses = $this->getRequest()->getMany($this->getFiles());
+        $files = $this->getFiles();
+        $responses = $this->getRequest()->getMany(array_keys($files));
         foreach ($responses as $path => $response) {
-            if ($response->getStatusCode == 200 && (!isset($modules[$name]) || $modules[$name] === false)) {
+            $name = $files[$path];
+            if ($response->getStatusCode() == 200 && (!isset($modules[$name]) || $modules[$name] === false)) {
                 $modules[$name] = true;
             } else {
                 $modules[$name] = false;

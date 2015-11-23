@@ -58,16 +58,16 @@ class SitemapCommand extends AbstractCommand
         $url = $this->getSitemapUrl();
         if ($url === false) {
             $result[] = '<error>Sitemap is not declared in robots.txt</error>';
-            $url = $this->url . 'sitemap.xml';
+            $url = $this->request->getUrl() . 'sitemap.xml';
         } else {
             $result[] = '<info>Sitemap is declared in robots.txt</info>';
         }
-        $request = new Request;
-        $response = $request->fetch($url, [
-            CURLOPT_NOBODY         => true,
-            CURLOPT_FOLLOWLOCATION => true
-        ]);
-        if ($response->code == 200) {
+        $request = new Request(
+            $url,
+            $this->input->getOption('insecure')
+        );
+        $response = $request->get();
+        if ($response->getStatusCode() == 200) {
             $result[] = '<info>Sitemap is accessible:</info> ' . $url;
         } else {
             $result[] = '<error>Sitemap is not accessible:</error> ' . $url;
@@ -82,8 +82,11 @@ class SitemapCommand extends AbstractCommand
      */
     protected function getSitemapUrl()
     {
-        $request = new Request;
-        $response = $request->fetch($this->url . 'robots.txt');
+        $request = new Request(
+            $this->request->getUrl(),
+            $this->input->getOption('insecure')
+        );
+        $response = $request->get('robots.txt');
         $sitemap = new Sitemap;
         $sitemap->setRequest($this->request);
         return $sitemap->getSitemapFromRobotsTxt($response);

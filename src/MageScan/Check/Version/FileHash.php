@@ -33,13 +33,11 @@ class FileHash extends AbstractCheck
     /**
      * Guess magento edition and version
      *
-     * @param string $url
-     *
      * @return array|boolean
      */
-    public function getInfo($url)
+    public function getInfo()
     {
-        $checker = new Check($url);
+        $checker = new Check($this->getRequest()->getUrl());
         $info    = $checker->getInfo();
         if ($info === false) {
             return false;

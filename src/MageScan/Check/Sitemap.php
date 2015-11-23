@@ -14,6 +14,7 @@
 
 namespace MageScan\Check;
 
+use GuzzleHttp\Psr7\Response;
 use MageScan\Request;
 
 /**
@@ -31,11 +32,11 @@ class Sitemap extends AbstractCheck
     /**
      * Parse the sitemap url out of a robots.txt contents
      *
-     * @param \stdClass $response
+     * @param Response $response
      *
      * @return string|boolean
      */
-    public function getSitemapFromRobotsTxt($response)
+    public function getSitemapFromRobotsTxt(Response $response)
     {
         return $this->getRequest()->findMatchInResponse($response, '/^(?!#+)\s*Sitemap: (.*)$/mi');
     }

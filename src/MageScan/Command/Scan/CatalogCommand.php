@@ -56,12 +56,12 @@ class CatalogCommand extends AbstractCommand
         $rows     = [];
         $catalog  = new Catalog;
         $catalog->setRequest($this->request);
-        $categoryCount = $catalog->categoryCount($this->url);
+        $categoryCount = $catalog->categoryCount();
         $rows[] = [
             'Categories',
             $categoryCount !== false ? $categoryCount : 'Unknown'
         ];
-        $productCount = $catalog->productCount($this->url);
+        $productCount = $catalog->productCount();
         $rows[] = [
             'Products',
             $productCount !== false ? $productCount : 'Unknown'

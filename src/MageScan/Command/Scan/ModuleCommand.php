@@ -64,7 +64,7 @@ class ModuleCommand extends AbstractCommand
         $module = new Module;
         $module->setRequest($this->request);
         $found = $notFound = [];
-        foreach ($module->checkForModules($this->url) as $name => $exists) {
+        foreach ($module->checkForModules() as $name => $exists) {
             if ($exists) {
                 $found[] = [$name, '<bg=green>Yes</bg=green>'];
             } else {

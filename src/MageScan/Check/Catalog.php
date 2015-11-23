@@ -29,35 +29,31 @@ class Catalog extends AbstractCheck
     /**
      * Try to figure out how many categories there are in the store
      *
-     * @param string $url
-     *
      * @return string|boolean
      */
-    public function categoryCount($url)
+    public function categoryCount()
     {
-        return $this->countEntity($url, 'category');
+        return $this->countEntity('category');
     }
+
     /**
      * Try to figure out how many products there are in the store
      *
-     * @param string $url
-     *
      * @return string|boolean
      */
-    public function productCount($url)
+    public function productCount()
     {
-        return $this->countEntity($url, 'product');
+        return $this->countEntity('product');
     }
 
     /**
      * Count different entity types
      *
-     * @param string $url
      * @param string $entity
      *
      * @return string|boolean
      */
-    protected function countEntity($url, $entity)
+    protected function countEntity($entity)
     {
         $request = $this->getRequest();
         $response = $request->get('catalog/seo_sitemap/' . $entity);

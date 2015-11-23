@@ -39,6 +39,18 @@ class Request
      */
     protected $insecure = false;
 
+    /**
+     * The base URL of the Magento application
+     *
+     * @var string
+     */
+    protected $url;
+
+    /**
+     * Client cache
+     *
+     * @var GuzzleHttp\Client
+     */
     protected $client;
 
     /**
@@ -49,8 +61,9 @@ class Request
      */
     public function __construct($baseUri, $verify = true)
     {
+        $this->url = $baseUri;
         $this->client = new Client([
-            'base_uri' => $baseUri,
+            'base_uri' => $this->url,
             //'timeout'  => self::REQUEST_TIMEOUT,
             'verify'   => $verify,
             'http_errors' => false,
@@ -58,16 +71,26 @@ class Request
     }
 
     /**
+     * Get the base url of this request
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
      * Get a path
      *
-     * @param string $path
-     * @param array  $params
+     * @param string|boolean $path
+     * @param array          $params
      *
      * @return GuzzleHttp\Psr7\Response
      */
-    public function get($path, array $params = [])
+    public function get($path = false, array $params = [])
     {
-        return $this->client->get('/' . $path, $params);
+        return $this->client->get($path ? '/' . $path : null, $params);
     }
 
     /**
@@ -125,15 +148,15 @@ class Request
      * Parse out the count from the response
      *
      * @param Response $response
-     * @param string    $pattern
-     * @param boolean   $returnAll
+     * @param string   $pattern
+     * @param boolean  $returnAll
      *
      * @return string|array|boolean
      */
     public function findMatchInResponse(Response $response, $pattern, $returnAll = false)
     {
         if ($response->getStatusCode() == 200) {
-            if (preg_match($pattern, $response->getBody(), $match)
+            if (preg_match($pattern, $response->getBody()->getContents(), $match)
                 && (isset($match[1]) || $returnAll)
             ) {
                 return $returnAll ? $match : $match[1];
