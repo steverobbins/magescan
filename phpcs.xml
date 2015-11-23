@@ -8,6 +8,7 @@
         <exclude name="PEAR.WhiteSpace.ScopeIndent.IncorrectExact" />
         <exclude name="PEAR.NamingConventions.ValidVariableName.PrivateNoUnderscore" />
         <exclude name="PEAR.NamingConventions.ValidFunctionName.PrivateNoUnderscore" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.Indent" />
     </rule>
     <rule ref="PSR2" />
     <rule ref="Generic.Files.LineLength">
