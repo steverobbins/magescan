@@ -22,7 +22,7 @@ The idea behind this is to evaluate the quality and security of a Magento site y
 
 ```
 curl -o magescan.phar http://magescan.steverobbins.com/download/magescan.phar
-php magescan.phar scan www.example.com
+php magescan.phar scan:all www.example.com
 ```
 
 
@@ -36,7 +36,7 @@ git clone https://github.com/steverobbins/magescan magescan
 cd magescan
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install
-bin/magescan scan www.example.com
+bin/magescan scan:all www.example.com
 ```
 
 ### n98-magerun
@@ -67,13 +67,13 @@ Add the following to your `composer.json`
 
 # Usage
 
-    $ magescan.phar scan store.example.com
+    $ magescan.phar scan:all store.example.com
 
 ## Commands
 
 ### `scan:all`
 
-    $ magescan.phar scan [--insecure|-k] [--show-modules] <url>
+    $ magescan.phar scan:all [--insecure|-k] [--show-modules] <url>
 
 Run all scans on the given `<url>`.
 
