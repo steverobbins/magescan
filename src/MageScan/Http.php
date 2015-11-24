@@ -160,7 +160,7 @@ class Http
             '<a href="' . $this->url. 'catalog/seo_sitemap/category" target="_blank">Categories</a>',
             $categoryCount !== false ? $categoryCount : 'Unknown'
         ];
-        $productCount = $catalog->productCount($this->url);
+        $productCount = $catalog->productCount();
         $rows[]       = [
             '<a href="' . $this->url . 'catalog/seo_sitemap/product" target="_blank">Products</a>',
             $productCount !== false ? $productCount : 'Unknown'

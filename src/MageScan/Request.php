@@ -41,14 +41,14 @@ class Request
     /**
      * The base URL of the Magento application
      *
-     * @var string
+     * @var string|boolean
      */
     protected $url;
 
     /**
      * Client cache
      *
-     * @var GuzzleHttp\Client
+     * @var Client
      */
     protected $client;
 
