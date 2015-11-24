@@ -158,12 +158,12 @@ EOT
      */
     protected function checkLatestVersion()
     {
-        $request  = new Request;
-        $response = $request->fetch(self::URL_VERSION);
-        if ($response->code !== 200) {
+        $request  = new Request(self::URL_VERSION);
+        $response = $request->get();
+        if ($response->getStatusCode() !== 200) {
             throw new \Exception('Error fetching latest version');
         }
-        return trim($response->body);
+        return trim($response->getBody()->getContents());
     }
 
     /**
@@ -175,8 +175,8 @@ EOT
      */
     protected function downloadLatestVersion($filename)
     {
-        $request  = new Request;
-        $response = $request->fetch(self::URL_DOWNLOAD);
-        return file_put_contents($filename, $response->body) !== false;
+        $request  = new Request(self::URL_DOWNLOAD);
+        $response = $request->get();
+        return file_put_contents($filename, $response->getBody()->getContents()) !== false;
     }
 }
