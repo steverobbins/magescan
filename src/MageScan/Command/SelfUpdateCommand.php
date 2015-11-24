@@ -42,7 +42,7 @@ class SelfUpdateCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('selfupdate')
+            ->setName('self-update')
             ->setDescription('Updates magescan.phar to the latest version')
             ->setHelp(<<<EOT
 The <info>selfupdate</info> command checks the homepage for newer
