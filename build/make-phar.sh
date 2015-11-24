@@ -17,6 +17,7 @@ rm -rf $REPO_FOLDER $REQUEST
 git clone $REPO_URL $REPO_FOLDER
 cd $REPO_FOLDER
 $BIN_COMPOSER --no-dev install
+ulimit -Sn 4096
 $BIN_BOX build -c box.json
 rm -f $PHAR_DEST
 mv $REPO_FOLDER/magescan.phar $PHAR_DEST
