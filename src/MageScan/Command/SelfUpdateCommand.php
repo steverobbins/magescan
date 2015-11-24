@@ -42,7 +42,7 @@ class SelfUpdateCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('selfupdate')
+            ->setName('self-update')
             ->setDescription('Updates magescan.phar to the latest version')
             ->setHelp(<<<EOT
 The <info>selfupdate</info> command checks the homepage for newer
@@ -158,12 +158,12 @@ EOT
      */
     protected function checkLatestVersion()
     {
-        $request  = new Request;
-        $response = $request->fetch(self::URL_VERSION);
-        if ($response->code !== 200) {
+        $request  = new Request(self::URL_VERSION);
+        $response = $request->get();
+        if ($response->getStatusCode() !== 200) {
             throw new \Exception('Error fetching latest version');
         }
-        return trim($response->body);
+        return trim($response->getBody()->getContents());
     }
 
     /**
@@ -175,8 +175,8 @@ EOT
      */
     protected function downloadLatestVersion($filename)
     {
-        $request  = new Request;
-        $response = $request->fetch(self::URL_DOWNLOAD);
-        return file_put_contents($filename, $response->body) !== false;
+        $request  = new Request(self::URL_DOWNLOAD);
+        $response = $request->get();
+        return file_put_contents($filename, $response->getBody()->getContents()) !== false;
     }
 }
