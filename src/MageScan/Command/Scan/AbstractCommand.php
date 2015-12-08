@@ -98,10 +98,14 @@ abstract class AbstractCommand extends Command
         $this->input   = $input;
         $this->output  = $output;
         $url = new Url;
-        $this->request = new Request(
-            $url->clean($input->getArgument('url')),
-            $this->input->getOption('insecure')
-        );
+        try {
+            $this->request = new Request(
+                $url->clean($input->getArgument('url')),
+                $this->input->getOption('insecure')
+            );
+        } catch (\InvalidArgumentException $e) {
+            // do nothing
+        }
         $style = new OutputFormatterStyle('white', 'blue', ['bold']);
         $this->output->getFormatter()->setStyle('header', $style);
     }

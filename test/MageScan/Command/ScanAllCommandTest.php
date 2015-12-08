@@ -43,8 +43,8 @@ class ScanAllCommandTest extends PHPUnit_Framework_TestCase
         $command = $application->find('scan:all');
         $commandTester = new CommandTester($command);
         $result        =  $commandTester->execute(array(
-            'command'        => 'scan:all',
-            'url'            => 'enterprise-demo.user.magentotrial.com'
+            'command' => 'scan:all',
+            'url'     => '127.0.0.1'
         ));
         $this->assertEquals(0, $result);
     }
