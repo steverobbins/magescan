@@ -11,6 +11,9 @@ php:
   - 7.0
   - hhvm
 
+before_install:
+  - pip install --user codecov
+
 install:
   - composer self-update
   - composer install -n --prefer-source
@@ -24,3 +27,7 @@ script:
 
 after_script:
   - php vendor/bin/coveralls -v
+
+after_success:
+  - codecov
+
