@@ -64,7 +64,7 @@ class UnreachablePath extends AbstractCheck
      */
     public function checkPath($path)
     {
-        $response = $this->getRequest()->get($path, ['allow_redirects' => false]);
+        $response = $this->getRequest()->head($path, ['allow_redirects' => false]);
         return $this->prepareResponse($path, $response);
     }
 
