@@ -46,7 +46,7 @@ class TechHeader extends AbstractCheck
      */
     public function getHeaders()
     {
-        $response = $this->getRequest()->get();
+        $response = $this->getRequest()->head();
         $rows = [];
         $headers = $response->getHeaders();
         foreach ($this->techHeader as $value) {

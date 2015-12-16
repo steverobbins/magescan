@@ -72,6 +72,28 @@ class Request
     }
 
     /**
+     * Pass undefined requests to client
+     *
+     * @param string $method
+     * @param arary  $args
+     *
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+        $paths  = isset($args[0]) ? $args[0] : false;
+        $params = isset($args[1]) ? $args[1] : [];
+        if (substr($method, -4) === 'Many') {
+            $promises = [];
+            foreach ($paths as $path) {
+                $promises[$path] = $this->client->requestAsync(substr($method, 0, -4), '/' . $path, $params);
+            }
+            return Promise\unwrap($promises);
+        }
+        return $this->client->request($method, $paths ? '/' . $paths : null, $params);
+    }
+
+    /**
      * Get the base url of this request
      *
      * @return string
@@ -79,49 +101,6 @@ class Request
     public function getUrl()
     {
         return $this->url;
-    }
-
-    /**
-     * Get a path
-     *
-     * @param string|boolean $path
-     * @param array          $params
-     *
-     * @return GuzzleHttp\Psr7\Response
-     */
-    public function get($path = false, array $params = [])
-    {
-        return $this->client->get($path ? '/' . $path : null, $params);
-    }
-
-    /**
-     * Get many paths asyncronously
-     *
-     * @param string[] $paths
-     * @param array    $params
-     *
-     * @return GuzzleHttp\Psr7\Response[]
-     */
-    public function getMany($paths, array $params = [])
-    {
-        $promises = [];
-        foreach ($paths as $path) {
-            $promises[$path] = $this->client->getAsync('/' . $path, $params);
-        }
-        return Promise\unwrap($promises);
-    }
-
-    /**
-     * Post to a path
-     *
-     * @param string $path
-     * @param array  $params
-     *
-     * @return GuzzleHttp\Psr7\Response
-     */
-    public function post($path, array $params = [])
-    {
-        return $this->client->post('/' . $path, $params);
     }
 
     /**
