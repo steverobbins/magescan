@@ -11,20 +11,14 @@ php:
   - 7.0
   - hhvm
 
-before_install:
-  - pip install --user codecov
-
-install:
-  - composer self-update
-  - composer install -n --prefer-source
-
 before_script:
-  - mkdir -p build/logs
+    - travis_retry composer self-update
+    - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
   - vendor/bin/phpcs --standard=./phpcs.xml -v --encoding=utf-8 ./src
-  - vendor/bin/phpunit -c phpunit.xml --debug
+  - vendor/bin/phpunit -c phpunit.xml --debug --coverage-clover=coverage.xml
 
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
 

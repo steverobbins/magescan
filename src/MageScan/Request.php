@@ -20,6 +20,13 @@ use GuzzleHttp\Promise;
 /**
  * Make a cURL request to a url
  *
+ * @method \GuzzleHttp\Psr7\Response get(string $path = null, array $params = [])
+ * @method \GuzzleHttp\Psr7\Response[] getMany(array $paths, array $params = [])
+ * @method \GuzzleHttp\Psr7\Response head(string $path = null, array $params = [])
+ * @method \GuzzleHttp\Psr7\Response[] headMany(array $paths, array $params = [])
+ * @method \GuzzleHttp\Psr7\Response post(string $path = null, array $params = [])
+ * @method \GuzzleHttp\Psr7\Response[] postMany(array $paths, array $params = [])
+ *
  * @category  MageScan
  * @package   MageScan
  * @author    Steve Robbins <steve@steverobbins.com>
@@ -77,7 +84,7 @@ class Request
      * @param string $method
      * @param arary  $args
      *
-     * @return mixed
+     * @return \GuzzleHttp\Psr7\Response
      */
     public function __call($method, $args)
     {

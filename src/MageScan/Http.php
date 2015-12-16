@@ -189,7 +189,7 @@ class Http
                 . 'robots.txt" target="_blank">robots.txt</a></span></span>'];
         }
         $response = $this->request->get($sitemapUrl);
-        if ($response->code == 200) {
+        if ($response->getStatusCode() == 200) {
             $rows[] = ['<span class="pass"><a href="' . $sitemapUrl
                 . '" target="_blank">Sitemap</a> is accessible</span>'];
         } else {
