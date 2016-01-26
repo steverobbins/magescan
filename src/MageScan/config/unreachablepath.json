@@ -37,6 +37,7 @@
     "manage/",
     "management/",
     "manager/",
+    "modman",
     "p.php",
     "panel/",
     "phpinfo.php",
