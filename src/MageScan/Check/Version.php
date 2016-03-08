@@ -38,6 +38,7 @@ class Version extends AbstractCheck
     protected $versionCheck = [
         'FileHash',
         'DocComment',
+        'VersionController',
     ];
 
     /**
