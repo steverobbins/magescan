@@ -19,7 +19,7 @@ use MageScan\Check\AbstractCheck;
 use MageScan\Check\Version;
 
 /**
- * Scan for Magento edition and version via doc block style comment
+ * Scan for Magento edition and version via downloader url
  *
  * @category  MageScan
  * @package   MageScan
