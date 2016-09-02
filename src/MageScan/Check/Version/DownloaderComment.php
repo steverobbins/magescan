@@ -6,8 +6,8 @@
  *
  * @category  MageScan
  * @package   MageScan
- * @author    Steve Robbins <steve@steverobbins.com>
- * @copyright 2015 Steve Robbins
+ * @author    Dardo Guidobono <dardoguidobono@gmail.com>
+ * @copyright 2016 Dardo Guidobono
  * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
@@ -23,12 +23,12 @@ use MageScan\Check\Version;
  *
  * @category  MageScan
  * @package   MageScan
- * @author    Steve Robbins <steve@steverobbins.com>
- * @copyright 2015 Steve Robbins
+ * @author    Dardo Guidobono <dardoguidobono@gmail.com>
+ * @copyright 2016 Dardo Guidobono
  * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magescan
  */
-class DocComment extends AbstractCheck
+class DownloaderComment extends AbstractCheck
 {
     /**
      * Guess magento edition and version
@@ -37,89 +37,62 @@ class DocComment extends AbstractCheck
      */
     public function getInfo()
     {
-        $response = $this->getRequest()->get('js/varien/product.js');
-        $edition = $this->getEdition($response);
-        if ($edition) {
-            $version = $this->getVersion($response, $edition);
+        $response = $this->getRequest()->get('downloader');
+        $year = $this->getMagentoYear($response);
+        if ($year) {
+            $version = $this->getMagentoVersion($response);
+            $edition = $this->getMagentoEditionByYearAndVersion($year, $version);
             return [$edition, $version];
         }
         return false;
     }
 
     /**
-     * Guess Magento edition from license in public file
+     * Guess Magento year from downloader url
      *
      * @param Response $response
      *
      * @return string|boolean
      */
-    public function getEdition(Response $response)
+    public function getMagentoYear(Response $response)
     {
+
         if ($response->getStatusCode() == 200) {
-            preg_match('/@license.*/', $response->getBody(), $match);
-            if (isset($match[0])) {
-                if (strpos($match[0], 'enterprise') !== false) {
-                    return Version::EDITION_ENTERPRISE;
-                } elseif (strpos($match[0], 'commercial') !== false) {
-                    return Version::EDITION_PROFESSIONAL;
-                }
-                return Version::EDITION_COMMUNITY;
+            preg_match('/([0-9]{4}).*Magento/', $response->getBody(), $match);
+            if (isset($match[1])) {
+                return $match[1];
             }
         }
         return false;
     }
 
     /**
-     * Guess Magento version from copyright in public file
+     * Guess Magento version from downloader body
      *
      * @param Response       $response
-     * @param string|boolean $edition
      *
      * @return string|boolean
      */
-    public function getVersion(Response $response, $edition)
+    public function getMagentoVersion(Response $response)
     {
-        if ($response->getStatusCode() == 200 && $edition != false) {
-            preg_match('/@copyright.*/', $response->getBody(), $match);
-            if (isset($match[0])
-                && preg_match('/[0-9-]{4,}/', $match[0], $match)
-                && isset($match[0])
-            ) {
-                return $this->getMagentoVersionByYear($match[0], $edition);
+        if ($response->getStatusCode() == 200 ) {
+            if ( preg_match('/([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}(\.[0-9]{1,2})?)/', $response->getBody(), $match) ){
+                return $match[1];
             }
         }
         return false;
     }
 
     /**
-     * Guess Magento version from copyright year and edition
+     * Guess Magento edition from copyright year and version
      *
      * @param string $year
-     * @param string $edition
+     * @param string $version
      *
      * @return string
      */
-    protected function getMagentoVersionByYear($year, $edition)
+    protected function getMagentoEditionByYearAndVersion($year, $version)
     {
-        switch ($year) {
-            case '2006-2015':
-            case '2006-2014':
-            case '2014':
-                return $edition == Version::EDITION_ENTERPRISE ?
-                    '1.14' : '1.9';
-            case 2013:
-                return $edition == Version::EDITION_ENTERPRISE ?
-                    '1.13' : '1.8';
-            case 2012:
-                return ($edition == Version::EDITION_ENTERPRISE || $edition == Version::EDITION_PROFESSIONAL) ?
-                    '1.12' : '1.7';
-            case 2011:
-                return ($edition == Version::EDITION_ENTERPRISE || $edition == Version::EDITION_PROFESSIONAL) ?
-                    '1.11' : '1.6';
-            case 2010:
-                return ($edition == Version::EDITION_ENTERPRISE || $edition == Version::EDITION_PROFESSIONAL) ?
-                    '1.9 - 1.10' : '1.4 - 1.5';
-        }
         return 'Unknown';
     }
 }
