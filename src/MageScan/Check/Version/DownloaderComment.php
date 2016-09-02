@@ -69,14 +69,14 @@ class DownloaderComment extends AbstractCheck
     /**
      * Guess Magento version from downloader body
      *
-     * @param Response       $response
+     * @param Response $response
      *
      * @return string|boolean
      */
     public function getMagentoVersion(Response $response)
     {
-        if ($response->getStatusCode() == 200 ) {
-            if ( preg_match('/([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}(\.[0-9]{1,2})?)/', $response->getBody(), $match) ){
+        if ($response->getStatusCode() == 200) {
+            if (preg_match('/([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}(\.[0-9]{1,2})?)/', $response->getBody(), $match)) {
                 return $match[1];
             }
         }
