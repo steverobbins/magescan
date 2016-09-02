@@ -44,7 +44,7 @@ class ScanAllCommandTest extends PHPUnit_Framework_TestCase
         $commandTester = new CommandTester($command);
         $result        =  $commandTester->execute(array(
             'command' => 'scan:all',
-            'url'     => 'magescan.steverobbins.com'
+            'url'     => 'magescan.com'
         ));
         $this->assertEquals(0, $result);
     }
