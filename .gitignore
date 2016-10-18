@@ -1,5 +1,6 @@
 /composer.lock
 /composer.phar
+/coverage.xml
 /build/*
 !/build/mage-phar.sh
 /magescan.phar

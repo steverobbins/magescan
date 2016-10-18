@@ -54,6 +54,7 @@ class MageReport extends AbstractCheck
         'scan/result/supee6482',
         'scan/result/supee6788',
         'scan/result/supee7405',
+        'scan/result/supee8788',
     ];
 
     /**
