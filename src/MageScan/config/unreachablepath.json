@@ -38,6 +38,7 @@
     "management/",
     "manager/",
     "modman",
+    ".modman-skip",
     "p.php",
     "panel/",
     "phpinfo.php",
