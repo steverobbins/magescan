@@ -49,16 +49,19 @@ class UnreachableCommand extends AbstractCommand
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @return void
+     * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $exitCode = 0;
+
         $unreachablePath = new UnreachablePath;
         $unreachablePath->setRequest($this->request);
         $results = $unreachablePath->checkPaths();
         foreach ($results as &$result) {
             if ($result[2] === false) {
                 $result[2] = '<error>Fail</error>';
+                $exitCode = 1;
             } elseif ($result[2] === true) {
                 $result[2] = '<bg=green>Pass</bg=green>';
             }
@@ -70,5 +73,7 @@ class UnreachableCommand extends AbstractCommand
                 $results
             ]
         ]]);
+
+        return $exitCode;
     }
 }
