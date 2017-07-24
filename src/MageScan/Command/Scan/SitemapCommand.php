@@ -50,13 +50,16 @@ class SitemapCommand extends AbstractCommand
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @return void
+     * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $exitCode = 0;
+
         $result = [];
         $url = $this->getSitemapUrl();
         if ($url === false) {
+            $exitCode = 1;
             $result[] = '<error>Sitemap is not declared in robots.txt</error>';
             $url = $this->request->getUrl() . 'sitemap.xml';
         } else {
@@ -70,9 +73,11 @@ class SitemapCommand extends AbstractCommand
         if ($response->getStatusCode() == 200) {
             $result[] = '<info>Sitemap is accessible:</info> ' . $url;
         } else {
+            $exitCode = 1;
             $result[] = '<error>Sitemap is not accessible:</error> ' . $url;
         }
         $this->out('Sitemap', $result);
+        return $exitCode;
     }
 
     /**

@@ -101,7 +101,8 @@ abstract class AbstractCommand extends Command
         try {
             $this->request = new Request(
                 $url->clean($input->getArgument('url')),
-                $this->input->getOption('insecure')
+                $this->input->getOption('insecure'),
+                $this->getApplication()->getVersion()
             );
         } catch (\InvalidArgumentException $e) {
             // do nothing

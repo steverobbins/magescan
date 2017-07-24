@@ -64,17 +64,22 @@ class Request
      *
      * @param string  $baseUri
      * @param boolean $verify
+     * @param null|string $version
      */
-    public function __construct($baseUri = false, $verify = true)
+    public function __construct($baseUri = false, $verify = true, $version = null)
     {
         $this->url = $baseUri;
         $params = [
             'verify'   => $verify,
-            'http_errors' => false
+            'http_errors' => false,
+            'headers' => array(
+                'User-Agent' => 'Mage Scan / ' . $version . ' / https://github.com/steverobbins/magescan'
+            )
         ];
         if ($this->url !== false) {
             $params['base_uri'] = $this->url;
         }
+
         $this->client = new Client($params);
     }
 

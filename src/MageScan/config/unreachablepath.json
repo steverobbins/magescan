@@ -1,4 +1,5 @@
 [
+    ".blackfire.yml",
     ".bzr/",
     ".cvs/",
     ".git/",
@@ -6,9 +7,11 @@
     ".git/refs/",
     ".gitignore",
     ".hg/",
+    ".htaccess",
     ".idea",
     ".svn/",
     ".svn/entries",
+    ".travis.yml",
     "admin/",
     "admin123/",
     "adminer.php",
@@ -24,9 +27,9 @@
     "chive",
     "composer.json",
     "composer.lock",
-    "vendor/composer/installed.json",
     "config/deploy.rb",
     "control/",
+    "cron.php",
     "dev/tests/functional/etc/config.xml",
     "downloader/index.php",
     "index.php/rss/order/NEW/new",
@@ -70,5 +73,7 @@
     "var/log/payment_pbridge.log",
     "var/log/payment_verisign.log",
     "var/log/system.log",
-    "var/report/"
+    "var/report/",
+    "vendor/autoload.php",
+    "vendor/composer/installed.json"
 ]
