@@ -100,7 +100,7 @@ class UnreachablePath extends AbstractCheck
             case 301:
             case 302:
                 $headers = $response->getHeaders();
-                return $headers['Location'][0];
+                return isset($headers['Location'][0]) ? $headers['Location'][0] : null;
         }
         return true;
     }
