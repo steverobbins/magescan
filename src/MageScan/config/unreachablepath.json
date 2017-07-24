@@ -27,7 +27,6 @@
     "chive",
     "composer.json",
     "composer.lock",
-    "vendor/composer/installed.json",
     "config/deploy.rb",
     "control/",
     "cron.php",
