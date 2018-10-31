@@ -10,7 +10,7 @@
     ],
     "require": {
         "symfony/console": "~2.6",
-        "steverobbins/magento-version-identification": "1.2.*",
+        "steverobbins/magento-version-identification": "1.*",
         "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
