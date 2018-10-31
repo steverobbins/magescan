@@ -126,7 +126,8 @@ class DownloaderComment extends AbstractCheck
                     '1.4.1.0',
                     '1.4.1.1',
                     '1.4.2.0',
-                ])) {
+                ])
+                ) {
                     return Version::EDITION_COMMUNITY;
                 }
                 break;
@@ -138,7 +139,8 @@ class DownloaderComment extends AbstractCheck
                     '1.6.0.0',
                     '1.6.1.0',
                     '1.6.2.0',
-                ])) {
+                ])
+                ) {
                     return Version::EDITION_COMMUNITY;
                 }
                 break;
@@ -147,7 +149,8 @@ class DownloaderComment extends AbstractCheck
                     '1.7.0.0',
                     '1.7.0.1',
                     '1.7.0.2',
-                ])) {
+                ])
+                ) {
                     return Version::EDITION_COMMUNITY;
                 }
                 break;
@@ -155,7 +158,8 @@ class DownloaderComment extends AbstractCheck
                 if (in_array($version, [
                     '1.8.0.0',
                     '1.8.1.0',
-                ])) {
+                ])
+                ) {
                     return Version::EDITION_COMMUNITY;
                 }
                 break;
@@ -165,7 +169,8 @@ class DownloaderComment extends AbstractCheck
                     '1.9.0.1',
                     '1.9.1.0',
                     '1.9.1.1',
-                ])) {
+                ])
+                ) {
                     return Version::EDITION_COMMUNITY;
                 }
                 break;
@@ -175,7 +180,8 @@ class DownloaderComment extends AbstractCheck
                     '1.9.2.0',
                     '1.9.2.1',
                     '1.9.2.2',
-                ])) {
+                ])
+                ) {
                     return Version::EDITION_COMMUNITY;
                 }
                 break;
@@ -183,7 +189,8 @@ class DownloaderComment extends AbstractCheck
                 if (in_array($version, [
                     '1.9.2.3',
                     '1.9.2.4',
-                ])) {
+                ])
+                ) {
                     return Version::EDITION_COMMUNITY;
                 }
                 break;

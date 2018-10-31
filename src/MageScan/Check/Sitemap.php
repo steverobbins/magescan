@@ -40,7 +40,7 @@ class Sitemap extends AbstractCheck
     {
         return $this->getRequest()->findMatchInResponse(
             $response->getBody()->getContents(),
-            '/^(?!#+)\s*Sitemap:\w+(.*)$/mi'
+            '/^(?!#+)\s*Sitemap:\s+(.*)$/mi'
         );
     }
 }
