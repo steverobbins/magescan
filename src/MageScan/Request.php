@@ -70,7 +70,10 @@ class Request
         $this->url = $baseUri;
         $params = [
             'verify'   => $verify,
-            'http_errors' => false
+            'http_errors' => false,
+            'allow_redirects' => [
+                'max' => 20,
+            ]
         ];
         if ($this->url !== false) {
             $params['base_uri'] = $this->url;
