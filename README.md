@@ -5,7 +5,7 @@ Mage Scan
 
 [![Master Build Status](https://img.shields.io/travis/steverobbins/magescan/master.svg?style=flat-square)](https://travis-ci.org/steverobbins/magescan)
 [![Master Code Quality](https://img.shields.io/scrutinizer/g/steverobbins/magescan/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/steverobbins/magescan/?branch=master)
-[![Master Code Coverage](https://img.shields.io/coveralls/steverobbins/magescan/master.svg?style=flat-square)](https://coveralls.io/r/steverobbins/magescan?branch=master)
+[![Master Code Coverage](https://codecov.io/gh/steverobbins/magescan/branch/master/graph/badge.svg)](https://codecov.io/gh/steverobbins/magescan)
 [![Latest Stable Version](https://img.shields.io/packagist/v/steverobbins/magescan.svg?style=flat-square)](https://packagist.org/packages/steverobbins/magescan)
 [![Master Dependancies](https://www.versioneye.com/user/projects/55e4bfec8c0f62001c000052/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/55e4bfec8c0f62001c000052)
 
