@@ -37,5 +37,6 @@
     "skin\/frontend\/base\/default\/turnkeye\/testimonial\/css\/testimonial.css": "Turnkeye_Testimonial",
     "skin\/frontend\/base\/default\/wordpress\/styles.css": "FishPig_WordPress",
     "skin\/frontend\/default\/default\/css\/magebuzz\/youtubevideo.css": "Magebuzz_Youtubevideo",
-    "skin\/frontend\/rwd\/default\/relatedproducts\/css\/styles.css": "AW_Relatedproducts"
+    "skin\/frontend\/rwd\/default\/relatedproducts\/css\/styles.css": "AW_Relatedproducts",
+    "webgility/webgility-magento.php": "Webgility"
 }
