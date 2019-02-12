@@ -138,12 +138,6 @@ Get the version of a Magento installation
 
 Show all modules that we tried to detect, not just those that were found
 
-### `self-update`
-
-    $ magescan.phar self-update
-
-Updates the phar file to the latest version.
-
 # Disclaimer
 
 Since we can't see the code base, this tool makes assumptions and takes guesses.  Information reported isn't guaranteed to be correct.
