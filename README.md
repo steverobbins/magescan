@@ -64,6 +64,16 @@ Add the following to your `composer.json`
 }
 ```
 
+### Docker
+
+Download the latest version of `steverobbins/magescan` image:
+
+    $ docker pull steverobbins/magescan:latest
+
+Run a new Docker container from this image:
+
+    $ docker run --rm --name magescan steverobbins/magescan scan:all store.example.com
+
 # Usage
 
     $ magescan.phar scan:all store.example.com
