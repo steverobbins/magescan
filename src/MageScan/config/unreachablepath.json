@@ -70,5 +70,6 @@
     "var/log/payment_pbridge.log",
     "var/log/payment_verisign.log",
     "var/log/system.log",
-    "var/report/"
+    "var/report/",
+    "var/session/"
 ]
